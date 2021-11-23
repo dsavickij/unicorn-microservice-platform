@@ -1,0 +1,25 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Playground.Common.Abstractions/bin/Debug/net6.0
+/Playground.Common.Abstractions/obj
+/Playground.Common.SDK/bin/Debug/net6.0
+/Playground.Common.SDK/obj
+/Playground.Common.TestService/obj
+/Playground.Core.ProofOfConcepts.TestingHost/bin/Debug/net6.0
+/Playground.Core.ProofOfConcepts.TestingHost/obj
+/Playground.GrpcService/bin/Debug/net6.0
+/Playground.GrpcService/obj
+/Playground.GrpcService.SDK/bin/Debug
+/Playground.GrpcService.SDK/obj
+/Playground.GrpcServiceClient/bin/Debug/net6.0
+/Playground.GrpcServiceClient/obj
+/Playground.Host/obj
+/Playground.HostConfiguration/bin/Debug/net6.0
+/Playground.HostConfiguration/obj
+/Playground.ServiceDiscovery/bin/Debug/net6.0
+/Playground.ServiceDiscovery/obj
+/Playground.ServiceDiscovery.SDK/bin/Debug/net6.0
+/Playground.ServiceDiscovery.SDK/obj
