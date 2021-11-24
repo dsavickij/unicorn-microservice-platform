@@ -66,6 +66,8 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
     public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
     {
+        _logger.LogDebug($"Executing GetHttpServiceConfiguration/{serviceName}");
+
         var services = new[]
         {
            new HttpServiceConfiguration
@@ -106,5 +108,13 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
         _logger.LogInformation($"DeleteHttpServiceConfiguration");
 
         return Task.CompletedTask;
+    }
+
+    [HttpPost("CreateHttpServiceConfiguration2/{serviceName}")]
+    public Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
+    {
+        _logger.LogInformation($"CreateHttpServiceConfiguration2");
+
+        return Task.FromResult(httpServiceConfiguration);
     }
 }

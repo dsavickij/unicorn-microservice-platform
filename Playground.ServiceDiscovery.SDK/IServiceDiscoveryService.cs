@@ -17,19 +17,20 @@ namespace Playground.ServiceDiscovery.SDK;
 public interface IServiceDiscoveryService
 {
     [PlaygroundHttpGet("GetGrpcServiceConfiguration")]
-    public Task<GrpcServiceConfiguration> GetGrpcServiceConfiguration(string serviceName);
-
-    //---------------------------------
+    Task<GrpcServiceConfiguration> GetGrpcServiceConfiguration(string serviceName);
 
     [PlaygroundHttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName);
+    Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName);
 
     [PlaygroundHttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> UpdateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
+    Task<HttpServiceConfiguration> UpdateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
 
     [PlaygroundHttpPost("CreateHttpServiceConfiguration")]
-    public Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(HttpServiceConfiguration httpServiceConfiguration);
+    Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(HttpServiceConfiguration httpServiceConfiguration);
+
+    [PlaygroundHttpPost("CreateHttpServiceConfiguration2/{serviceName}")]
+    Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
 
     [PlaygroundHttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
-    public Task DeleteHttpServiceConfiguration(string serviceName);
+    Task DeleteHttpServiceConfiguration(string serviceName);
 }

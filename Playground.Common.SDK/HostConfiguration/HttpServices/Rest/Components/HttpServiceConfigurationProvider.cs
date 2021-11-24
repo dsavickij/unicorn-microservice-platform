@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Playground.Common.SDK.Abstractions;
+﻿using Playground.Common.SDK.Abstractions;
 using Playground.Common.SDK.ServiceDiscovery;
 using Playground.ServiceDiscovery.SDK;
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Playground.Common.SDK;
+namespace Playground.Common.SDK.HostConfiguration.HttpServices.Rest.Components;
 
 internal interface IHttpServiceConfigurationProvider
 {
@@ -24,19 +23,11 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
 
     public async Task<HttpServiceConfiguration> GetHttpServiceConfiguration(Type httpServiceInterface)
     {
-        if (!_cache.TryGetValue(httpServiceInterface, out var cfg))
+        if (!_cache.ContainsKey(httpServiceInterface))
         {
-            try
-            {
-                var attribute = GetAssemlyServiceNameAttribute(httpServiceInterface);
-                cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(attribute.ServiceName);
-                _cache.TryAdd(httpServiceInterface, cfg);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            var attribute = GetAssemlyServiceNameAttribute(httpServiceInterface);
+            var cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(attribute.ServiceName);
+            _cache.TryAdd(httpServiceInterface, cfg);
         }
 
         return _cache[httpServiceInterface];

@@ -4,7 +4,7 @@ using Playground.Common.SDK.Abstractions;
 
 namespace Playground.Common.SDK;
 
-public class GrpcClientFactory : IGrpcClientFactory
+internal class GrpcClientFactory : IGrpcClientFactory
 {
     private readonly IGrpcClientConfigurationProvider _cfgProvider;
 

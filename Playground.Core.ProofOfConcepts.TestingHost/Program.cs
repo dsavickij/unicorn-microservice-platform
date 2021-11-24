@@ -1,4 +1,4 @@
-using Playground.Common.SDK.Host;
+using Playground.Common.SDK.HostConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
 

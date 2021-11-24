@@ -3,7 +3,12 @@ using System.Collections.Concurrent;
 
 namespace Playground.Common.SDK;
 
-public class GrpcClientConfigurationProvider : IGrpcClientConfigurationProvider
+internal interface IGrpcClientConfigurationProvider
+{
+    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string grpcClientName);
+}
+
+internal class GrpcClientConfigurationProvider : IGrpcClientConfigurationProvider
 {
     private readonly ConcurrentDictionary<string, GrpcServiceConfiguration> _cache = new();
     private readonly IServiceDiscoveryService _client;

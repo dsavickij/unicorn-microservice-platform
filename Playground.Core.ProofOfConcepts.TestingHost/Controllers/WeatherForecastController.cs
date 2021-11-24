@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Playground.Common.SDK.Abstractions;
 using Playground.ServiceDiscovery.SDK;
 
 namespace Playground.Core.ProofOfConcepts.TestingHost.Controllers;
@@ -31,9 +32,20 @@ public class WeatherForecastController : ControllerBase
         //})
         //.ToArray();
 
-        var result = await _svcDiscoveryService.GetHttpServiceConfiguration("");
+        var result = await _svcDiscoveryService.GetHttpServiceConfiguration("ccccc");
+
+        //var result = await _svcDiscoveryService
+        //    .CreateHttpServiceConfiguration("test", new HttpServiceConfiguration { Name = "CreateHttpServiceConfiguration" });
+
+        //var result = await _svcDiscoveryService
+        //    .UpdateHttpServiceConfiguration("newName", new HttpServiceConfiguration { Name = "test" });
 
         return result;
+
+        //await _svcDiscoveryService.DeleteHttpServiceConfiguration("test");
+
+        //return new HttpServiceConfiguration();
+
     }
 
     [HttpGet("GetWeatherForecast/{name}")]
@@ -47,8 +59,26 @@ public class WeatherForecastController : ControllerBase
         //})
         //.ToArray();
 
-        //var result = await _svcDiscoveryService.GetHttpServiceConfiguration("");
+        return await _svcDiscoveryService.GetHttpServiceConfiguration("ddd");
+    }
 
-        return new HttpServiceConfiguration();
+    [GrpcClientMarker]
+    public interface IMyGrpcServiceClient
+    {
+        Task<string> MyAsyncEndpoint();
+    }
+
+    public class MyGrpcServiceClient : BaseGrpcClient, IMyGrpcServiceClient
+    {
+        public MyGrpcServiceClient(IGrpcClientFactory factory) : base(factory)
+        {
+        }
+
+        protected override string GrpcServiceName => nameof(MyGrpcServiceClient);
+
+        public Task<string> MyAsyncEndpoint()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

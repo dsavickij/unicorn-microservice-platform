@@ -1,12 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Serializers.SystemTextJson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Playground.Common.SDK.Host.HttpServiceProxy.Rest.Components;
+namespace Playground.Common.SDK.HostConfiguration.HttpServices.Rest.Components;
 
 public interface IRestClientProvider
 {

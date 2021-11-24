@@ -1,8 +1,8 @@
 ﻿using RestSharp;
 using System.Reflection;
-using Playground.Common.SDK.Host.HttpServiceProxy.Rest.Components;
+using Playground.Common.SDK.HostConfiguration.HttpServices.Rest.Components;
 
-namespace Playground.Common.SDK.Host.HttpServiceProxy.Rest;
+namespace Playground.Common.SDK.HostConfiguration.HttpServices.Rest;
 
 internal interface IRestComponentProvider : IRestClientProvider, IRestRequestProvider
 {
@@ -14,7 +14,7 @@ internal class RestComponentProvider : IRestComponentProvider
     private readonly IRestRequestProvider _requestProvider;
 
     public RestComponentProvider(
-        IRestClientProvider httpServiceConfigurationProvider, 
+        IRestClientProvider httpServiceConfigurationProvider,
         IRestRequestProvider restRequestComponentProvider)
     {
         _clientProvider = httpServiceConfigurationProvider;
