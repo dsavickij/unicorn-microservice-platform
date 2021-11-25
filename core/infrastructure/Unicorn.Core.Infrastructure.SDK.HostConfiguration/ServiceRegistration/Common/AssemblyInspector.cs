@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 
 internal class AssemblyInspector
 {

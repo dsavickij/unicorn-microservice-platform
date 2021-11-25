@@ -2,7 +2,7 @@ using Unicorn.Core.Infrastructure.SDK.HostConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ApplyPlaygroundConfiguration();
+builder.Host.ApplyUnicornConfiguration();
 
 //builder.Host.ConfigureHostConfiguration(a => a.)
 //var config = builder.Configuration;

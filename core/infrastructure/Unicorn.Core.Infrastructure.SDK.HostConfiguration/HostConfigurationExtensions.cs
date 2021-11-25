@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.GrpcServices;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServices;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration;
 

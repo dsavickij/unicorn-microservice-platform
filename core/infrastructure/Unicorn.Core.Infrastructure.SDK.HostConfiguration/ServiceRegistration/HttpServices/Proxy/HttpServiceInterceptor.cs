@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy;
 
 internal class HttpServiceInterceptor : IInterceptor
 {

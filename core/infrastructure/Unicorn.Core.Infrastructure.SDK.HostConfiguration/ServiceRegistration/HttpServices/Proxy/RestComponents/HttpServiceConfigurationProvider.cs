@@ -1,10 +1,10 @@
-﻿using Playground.Core.Infrastructure.SDK.ServiceCommunication.Http;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
 internal interface IHttpServiceConfigurationProvider
 {
@@ -25,22 +25,22 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
     {
         if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
-            var serviceName = GetAssemlyServiceNameAttribute(httpServiceInterface);
-            var cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(serviceName);
+            var name = GetAssemlyServiceName(httpServiceInterface);
+            var cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(name);
             _cache.TryAdd(httpServiceInterface.FullName!, cfg);
         }
 
         return _cache[httpServiceInterface.FullName!];
     }
 
-    private string GetAssemlyServiceNameAttribute(Type httpServiceInterface)
+    private string GetAssemlyServiceName(Type httpServiceInterface)
     {
-        var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(PlaygroundAssemblyServiceNameAttribute));
+        var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(UnicornAssemblyServiceNameAttribute));
 
-        if (attribute is PlaygroundAssemblyServiceNameAttribute nameAttribute)
+        if (attribute is UnicornAssemblyServiceNameAttribute nameAttribute)
             return nameAttribute.ServiceName;
 
         throw new Exception($"Assembly '{httpServiceInterface.Assembly.FullName}' " +
-            $"does not include attribute '{typeof(PlaygroundAssemblyServiceNameAttribute).FullName}'");
+            $"does not include attribute '{typeof(UnicornAssemblyServiceNameAttribute).FullName}'");
     }
 }

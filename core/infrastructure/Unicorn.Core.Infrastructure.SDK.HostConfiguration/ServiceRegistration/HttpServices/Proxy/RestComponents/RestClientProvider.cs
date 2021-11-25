@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Serializers.SystemTextJson;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
 public interface IRestClientProvider
 {

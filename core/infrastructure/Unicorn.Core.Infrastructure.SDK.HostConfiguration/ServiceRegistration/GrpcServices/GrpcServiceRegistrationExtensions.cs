@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.GrpcServices;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServices;
 
 internal static class GrpcServiceRegistrationExtensions
 {

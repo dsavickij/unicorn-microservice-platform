@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using RestSharp;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 
 internal interface IServiceDiscoveryClient
 {

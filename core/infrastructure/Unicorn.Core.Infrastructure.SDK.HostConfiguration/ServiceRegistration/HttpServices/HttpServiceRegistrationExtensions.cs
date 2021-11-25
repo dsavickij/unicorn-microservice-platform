@@ -1,12 +1,11 @@
 ﻿using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection;
-using Playground.Core.Infrastructure.SDK.ServiceCommunication.Http;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices;
 
 internal static class HttpServiceRegistrationExtensions
 {
@@ -33,7 +32,7 @@ internal static class HttpServiceRegistrationExtensions
     {
         var types = new List<Type>();
 
-        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttributeOfType<PlaygroundHttpServiceMarker>())
+        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttributeOfType<UnicornHttpServiceMarker>())
         {
             var interfaceType = Type.GetType(name, true) ?? throw new ArgumentNullException(name);
             types.Add(interfaceType);

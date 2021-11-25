@@ -2,7 +2,7 @@
 using System.Reflection;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
 public interface IRestRequestProvider
 {

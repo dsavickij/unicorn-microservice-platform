@@ -2,7 +2,7 @@
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 
 internal class MetadataLoadContextProvider
 {
