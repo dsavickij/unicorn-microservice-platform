@@ -4,7 +4,7 @@ using System.Reflection;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Rest.Components;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
 
 internal interface IHttpServiceConfigurationProvider
 {
@@ -13,7 +13,7 @@ internal interface IHttpServiceConfigurationProvider
 
 internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvider
 {
-    private readonly ConcurrentDictionary<Type, HttpServiceConfiguration> _cache = new();
+    private readonly ConcurrentDictionary<string, HttpServiceConfiguration> _cache = new();
     private readonly IServiceDiscoveryClient _svcDiscoveryClient;
 
     public HttpServiceConfigurationProvider(IServiceDiscoveryClient serviceDiscoveryClient)
@@ -23,22 +23,22 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
 
     public async Task<HttpServiceConfiguration> GetHttpServiceConfiguration(Type httpServiceInterface)
     {
-        if (!_cache.ContainsKey(httpServiceInterface))
+        if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
-            var attribute = GetAssemlyServiceNameAttribute(httpServiceInterface);
-            var cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(attribute.ServiceName);
-            _cache.TryAdd(httpServiceInterface, cfg);
+            var serviceName = GetAssemlyServiceNameAttribute(httpServiceInterface);
+            var cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(serviceName);
+            _cache.TryAdd(httpServiceInterface.FullName!, cfg);
         }
 
-        return _cache[httpServiceInterface];
+        return _cache[httpServiceInterface.FullName!];
     }
 
-    private PlaygroundAssemblyServiceNameAttribute GetAssemlyServiceNameAttribute(Type httpServiceInterface)
+    private string GetAssemlyServiceNameAttribute(Type httpServiceInterface)
     {
         var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(PlaygroundAssemblyServiceNameAttribute));
 
         if (attribute is PlaygroundAssemblyServiceNameAttribute nameAttribute)
-            return nameAttribute;
+            return nameAttribute.ServiceName;
 
         throw new Exception($"Assembly '{httpServiceInterface.Assembly.FullName}' " +
             $"does not include attribute '{typeof(PlaygroundAssemblyServiceNameAttribute).FullName}'");

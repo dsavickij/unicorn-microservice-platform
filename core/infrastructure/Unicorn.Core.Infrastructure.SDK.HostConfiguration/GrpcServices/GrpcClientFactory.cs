@@ -6,9 +6,9 @@ namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.GrpcServices;
 
 internal class GrpcClientFactory : IGrpcClientFactory
 {
-    private readonly IGrpcClientConfigurationProvider _cfgProvider;
+    private readonly IGrpcServiceConfigurationProvider _cfgProvider;
 
-    public GrpcClientFactory(IGrpcClientConfigurationProvider configurationProvider)
+    public GrpcClientFactory(IGrpcServiceConfigurationProvider configurationProvider)
     {
         _cfgProvider = configurationProvider;
     }

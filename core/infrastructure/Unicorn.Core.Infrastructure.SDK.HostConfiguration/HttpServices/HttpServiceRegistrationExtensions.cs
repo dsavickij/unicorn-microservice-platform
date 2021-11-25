@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Playground.Core.Infrastructure.SDK.ServiceCommunication.Http;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Common;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Rest;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Rest.Components;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices;

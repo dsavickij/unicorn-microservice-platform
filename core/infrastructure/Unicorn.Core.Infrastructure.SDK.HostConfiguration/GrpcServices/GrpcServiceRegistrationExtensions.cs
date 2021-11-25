@@ -10,7 +10,7 @@ internal static class GrpcServiceRegistrationExtensions
     public static void AddGrpcServices(this IServiceCollection services)
     {
         services.AddTransient<IGrpcClientFactory, GrpcClientFactory>();
-        services.AddSingleton<IGrpcClientConfigurationProvider, GrpcClientConfigurationProvider>();
+        services.AddSingleton<IGrpcServiceConfigurationProvider, GrpcServiceConfigurationProvider>();
 
         foreach (var (grpcInterface, grpcImpl) in GetGrpcServiceRegistrationTypePairs())
         {

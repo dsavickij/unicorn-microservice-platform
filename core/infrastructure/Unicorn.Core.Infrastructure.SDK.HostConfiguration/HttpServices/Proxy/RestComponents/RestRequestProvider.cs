@@ -1,9 +1,8 @@
-﻿using Playground.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
-using RestSharp;
+﻿using RestSharp;
 using System.Reflection;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Rest.Components;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
 
 public interface IRestRequestProvider
 {
@@ -105,9 +104,9 @@ internal class RestRequestProvider : IRestRequestProvider
     private string GetHttpMethodPathTemplate(MethodInfo method)
     {
         var type = method.CustomAttributes
-            .SingleOrDefault(ca => ca.AttributeType.IsAssignableTo(typeof(PlaygroundHttpAttribute)))?.AttributeType;
+            .SingleOrDefault(ca => ca.AttributeType.IsAssignableTo(typeof(UnicornHttpAttribute)))?.AttributeType;
 
-        if (method.GetCustomAttribute(type!) is PlaygroundHttpAttribute attribute)
+        if (method.GetCustomAttribute(type!) is UnicornHttpAttribute attribute)
             return attribute.PathTemplate;
 
         throw new Exception();
@@ -116,20 +115,21 @@ internal class RestRequestProvider : IRestRequestProvider
     private Method GetHttpMethodType(MethodInfo method)
     {
         var httpAttributeType = method.CustomAttributes
-             .SingleOrDefault(ca => ca.AttributeType.IsAssignableTo(typeof(PlaygroundHttpAttribute)))?.AttributeType;
+             .SingleOrDefault(ca => ca.AttributeType.IsAssignableTo(typeof(UnicornHttpAttribute)))?.AttributeType;
 
         if (httpAttributeType is not null)
         {
             return httpAttributeType switch
             {
-                _ when httpAttributeType == typeof(PlaygroundHttpGet) => Method.GET,
-                _ when httpAttributeType == typeof(PlaygroundHttpPost) => Method.POST,
-                _ when httpAttributeType == typeof(PlaygroundHttpPut) => Method.PUT,
-                _ when httpAttributeType == typeof(PlaygroundHttpDelete) => Method.DELETE,
-                _ => throw new NotSupportedException()
+                _ when httpAttributeType == typeof(UnicornHttpGet) => Method.GET,
+                _ when httpAttributeType == typeof(UnicornHttpPost) => Method.POST,
+                _ when httpAttributeType == typeof(UnicornHttpPut) => Method.PUT,
+                _ when httpAttributeType == typeof(UnicornHttpDelete) => Method.DELETE,
+                _ => throw new NotSupportedException(httpAttributeType.GetType().AssemblyQualifiedName)
             };
         }
 
-        throw new Exception();
+        throw new Exception($"Called method is not decorated with derivative from {typeof(UnicornHttpAttribute).FullName}." +
+            $"Method: {method.Name}, service interface: {method.DeclaringType?.AssemblyQualifiedName}");
     }
 }

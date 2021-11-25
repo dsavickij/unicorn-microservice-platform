@@ -1,8 +1,8 @@
 ﻿using RestSharp;
 using System.Reflection;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Rest.Components;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy.RestComponents;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Rest;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.HttpServices.Proxy;
 
 internal interface IRestComponentProvider : IRestClientProvider, IRestRequestProvider
 {
