@@ -3,29 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.GrpcService", "Playground.GrpcService\Playground.GrpcService.csproj", "{53596E8F-BBCE-4AD3-8723-6EDF6F209865}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.GrpcService", "services\Playground.GrpcService\Playground.GrpcService.csproj", "{53596E8F-BBCE-4AD3-8723-6EDF6F209865}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.GrpcService.SDK", "Playground.GrpcService.SDK\Playground.GrpcService.SDK.csproj", "{BF542AE2-6C93-43D1-8AF6-64F0169BC309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.GrpcService.SDK", "services\Playground.GrpcService.SDK\Playground.GrpcService.SDK.csproj", "{BF542AE2-6C93-43D1-8AF6-64F0169BC309}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.GrpcServiceClient", "Playground.GrpcServiceClient\Playground.GrpcServiceClient.csproj", "{E7272986-16F4-4341-820B-B5CB54C6A880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.GrpcServiceClient", "services\Playground.GrpcServiceClient\Playground.GrpcServiceClient.csproj", "{E7272986-16F4-4341-820B-B5CB54C6A880}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Common.SDK", "Playground.Common.SDK\Playground.Common.SDK.csproj", "{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Core.Infrastructure.SDK.HostConfiguration", "core\infrastructure\Playground.Core.Infrastructure.SDK.HostConfiguration\Playground.Core.Infrastructure.SDK.HostConfiguration.csproj", "{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.ServiceDiscovery", "Playground.ServiceDiscovery\Playground.ServiceDiscovery.csproj", "{2A18985A-D1F9-4137-B28C-9C6E802F55B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Core.Services.ServiceDiscovery", "core\services\service-discovery\Playground.Core.Services.ServiceDiscovery\Playground.Core.Services.ServiceDiscovery.csproj", "{2A18985A-D1F9-4137-B28C-9C6E802F55B5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0A5FDB33-DF70-43EA-82FF-3E3D72CFCE84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Core.Infrastructure.SDK.ServiceCommunication.Http", "core\infrastructure\Playground.Core.Infrastructure.SDK.ServiceCommunication.Http\Playground.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj", "{949CB4CC-535C-4D1D-AA26-01790630D3E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Common.SDK.Abstractions", "Playground.Common.Abstractions\Playground.Common.SDK.Abstractions.csproj", "{949CB4CC-535C-4D1D-AA26-01790630D3E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Core.Services.ServiceDiscovery.SDK", "core\services\service-discovery\Playground.Core.Services.ServiceDiscovery.SDK\Playground.Core.Services.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GrpcService", "GrpcService", "{0A9C3ACA-E97A-4844-A0B0-6619B16890AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Core.Pocs.ServiceHost", "core\pocs\Playground.Core.Pocs.ServiceHost\Playground.Core.Pocs.ServiceHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceDiscovery", "ServiceDiscovery", "{BB58EBF4-100E-4E5F-8A2D-4BC548DA2C88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Core.Infrastructure.SDK.ServiceCommunication.Grpc", "core\infrastructure\Playground.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Playground.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj", "{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GrpcServiceClient", "GrpcServiceClient", "{994704C8-6AA8-4870-9165-4772087C2A07}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{A82D8891-2318-496F-8864-3B58CCCCF2EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.ServiceDiscovery.SDK", "Playground.ServiceDiscovery.SDK\Playground.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{5F9F2557-3B49-4383-B6FD-4F37DB19D665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Core.ProofOfConcepts.TestingHost", "Playground.Core.ProofOfConcepts.TestingHost\Playground.Core.ProofOfConcepts.TestingHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{3E969805-7B74-4446-A42C-0DE247DFE254}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pocs", "pocs", "{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{866ADDC4-EC72-4AA9-9B6B-E1D014B1A334}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "service-discovery", "service-discovery", "{9D47E5BD-EC71-44B9-9E87-66CFCCF707D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,19 +71,28 @@ Global
 		{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{53596E8F-BBCE-4AD3-8723-6EDF6F209865} = {0A9C3ACA-E97A-4844-A0B0-6619B16890AD}
-		{BF542AE2-6C93-43D1-8AF6-64F0169BC309} = {0A9C3ACA-E97A-4844-A0B0-6619B16890AD}
-		{E7272986-16F4-4341-820B-B5CB54C6A880} = {994704C8-6AA8-4870-9165-4772087C2A07}
-		{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E} = {0A5FDB33-DF70-43EA-82FF-3E3D72CFCE84}
-		{2A18985A-D1F9-4137-B28C-9C6E802F55B5} = {BB58EBF4-100E-4E5F-8A2D-4BC548DA2C88}
-		{949CB4CC-535C-4D1D-AA26-01790630D3E6} = {0A5FDB33-DF70-43EA-82FF-3E3D72CFCE84}
-		{2822A8C4-F233-4480-9D6D-F36750878584} = {BB58EBF4-100E-4E5F-8A2D-4BC548DA2C88}
-		{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA} = {0A5FDB33-DF70-43EA-82FF-3E3D72CFCE84}
+		{53596E8F-BBCE-4AD3-8723-6EDF6F209865} = {866ADDC4-EC72-4AA9-9B6B-E1D014B1A334}
+		{BF542AE2-6C93-43D1-8AF6-64F0169BC309} = {866ADDC4-EC72-4AA9-9B6B-E1D014B1A334}
+		{E7272986-16F4-4341-820B-B5CB54C6A880} = {866ADDC4-EC72-4AA9-9B6B-E1D014B1A334}
+		{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E} = {5F9F2557-3B49-4383-B6FD-4F37DB19D665}
+		{2A18985A-D1F9-4137-B28C-9C6E802F55B5} = {9D47E5BD-EC71-44B9-9E87-66CFCCF707D1}
+		{949CB4CC-535C-4D1D-AA26-01790630D3E6} = {5F9F2557-3B49-4383-B6FD-4F37DB19D665}
+		{2822A8C4-F233-4480-9D6D-F36750878584} = {9D47E5BD-EC71-44B9-9E87-66CFCCF707D1}
+		{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA} = {FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}
+		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E} = {5F9F2557-3B49-4383-B6FD-4F37DB19D665}
+		{5F9F2557-3B49-4383-B6FD-4F37DB19D665} = {A82D8891-2318-496F-8864-3B58CCCCF2EE}
+		{3E969805-7B74-4446-A42C-0DE247DFE254} = {A82D8891-2318-496F-8864-3B58CCCCF2EE}
+		{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC} = {A82D8891-2318-496F-8864-3B58CCCCF2EE}
+		{9D47E5BD-EC71-44B9-9E87-66CFCCF707D1} = {3E969805-7B74-4446-A42C-0DE247DFE254}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F75022-EF87-4855-AFF0-0078123AAE2A}
