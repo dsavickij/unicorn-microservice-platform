@@ -9,20 +9,20 @@ namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.
 
 internal static class HttpServiceRegistrationExtensions
 {
-    internal static void AddHttpService(this IServiceCollection services)
+    internal static void AddHttpServices(this IServiceCollection services)
     {
         services.AddSingleton<IServiceDiscoveryClient, ServiceDiscoveryClient>();
         services.AddSingleton<IHttpServiceConfigurationProvider, HttpServiceConfigurationProvider>();
         services.AddTransient<IRestRequestProvider, RestRequestProvider>();
         services.AddTransient<IRestClientProvider, RestClientProvider>();
         services.AddTransient<IRestComponentProvider, RestComponentProvider>();
-        services.AddTransient<HttpServiceInterceptor>();
+        services.AddTransient<ServiceInvocationInterceptor>();
 
         foreach (var type in GetHttpServiceInterfaceTypes())
         {
             services.AddTransient(type, serviceProvider =>
             {
-                var interceptor = serviceProvider.GetRequiredService<HttpServiceInterceptor>();
+                var interceptor = serviceProvider.GetRequiredService<ServiceInvocationInterceptor>();
                 return new ProxyGenerator().CreateInterfaceProxyWithoutTarget(type, interceptor);
             });
         }

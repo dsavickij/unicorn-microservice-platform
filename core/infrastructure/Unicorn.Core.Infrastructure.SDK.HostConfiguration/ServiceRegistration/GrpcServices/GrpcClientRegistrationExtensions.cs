@@ -5,16 +5,16 @@ using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServices;
 
-internal static class GrpcServiceRegistrationExtensions
+internal static class GrpcClientRegistrationExtensions
 {
-    public static void AddGrpcServices(this IServiceCollection services)
+    public static void AddGrpcClients(this IServiceCollection services)
     {
         services.AddTransient<IGrpcClientFactory, GrpcClientFactory>();
         services.AddSingleton<IGrpcServiceConfigurationProvider, GrpcServiceConfigurationProvider>();
 
-        foreach (var (grpcInterface, grpcImpl) in GetGrpcServiceRegistrationTypePairs())
+        foreach (var (grpcClientInterface, grpcClientImpl) in GetGrpcServiceRegistrationTypePairs())
         {
-            services.AddTransient(grpcInterface, grpcImpl);
+            services.AddTransient(grpcClientInterface, grpcClientImpl);
         }
     }
 

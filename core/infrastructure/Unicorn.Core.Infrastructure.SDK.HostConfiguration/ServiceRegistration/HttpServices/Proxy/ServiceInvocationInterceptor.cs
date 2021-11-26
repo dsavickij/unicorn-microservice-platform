@@ -4,15 +4,15 @@ using System.Text.Json;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy;
 
-internal class HttpServiceInterceptor : IInterceptor
+internal class ServiceInvocationInterceptor : IInterceptor
 {
     private readonly ILogger _logger;
     private readonly Type _taskType = typeof(Task);
     private readonly IRestComponentProvider _restComponentProvider;
 
-    public HttpServiceInterceptor(
+    public ServiceInvocationInterceptor(
         IRestComponentProvider restComponentProvider,
-        ILogger<HttpServiceInterceptor> logger)
+        ILogger<ServiceInvocationInterceptor> logger)
     {
         _restComponentProvider = restComponentProvider;
         _logger = logger;

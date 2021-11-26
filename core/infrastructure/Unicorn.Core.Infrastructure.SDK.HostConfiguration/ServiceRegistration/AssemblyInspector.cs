@@ -4,9 +4,9 @@ namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.
 
 internal class AssemblyInspector
 {
-    public static IEnumerable<string> GetServiceInterfaceNamesWithAttributeOfType<T>()
+    public static IEnumerable<string> GetServiceInterfaceNamesWithAttributeOfType<TType>()
     {
-        var attributeName = typeof(T).AssemblyQualifiedName;
+        var attributeName = typeof(TType).AssemblyQualifiedName;
         var interfaceNames = new List<string>();
 
         using var ctx = MetadataLoadContextProvider.GetMedataLoadContext();

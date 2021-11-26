@@ -31,7 +31,7 @@ public static class HostConfigurationExtensions
 
     private static void ConfigureService(IServiceCollection services)
     {
-        services.AddHttpService();
-        services.AddGrpcServices();
+        services.AddHttpServices();
+        services.AddGrpcClients();
     }
 }
