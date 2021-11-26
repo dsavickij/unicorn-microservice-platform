@@ -37,7 +37,7 @@ For gRCP service client, gRPC service client interface and client implementation
 
 Afterwards, any HTTP service or gRCP service can be injected into any class using its interface:
 
-```
+```c#
     public WeatherForecastController(IServiceDiscoveryService serviceDiscoveryService)
     {
         _svcDiscoveryService = serviceDiscoveryService;
