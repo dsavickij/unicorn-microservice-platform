@@ -1,7 +1,9 @@
-![unicorn](https://clipground.com/images/dabbing-unicorn-clipart.jpg)
+![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-project-microservices
 Implementation of microservice architecture with inter-service communication abstracted as much as possible. Communication can be done using HTTP or high performance gRPC protocol.
+
+gRPC support is not tested beyond simple implementation of it, so it is like 'alpha' version.
 
 The project is based on .NET 6.0
 
@@ -71,19 +73,22 @@ dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\
 ```
 ## notes for further development
 
-Possible plans for additional learning/development:
+Possible plans for further learning/development:
 
-* Adding authentication for inter-service communication
+* Move microservice scope architecture towards vertical slice architecture with MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
+* Add authentication for inter-service communication
+* Add Authorization? Investigate Azure AD
 * Ocelot or YARP for APIM/reverse-proxy/API gateway
 * Something regarding messaging:
 	* MassTransit on top of RabbitMQ message broker to try Saga pattern
 	* Kafka for event sourcing to try for what it can be used for
+		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
 * Redis for distributed caching 
-* Blazor for some UI to call API gateway
+* Blazor for some UI and to have something to call API gateway
 * Docker support in the form of single command to launch all microservices in containers
 
-## other things
+## links
 
 * Link to markdown (\*.md) file editor: https://markdown-editor.github.io/
 * Link to markdown syntax: https://medium.com/analytics-vidhya/how-to-create-a-readme-md-file-8fb2e8ce24e3
