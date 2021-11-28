@@ -23,7 +23,7 @@ public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
     }
 
     public async Task<HelloReply> SayHelloAsync(HelloRequest request) =>
-        await Factory.Call(GrpcServiceName, c => GetClient(c)!.SayHelloAsync(request));
+        await Factory.CallAsync(GrpcServiceName, c => GetClient(c)!.SayHelloAsync(request));
 
     private Greeter.GreeterClient? GetClient(GrpcChannel channel) => _client ??= new Greeter.GreeterClient(channel);
 }

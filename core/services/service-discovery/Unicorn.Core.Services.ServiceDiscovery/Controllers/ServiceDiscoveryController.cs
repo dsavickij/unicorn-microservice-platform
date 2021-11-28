@@ -15,7 +15,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     }
 
     [HttpGet("GetGrpcServiceConfiguration/{serviceName}")]
-    public Task<GrpcServiceConfiguration> GetGrpcServiceConfiguration(string serviceName)
+    public Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName)
     {
         _logger.LogInformation($"Executing GetGrpcServiceConfiguration for {serviceName}");
 
@@ -30,7 +30,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     }
 
     [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
+    public Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName)
     {
         _logger.LogDebug($"Executing GetHttpServiceConfiguration/{serviceName}");
 
@@ -53,7 +53,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     }
 
     [HttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> UpdateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
+    public Task<HttpServiceConfiguration> UpdateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
     {
         _logger.LogInformation($"UpdateHttpServiceConfiguration");
 
@@ -61,7 +61,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     }
 
     [HttpPost("CreateHttpServiceConfiguration")]
-    public Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(HttpServiceConfiguration httpServiceConfiguration)
+    public Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
         _logger.LogInformation($"CreateHttpServiceConfiguration");
 
@@ -69,18 +69,10 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     }
 
     [HttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
-    public Task DeleteHttpServiceConfiguration(string serviceName)
+    public Task DeleteHttpServiceConfigurationAsync(string serviceName)
     {
         _logger.LogInformation($"DeleteHttpServiceConfiguration");
 
         return Task.CompletedTask;
-    }
-
-    [HttpPost("CreateHttpServiceConfiguration2/{serviceName}")]
-    public Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
-    {
-        _logger.LogInformation($"CreateHttpServiceConfiguration2");
-
-        return Task.FromResult(httpServiceConfiguration);
     }
 }

@@ -34,7 +34,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     {
         _logger.LogDebug($"Retrieving GRPC service configuration for: {serviceName}");
 
-        var request = GetRequest(nameof(IServiceDiscoveryService.GetGrpcServiceConfiguration), serviceName);
+        var request = GetRequest(nameof(IServiceDiscoveryService.GetGrpcServiceConfigurationAsync), serviceName);
         return await _client.GetAsync<GrpcServiceConfiguration>(request);
     }
 
@@ -42,7 +42,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     {
         _logger.LogDebug($"Retrieving HTTP service configuration for: {serviceName}");
 
-        var request = GetRequest(nameof(IServiceDiscoveryService.GetHttpServiceConfiguration), serviceName);
+        var request = GetRequest(nameof(IServiceDiscoveryService.GetHttpServiceConfigurationAsync), serviceName);
         return await _client.GetAsync<HttpServiceConfiguration>(request);
     }
 

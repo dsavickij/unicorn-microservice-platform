@@ -11,9 +11,12 @@ public class GrpcServiceClientController : ControllerBase
 
     private readonly ILogger<GrpcServiceClientController> _logger;
 
-    public GrpcServiceClientController(ILogger<GrpcServiceClientController> logger)
+    public GrpcServiceClientController(
+        ILogger<GrpcServiceClientController> logger,
+        IGreeterProtoClient greeterProtoClient)
     {
         _logger = logger;
+        _greeterProtoClient = greeterProtoClient;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]

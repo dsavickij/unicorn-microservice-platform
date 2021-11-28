@@ -1,4 +1,4 @@
-namespace Unicorn.Core.Pocs.ServiceHost;
+namespace Unicorn.Core.Development.ServiceHost;
 
 public class WeatherForecast
 {

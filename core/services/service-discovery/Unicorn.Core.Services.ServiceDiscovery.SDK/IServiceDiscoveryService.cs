@@ -10,7 +10,7 @@ namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 [UnicornHttpServiceMarker]
 public interface IServiceDiscoveryService
 {
-    [UnicornHttpGet("GetGrpcServiceConfiguration")]
+    [UnicornHttpGet("GetGrpcServiceConfiguration/{serviceName}")]
     Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName);
 
     [UnicornHttpGet("GetHttpServiceConfiguration/{serviceName}")]
@@ -21,9 +21,6 @@ public interface IServiceDiscoveryService
 
     [UnicornHttpPost("CreateHttpServiceConfiguration")]
     Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
-
-    [UnicornHttpPost("CreateHttpServiceConfiguration2/{serviceName}")]
-    Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
 
     [UnicornHttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
     Task DeleteHttpServiceConfigurationAsync(string serviceName);

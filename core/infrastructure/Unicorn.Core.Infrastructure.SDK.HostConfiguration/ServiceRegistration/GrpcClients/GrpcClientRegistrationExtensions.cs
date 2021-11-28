@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Ardalis.GuardClauses;
+using Microsoft.Extensions.DependencyInjection;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
@@ -22,9 +23,9 @@ internal static class GrpcClientRegistrationExtensions
         var baseGrpcClientImplName = typeof(BaseGrpcClient).AssemblyQualifiedName;
         var pairs = new List<(Type, Type)>();
 
-        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttribute<UnicornGrpcClientMarkerAttribute>())
+        foreach (var name in AssemblyInspector.GetInterfaceNamesWithAttribute<UnicornGrpcClientMarkerAttribute>())
         {
-            var grpcInterfaceType = Type.GetType(name, true) ?? throw new ArgumentNullException(name);
+            var grpcInterfaceType = Guard.Against.Null(Type.GetType(name, true), name);
 
             var grpcImplType = grpcInterfaceType!.Assembly
                 .GetExportedTypes()

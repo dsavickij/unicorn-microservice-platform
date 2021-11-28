@@ -4,7 +4,7 @@ using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Pocs.ServiceHost.Controllers;
+namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -12,10 +12,12 @@ public class WeatherForecastController : ControllerBase
 {
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
+    private readonly IMyGrpcServiceClient _client;
 
-    public WeatherForecastController( IServiceDiscoveryService serviceDiscoveryService)
+    public WeatherForecastController(IServiceDiscoveryService serviceDiscoveryService, IMyGrpcServiceClient greeterProtoClient)
     {
         _svcDiscoveryService = serviceDiscoveryService;
+        _client = greeterProtoClient;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -29,19 +31,21 @@ public class WeatherForecastController : ControllerBase
         //})
         //.ToArray();
 
-        var result = await _svcDiscoveryService.GetHttpServiceConfiguration("ccccc");
+        var r = await _client.MyAsyncEndpointAsync();
 
-        //var result = await _svcDiscoveryService
-        //    .CreateHttpServiceConfiguration("test", new HttpServiceConfiguration { Name = "CreateHttpServiceConfiguration" });
+        //var result = await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ccccc");
 
-        //var result = await _svcDiscoveryService
-        //    .UpdateHttpServiceConfiguration("newName", new HttpServiceConfiguration { Name = "test" });
+        ////var result = await _svcDiscoveryService
+        ////    .CreateHttpServiceConfiguration("test", new HttpServiceConfiguration { Name = "CreateHttpServiceConfiguration" });
 
-        return result;
+        ////var result = await _svcDiscoveryService
+        ////    .UpdateHttpServiceConfiguration("newName", new HttpServiceConfiguration { Name = "test" });
+
+        //return result;
 
         //await _svcDiscoveryService.DeleteHttpServiceConfiguration("test");
 
-        //return new HttpServiceConfiguration();
+        return new HttpServiceConfiguration();
 
     }
 
@@ -56,10 +60,10 @@ public class WeatherForecastController : ControllerBase
         //})
         //.ToArray();
 
-        return await _svcDiscoveryService.GetHttpServiceConfiguration("ddd");
+        return await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ddd");
     }
 
-    [UnicornGrpcClientMarkerAttribute]
+    [UnicornGrpcClientMarker]
     public interface IMyGrpcServiceClient
     {
         Task<string> MyAsyncEndpointAsync();
@@ -73,9 +77,11 @@ public class WeatherForecastController : ControllerBase
 
         protected override string GrpcServiceName => nameof(MyGrpcServiceClient);
 
-        public Task<string> MyAsyncEndpointAsync()
+        public async Task<string> MyAsyncEndpointAsync()
         {
-            throw new NotImplementedException();
+            var r = await Factory.CallAsync<string>(GrpcServiceName, null);
+
+            return "";
         }
     }
 }

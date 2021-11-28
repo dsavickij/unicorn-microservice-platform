@@ -31,7 +31,7 @@ internal static class HttpServiceRegistrationExtensions
     {
         var types = new List<Type>();
 
-        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttribute<UnicornHttpServiceMarkerAttribute>())
+        foreach (var name in AssemblyInspector.GetInterfaceNamesWithAttribute<UnicornHttpServiceMarkerAttribute>())
         {
             var interfaceType = Type.GetType(name, true) ?? throw new ArgumentNullException(name);
             types.Add(interfaceType);

@@ -26,7 +26,7 @@ public static class HostConfigurationExtensions
     private static void ConfigureServiceProvider(ServiceProviderOptions options)
     {
         options.ValidateOnBuild = true;
-        options.ValidateScopes = true; // ??????
+        options.ValidateScopes = true; // check it
     }
 
     private static void ConfigureService(IServiceCollection services)
