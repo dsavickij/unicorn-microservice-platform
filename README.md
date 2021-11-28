@@ -119,7 +119,7 @@ public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
 ```
 ### How service call is done?
 
-Unicorn microservice host to be able to call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget pacakge and call `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
+Unicorn microservice host to be able to call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package and call `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
 
 ```c# 
 builder.Host.ApplyUnicornConfiguration();
