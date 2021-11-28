@@ -82,7 +82,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
 * Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added to SDK
 * SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
 * gRPC service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
-* gRPC service client interface needs to be create
+* gRPC service client interface needs to be created
 * gRPC service client interface must be decorated with `UnicornGrpcClientMarker` attribute
 * gRPC service client implementation needs to be created
 * gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class. `BaseGrcpClient` will require to set `GrpcServiceName` property which must be identical to the registered gRPC service configuration in ServiceDiscovery
@@ -174,18 +174,19 @@ dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\
 
 Possible plans for further learning/development:
 
-* Move microservice scope architecture towards vertical slice architecture with MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
+* Implement several microservices with vertical slice architecture in mind. Use MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
 * Add authentication for inter-service communication
-* Add Authorization? Investigate Azure AD
+* Add Authorization? Investigate Azure AD, Microsoft Identity
 * Ocelot or YARP for APIM/reverse-proxy/API gateway
 * Something regarding messaging:
 	* MassTransit on top of RabbitMQ message broker to try Saga pattern
-	* Kafka for event sourcing to try for what it can be used for
+	* Kafka for event sourcing to try what it can be used for
 		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
 * Redis for distributed caching 
 * Blazor for some UI and to have something to call API gateway
 * Docker support in the form of single command to launch all microservices in containers
+* Add system monitoring? Prometheus, Grafana, etc.
 
 ## Links
 
