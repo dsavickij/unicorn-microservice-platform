@@ -7,18 +7,26 @@ gRPC support is not tested beyond simple implementation of it, so it is like 'al
 
 The project is based on .NET 6.0
 
-## how does it work?
+## Solution folder structure
 
-Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it.
+* **core** - includes projects for inter-service communication over HTTP and gRPC as well as all the services required to achieve that
+	* **infrastructure** - projects for inter-services communication
+	* **services** - services required for inter-service communication (only ServiceDiscovery for now)
+	* **development** - projects to facilitate development and testing of infrastructure projects and services. Projects in this folder reference infrastructure projects directly thus the need to create nugets for testing only is eliminated
+* **services** - Unicorn microservices which consume infrastructure nuget packages and use core services for inter-service communication
 
-In SDK:
-* For HTTP service:
-	* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added
-	* HTTP service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
-	* Assembly attribute `UnicornAssemblyServiceNameAttribute` with service name from ServiceDiscovery must be added to any class in SDK
-  * HTTP service interface needs to be created. Methods defined in it must be implemented in Web API controller to receive request from microservices 
+## How does it work?
+
+Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
+
+### Creation of HTTP service
+
+* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added to SDK project
+* HTTP service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded in controller
+* Assembly attribute `UnicornAssemblyServiceNameAttribute` with service name from ServiceDiscovery must be added to any class in SDK project
+* HTTP service interface needs to be created. Methods defined in it must be implemented in Web API controller to receive request from microservices 
 	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarker` attribute
-	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` with URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added to Web API controller.
+	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` depending on what HTTP method needs to be used to call it. Every attribute need to provide URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added to Web API controller.
    
 HTTP service interface should look similar to this:
 
@@ -41,23 +49,89 @@ public interface IServiceDiscoveryService
 
 ```
 
+Method signatures in Web API controller in HTTP service should look similar to this:
 
-* For gRPC service client:
-	* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added
-	* SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
-	* gRPC service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
-	* gRPC service client interface must be decorated with `UnicornGrpcClientMarker` attribute
-	* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class. `BaseGrcpClient` will require to set `GrpcServiceName` property which must be identical to the registered gRPC service configuration in ServiceDiscovery
+```c#
+[ApiController]
+public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryService
+{
+    private readonly ILogger<ServiceDiscoveryController> _logger;
 
-Unicorn microservice host to be able call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget pacakge and `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
+    public ServiceDiscoveryController(ILogger<ServiceDiscoveryController> logger)
+    {
+        _logger = logger;
+    }
 
-`builder.Host.ApplyUnicornConfiguration();`
+    [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
+    public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
+    {
+	// do your magic
+    }
 
-`ApplyUnicornConfiguration` extension method will scan assemblies for HTTP and gRPC service clients and add them to dependency injection container. 
+    [HttpPost("CreateHttpServiceConfiguration/{serviceName}")]
+    public Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
+    {
+	// do your magic
+    }
+}
 
-For HTTP service, proxy is created and registered to be resolved when HTTP service interface needs to be injected through class constructor. Proxy will intercept any invocation of HTTP service interface, transform it in HTTP request, send it, retrieve result propage it to the calling code.
+
+```
+### Creation of gRPC service client
+
+* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added to SDK
+* SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
+* gRPC service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
+* gRPC service client interface needs to be create
+* gRPC service client interface must be decorated with `UnicornGrpcClientMarker` attribute
+* gRPC service client implementation needs to be created
+* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class. `BaseGrcpClient` will require to set `GrpcServiceName` property which must be identical to the registered gRPC service configuration in ServiceDiscovery
+
+gRPC service client interface should look similar to this:
+
+```c#
+[UnicornGrpcClientMarker]
+public interface IGreeterProtoClient
+{
+    Task<HelloReply> SayHelloAsync(HelloRequest request);
+}
+
+```
+While gRPC service client implementation should look similar to this:
+
+```c#
+public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
+{
+    private Greeter.GreeterClient? _client;
+
+    protected override string GrpcServiceName => "GreeterProtoService";
+
+    public GreeterProtoClient(IGrpcClientFactory factory)
+        : base(factory)
+    {
+    }
+
+    public async Task<HelloReply> SayHelloAsync(HelloRequest request) =>
+        await Factory.Call(GrpcServiceName, c => GetClient(c)!.SayHelloAsync(request));
+
+    private Greeter.GreeterClient? GetClient(GrpcChannel channel) => _client ??= new Greeter.GreeterClient(channel);
+}
+```
+### How service call is done?
+
+Unicorn microservice host to be able to call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget pacakge and call `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
+
+```c# 
+builder.Host.ApplyUnicornConfiguration();
+```
+
+`ApplyUnicornConfiguration` extension method will scan assemblies for HTTP services and gRPC service clients and add them to dependency injection container. 
+
+For HTTP service, proxy is created and registered to be resolved when HTTP service interface needs to be injected through class constructor. Proxy will intercept any invocation of HTTP service interface, transform it into HTTP request, send it, retrieve result and then propage it to the calling code.
 
 For gRCP service client, gRPC service client interface and client implementation is registered.
+
+On the first call to HTTP or gRPC service, service configuration from ServiceDiscovery service is retrieved and held in cache indefinitely for further reuse.
 
 Afterwards, any HTTP service or gRCP service can be injected into any class using its interface:
 
@@ -68,16 +142,17 @@ Afterwards, any HTTP service or gRCP service can be injected into any class usin
     }
 ```
 
+And called just like any other object in the project:
 
-## solution folder structure
+```c#
+    [HttpGet(Name = "Get")]
+    public async Task<HttpServiceConfiguration> Get()
+    {
+        return await _svcDiscoveryService.GetHttpServiceConfiguration("myService");
+    }
+```
 
-* **core** - includes projects for inter-service communication over HTTP and gRPC as well as all the services required to achieve that
-	* **infrastructure** - projects for inter-services communication
-	* **services** - services required for inter-service communication (only ServiceDiscovery for now)
-	* **pocs** - projects to facilitate development and testing of infrastructure projects and services. Projects in this folder reference infrastructure projects directly thus the need to create nugets for testing only is eliminated
-* **services** - Unicorn microservices which consume infrastructure nuget packages and use core services for inter-service communication
-
-## starting services
+## Starting services
 Microservices in _services_ folder require infrastructure nuget packages. These nugets are not published, so they need to be created locally and put in local nuget store on your machine.
 
 Local nuget store can be added in Visual Studio settings just by selecting folder where nugets will be placed.
@@ -95,7 +170,7 @@ dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infr
 
 dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\Unicorn.GrpcService.SDK\Unicorn.GrpcService.SDK.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
 ```
-## notes for further development
+## Notes for further development
 
 Possible plans for further learning/development:
 
@@ -112,7 +187,7 @@ Possible plans for further learning/development:
 * Blazor for some UI and to have something to call API gateway
 * Docker support in the form of single command to launch all microservices in containers
 
-## links
+## Links
 
 * Link to markdown (\*.md) file editor: https://markdown-editor.github.io/
 * Link to markdown syntax: https://medium.com/analytics-vidhya/how-to-create-a-readme-md-file-8fb2e8ce24e3
