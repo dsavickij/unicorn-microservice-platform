@@ -12,7 +12,7 @@ The project is based on .NET 6.0
 * **core** - includes projects for inter-service communication over HTTP and gRPC as well as all the services required to achieve that
 	* **infrastructure** - projects for inter-services communication
 	* **services** - services required for inter-service communication (only ServiceDiscovery for now)
-	* **development** - projects to facilitate development and testing of infrastructure projects and services. Projects in this folder reference infrastructure projects directly thus the need to create nugets for testing only is eliminated
+	* **development** - projects to facilitate development and testing of infrastructure projects and services. Projects in this folder reference infrastructure projects directly thus the need to create nugets for testing purpose is eliminated
 * **services** - Unicorn microservices which consume infrastructure nuget packages and use core services for inter-service communication
 
 ## How does it work?
