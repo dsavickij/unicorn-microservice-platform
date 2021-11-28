@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration;
 
-internal class AssemblyInspector
+internal static class AssemblyInspector
 {
-    public static IEnumerable<string> GetServiceInterfaceNamesWithAttributeOfType<TType>()
+    public static IEnumerable<string> GetServiceInterfaceNamesWithAttribute<TType>()
     {
         var attributeName = typeof(TType).AssemblyQualifiedName;
         var interfaceNames = new List<string>();
@@ -30,11 +30,12 @@ internal class AssemblyInspector
         return interfaceNames;
     }
 
-    private static bool IsUnicornAssembly(Assembly assembly) => assembly.FullName!.Contains("Unicorn");
+    private static bool IsUnicornAssembly(Assembly assembly) =>
+        assembly.FullName!.Contains("Unicorn", StringComparison.OrdinalIgnoreCase);
 
     private static IEnumerable<string> GetAssemblyFilesFromCurrentDirectory()
     {
-        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
-        return Directory.GetFiles(path).Where(fileName => fileName.EndsWith(".dll"));
+        var path = Path.GetDirectoryName(typeof(AssemblyInspector).Assembly.Location) ?? string.Empty;
+        return Directory.GetFiles(path).Where(fileName => fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase));
     }
 }

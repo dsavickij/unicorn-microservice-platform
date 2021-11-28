@@ -1,5 +1,5 @@
-﻿using RestSharp;
-using System.Reflection;
+﻿using System.Reflection;
+using RestSharp;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy;

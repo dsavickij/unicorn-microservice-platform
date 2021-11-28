@@ -8,6 +8,6 @@ namespace Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 public record HttpServiceConfiguration
 {
-    public string Name { get; set; } = "";
-    public string BaseUrl { get; set; } = "";
+    public string Name { get; set; } = string.Empty;
+    public string BaseUrl { get; set; } = string.Empty;
 }

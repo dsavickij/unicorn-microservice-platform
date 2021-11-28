@@ -11,20 +11,20 @@ namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 public interface IServiceDiscoveryService
 {
     [UnicornHttpGet("GetGrpcServiceConfiguration")]
-    Task<GrpcServiceConfiguration> GetGrpcServiceConfiguration(string serviceName);
+    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName);
 
     [UnicornHttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName);
+    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName);
 
     [UnicornHttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
-    Task<HttpServiceConfiguration> UpdateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
+    Task<HttpServiceConfiguration> UpdateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
 
     [UnicornHttpPost("CreateHttpServiceConfiguration")]
-    Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(HttpServiceConfiguration httpServiceConfiguration);
+    Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
     [UnicornHttpPost("CreateHttpServiceConfiguration2/{serviceName}")]
-    Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
+    Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
 
     [UnicornHttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
-    Task DeleteHttpServiceConfiguration(string serviceName);
+    Task DeleteHttpServiceConfigurationAsync(string serviceName);
 }

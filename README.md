@@ -1,7 +1,9 @@
-![unicorn](https://clipground.com/images/dabbing-unicorn-clipart.jpg)
+![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-project-microservices
 Implementation of microservice architecture with inter-service communication abstracted as much as possible. Communication can be done using HTTP or high performance gRPC protocol.
+
+gRPC support is not tested beyond simple implementation of it, so it is like 'alpha' version.
 
 The project is based on .NET 6.0
 
@@ -13,17 +15,41 @@ In SDK:
 * For HTTP service:
 	* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added
 	* HTTP service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
-	* Assembly attribute `UnicornAssemblyServiceNameAttribute` with service name from ServiceDiscovery must be added
+	* Assembly attribute `UnicornAssemblyServiceNameAttribute` with service name from ServiceDiscovery must be added to any class in SDK
+  * HTTP service interface needs to be created. Methods defined in it must be implemented in Web API controller to receive request from microservices 
 	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarker` attribute
-	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` with URL path template
+	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` with URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added to Web API controller.
+   
+HTTP service interface should look similar to this:
+
+```c#
+[UnicornHttpServiceMarker]
+public interface IServiceDiscoveryService
+{
+    [UnicornHttpGet("GetHttpServiceConfiguration/{serviceName}")]
+    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName);
+
+    [UnicornHttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
+    Task<HttpServiceConfiguration> UpdateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
+
+    [UnicornHttpPost("CreateHttpServiceConfiguration")]
+    Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
+
+    [UnicornHttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
+    Task DeleteHttpServiceConfigurationAsync(string serviceName);
+}
+
+```
+
+
 * For gRPC service client:
 	* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added
-	* SDK must have gRPC PROTO file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
+	* SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
 	* gRPC service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
 	* gRPC service client interface must be decorated with `UnicornGrpcClientMarker` attribute
 	* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class. `BaseGrcpClient` will require to set `GrpcServiceName` property which must be identical to the registered gRPC service configuration in ServiceDiscovery
 
-Unicorn micorservice host to be able call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget pacakge and `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
+Unicorn microservice host to be able call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget pacakge and `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
 
 `builder.Host.ApplyUnicornConfiguration();`
 
@@ -35,7 +61,7 @@ For gRCP service client, gRPC service client interface and client implementation
 
 Afterwards, any HTTP service or gRCP service can be injected into any class using its interface:
 
-```
+```c#
     public WeatherForecastController(IServiceDiscoveryService serviceDiscoveryService)
     {
         _svcDiscoveryService = serviceDiscoveryService;
@@ -71,19 +97,22 @@ dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\
 ```
 ## notes for further development
 
-Possible plans for additional learning/development:
+Possible plans for further learning/development:
 
-* Adding authentication for inter-service communication
+* Move microservice scope architecture towards vertical slice architecture with MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
+* Add authentication for inter-service communication
+* Add Authorization? Investigate Azure AD
 * Ocelot or YARP for APIM/reverse-proxy/API gateway
 * Something regarding messaging:
 	* MassTransit on top of RabbitMQ message broker to try Saga pattern
 	* Kafka for event sourcing to try for what it can be used for
+		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
 * Redis for distributed caching 
-* Blazor for some UI to call API gateway
+* Blazor for some UI and to have something to call API gateway
 * Docker support in the form of single command to launch all microservices in containers
 
-## other things
+## links
 
 * Link to markdown (\*.md) file editor: https://markdown-editor.github.io/
 * Link to markdown syntax: https://medium.com/analytics-vidhya/how-to-create-a-readme-md-file-8fb2e8ce24e3

@@ -5,7 +5,6 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 namespace Unicorn.Core.Services.ServiceDiscovery.Controllers;
 
 [ApiController]
-//[Route("[controller]")]
 public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryService
 {
     private readonly ILogger<ServiceDiscoveryController> _logger;
@@ -20,49 +19,15 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     {
         _logger.LogInformation($"Executing GetGrpcServiceConfiguration for {serviceName}");
 
+        const int port = 5080;
+
         return Task.FromResult(new GrpcServiceConfiguration
         {
             Name = serviceName,
             BaseUrl = "http://localhost:5080",
-            Port = 5080
+            Port = port
         });
     }
-
-    //[HttpGet("GetHttpServiceConfiguration")]
-    //public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
-    //{
-    //    _logger.LogInformation($"Executing GetHttpServiceConfiguration for {serviceName}");
-
-    //    return Task.FromResult(new HttpServiceConfiguration
-    //    {
-    //        Name = serviceName,
-    //        BaseUrl = "http://localhost:5080"
-    //    });
-    //}
-
-    //[HttpGet("GetHttpServiceConfiguration/{serviceName}/list")]
-    //public Task<HttpServiceConfiguration> GetHttpServiceConfiguration2(string serviceName)
-    //{
-    //    _logger.LogInformation($"Executing GetHttpServiceConfiguration for {serviceName}");
-
-    //    return Task.FromResult(new HttpServiceConfiguration
-    //    {
-    //        Name = serviceName,
-    //        BaseUrl = "http://localhost:5080"
-    //    });
-    //}
-
-    //[HttpGet("GetHttpServiceConfiguration2/{serviceName}/list")]
-    //public Task<HttpServiceConfiguration> GetHttpServiceConfiguration2(string serviceName, string arg2)
-    //{
-    //    _logger.LogInformation($"Executing GetHttpServiceConfiguration for {serviceName} {arg2}");
-
-    //    return Task.FromResult(new HttpServiceConfiguration
-    //    {
-    //        Name = serviceName,
-    //        BaseUrl = "http://localhost:5080"
-    //    });
-    //}
 
     [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
     public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
@@ -76,7 +41,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
                 Name = Constants.ServiceName,
                 BaseUrl = "http://localhost:5081"
            }
-       };
+        };
 
         var svc = services.FirstOrDefault(x => x.Name == serviceName) ?? new HttpServiceConfiguration
         {

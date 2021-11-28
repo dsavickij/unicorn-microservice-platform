@@ -1,18 +1,18 @@
-﻿using Castle.DynamicProxy;
+﻿using System.Text.Json;
+using Castle.DynamicProxy;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy;
 
-internal class ServiceInvocationInterceptor : IInterceptor
+internal class HttpServiceInvocationInterceptor : IInterceptor
 {
     private readonly ILogger _logger;
     private readonly Type _taskType = typeof(Task);
     private readonly IRestComponentProvider _restComponentProvider;
 
-    public ServiceInvocationInterceptor(
+    public HttpServiceInvocationInterceptor(
         IRestComponentProvider restComponentProvider,
-        ILogger<ServiceInvocationInterceptor> logger)
+        ILogger<HttpServiceInvocationInterceptor> logger)
     {
         _restComponentProvider = restComponentProvider;
         _logger = logger;
@@ -22,18 +22,19 @@ internal class ServiceInvocationInterceptor : IInterceptor
     {
         var returnType = invocation.Method.ReturnType;
 
-        //TODO: check for return type: if task, check if it is not faulted, log/throw exception
+        // TODO: check for return type: if task, check if it is not faulted, log/throw exception
+
         if (returnType.BaseType == _taskType)
         {
             ExecuteGenericTaskReturnTypeInvocation(invocation);
         }
         else if (returnType == _taskType)
         {
-            invocation.ReturnValue = ExecuteTaskReturnTypeInvocation(invocation);
+            invocation.ReturnValue = ExecuteTaskReturnTypeInvocationAsync(invocation);
         }
     }
 
-    private async Task ExecuteTaskReturnTypeInvocation(IInvocation invocation)
+    private async Task ExecuteTaskReturnTypeInvocationAsync(IInvocation invocation)
     {
         var client = await _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
         var request = _restComponentProvider.GetRestRequest(invocation.Method, invocation.Arguments);

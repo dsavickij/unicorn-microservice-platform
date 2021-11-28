@@ -1,9 +1,6 @@
 ﻿namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 
 [AttributeUsage(AttributeTargets.Interface)]
-public class UnicornGrpcClientMarker : Attribute
+public class UnicornGrpcClientMarkerAttribute : Attribute
 {
-    public UnicornGrpcClientMarker()
-    {
-    }
 }

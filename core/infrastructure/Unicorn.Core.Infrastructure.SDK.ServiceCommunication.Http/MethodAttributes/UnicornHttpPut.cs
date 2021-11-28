@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 
-namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
-
-public sealed class UnicornHttpPut : UnicornHttpAttribute
+[AttributeUsage(AttributeTargets.Method)]
+public sealed class UnicornHttpPutAttribute : UnicornHttpAttribute
 {
-    public UnicornHttpPut(string pathTemplate) : base(pathTemplate)
+    public UnicornHttpPutAttribute(string pathTemplate)
+        : base(pathTemplate)
     {
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
@@ -8,7 +7,7 @@ namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.
 
 internal interface IHttpServiceConfigurationProvider
 {
-    Task<HttpServiceConfiguration> GetHttpServiceConfiguration(Type httpServiceInterface);
+    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(Type httpServiceInterface);
 }
 
 internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvider
@@ -21,12 +20,12 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
         _svcDiscoveryClient = serviceDiscoveryClient;
     }
 
-    public async Task<HttpServiceConfiguration> GetHttpServiceConfiguration(Type httpServiceInterface)
+    public async Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(Type httpServiceInterface)
     {
         if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
             var name = GetAssemlyServiceName(httpServiceInterface);
-            var cfg = await _svcDiscoveryClient.GetHttpServiceConfiguration(name);
+            var cfg = await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name);
             _cache.TryAdd(httpServiceInterface.FullName!, cfg);
         }
 
@@ -38,9 +37,11 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
         var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(UnicornAssemblyServiceNameAttribute));
 
         if (attribute is UnicornAssemblyServiceNameAttribute nameAttribute)
+        {
             return nameAttribute.ServiceName;
+        }
 
-        throw new Exception($"Assembly '{httpServiceInterface.Assembly.FullName}' " +
+        throw new ArgumentException($"Assembly '{httpServiceInterface.Assembly.FullName}' " +
             $"does not include attribute '{typeof(UnicornAssemblyServiceNameAttribute).FullName}'");
     }
 }

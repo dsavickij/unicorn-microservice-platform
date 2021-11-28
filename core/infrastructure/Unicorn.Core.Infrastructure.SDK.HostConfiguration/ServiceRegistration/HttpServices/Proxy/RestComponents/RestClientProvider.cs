@@ -19,7 +19,7 @@ internal class RestClientProvider : IRestClientProvider
 
     public async Task<IRestClient> GetRestClientAsync(Type httpServiceInterface)
     {
-        var cfg = await _cfgProvider.GetHttpServiceConfiguration(httpServiceInterface);
-        return new RestClient(cfg.BaseUrl).UseSystemTextJson();
+        var cfg = await _cfgProvider.GetHttpServiceConfigurationAsync(httpServiceInterface);
+        return new RestClient(new Uri(cfg.BaseUrl)).UseSystemTextJson();
     }
 }

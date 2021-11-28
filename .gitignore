@@ -72,3 +72,5 @@
 /services/Unicorn.GrpcService.SDK/obj
 /services/Unicorn.GrpcServiceClient/bin/Debug/net6.0
 /services/Unicorn.GrpcServiceClient/obj
+/core/development/Unicorn.Core.Development.ServiceHost/bin/Debug/net6.0
+/core/development/Unicorn.Core.Development.ServiceHost/obj

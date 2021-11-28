@@ -2,7 +2,7 @@
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServices;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcClients;
 
 internal interface IGrpcServiceConfigurationProvider
 {

@@ -1,5 +1,5 @@
-﻿using RestSharp;
-using System.Reflection;
+﻿using System.Reflection;
+using RestSharp;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
@@ -18,7 +18,8 @@ internal class RestRequestProvider : IRestRequestProvider
         AddUrlSegmentParametersToRequestIfNeeded(request, httpServiceMethod, methodArguments);
         AddQueryParametersToRequestIfNeeded(request, httpServiceMethod, methodArguments);
         AddJsonBodyToRequestIfNeeded(request, httpServiceMethod, methodArguments);
-        //TODO: need to add ability to send files in request
+
+        // TODO: need to add ability to send files in request
 
         return request;
     }
@@ -27,7 +28,7 @@ internal class RestRequestProvider : IRestRequestProvider
     {
         if (GetHttpMethodType(httpServiceMethod) is Method.POST or Method.PUT)
         {
-            //TODO: check if only one body argument can be passed to endpoint and remove foreach if needed
+            // TODO: check if only one body argument can be passed to endpoint and remove foreach if needed
             foreach (var p in GetNonUrlSegmentParameters(httpServiceMethod))
             {
                 request.AddJsonBody(methodArguments[p.Position]);
@@ -45,8 +46,11 @@ internal class RestRequestProvider : IRestRequestProvider
                 {
                     request.AddQueryParameter(p.Name!, s);
                 }
-                else throw new Exception($"Argument of type '{methodArguments[p.Position].GetType().FullName}'" +
-                    $"is not a string");
+                else
+                {
+                    throw new ArgumentException($"Argument of type '{methodArguments[p.Position].GetType().FullName}'" +
+                        $"is not a string");
+                }
             }
         }
     }
@@ -63,7 +67,9 @@ internal class RestRequestProvider : IRestRequestProvider
         var urlSegmentParameters = GetUrlSegmentParameters(httpServiceMethod, methodArguments);
 
         foreach (var p in urlSegmentParameters)
+        {
             request.AddParameter(p);
+        }
     }
 
     private IRestRequest GetBaseRequest(MethodInfo httpServiceMethod)
@@ -94,8 +100,10 @@ internal class RestRequestProvider : IRestRequestProvider
 
         foreach (var p in httpServiceMethod.GetParameters())
         {
-            if (pathTemplate.Contains($"{{{p.Name!}}}"))
+            if (pathTemplate.Contains($"{{{p.Name!}}}", StringComparison.InvariantCulture))
+            {
                 urlSegmentParams.Add(p);
+            }
         }
 
         return urlSegmentParams;
@@ -107,9 +115,12 @@ internal class RestRequestProvider : IRestRequestProvider
             .SingleOrDefault(ca => ca.AttributeType.IsAssignableTo(typeof(UnicornHttpAttribute)))?.AttributeType;
 
         if (method.GetCustomAttribute(type!) is UnicornHttpAttribute attribute)
+        {
             return attribute.PathTemplate;
+        }
 
-        throw new Exception();
+        throw new ArgumentException($"Attribute of type '{type?.FullName}' is does not inherit from attribute " +
+            $"'{typeof(UnicornHttpAttribute).FullName}'");
     }
 
     private Method GetHttpMethodType(MethodInfo method)
@@ -121,15 +132,15 @@ internal class RestRequestProvider : IRestRequestProvider
         {
             return httpAttributeType switch
             {
-                _ when httpAttributeType == typeof(UnicornHttpGet) => Method.GET,
-                _ when httpAttributeType == typeof(UnicornHttpPost) => Method.POST,
-                _ when httpAttributeType == typeof(UnicornHttpPut) => Method.PUT,
-                _ when httpAttributeType == typeof(UnicornHttpDelete) => Method.DELETE,
-                _ => throw new NotSupportedException(httpAttributeType.GetType().AssemblyQualifiedName)
+                _ when httpAttributeType == typeof(UnicornHttpGetAttribute) => Method.GET,
+                _ when httpAttributeType == typeof(UnicornHttpPostAttribute) => Method.POST,
+                _ when httpAttributeType == typeof(UnicornHttpPutAttribute) => Method.PUT,
+                _ when httpAttributeType == typeof(UnicornHttpDeleteAttribute) => Method.DELETE,
+                _ => throw new NotSupportedException(httpAttributeType.AssemblyQualifiedName)
             };
         }
 
-        throw new Exception($"Called method is not decorated with derivative from {typeof(UnicornHttpAttribute).FullName}." +
-            $"Method: {method.Name}, service interface: {method.DeclaringType?.AssemblyQualifiedName}");
+        throw new ArgumentException($"Method '{method.Name}' in interface {method.DeclaringType?.AssemblyQualifiedName} " +
+            $"is not decorated with derivative from '{typeof(UnicornHttpAttribute).FullName}'");
     }
 }

@@ -1,9 +1,6 @@
 ﻿namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 
 [AttributeUsage(AttributeTargets.Interface)]
-public class UnicornHttpServiceMarker : Attribute
+public class UnicornHttpServiceMarkerAttribute : Attribute
 {
-    public UnicornHttpServiceMarker()
-    {
-    }
 }

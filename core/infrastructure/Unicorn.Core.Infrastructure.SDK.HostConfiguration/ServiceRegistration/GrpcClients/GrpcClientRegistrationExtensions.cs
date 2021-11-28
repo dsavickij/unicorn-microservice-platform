@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServices;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcClients;
 
 internal static class GrpcClientRegistrationExtensions
 {
@@ -23,21 +22,23 @@ internal static class GrpcClientRegistrationExtensions
         var baseGrpcClientImplName = typeof(BaseGrpcClient).AssemblyQualifiedName;
         var pairs = new List<(Type, Type)>();
 
-        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttributeOfType<UnicornGrpcClientMarker>())
+        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttribute<UnicornGrpcClientMarkerAttribute>())
         {
             var grpcInterfaceType = Type.GetType(name, true) ?? throw new ArgumentNullException(name);
 
             var grpcImplType = grpcInterfaceType!.Assembly
                 .GetExportedTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && t.BaseType?.AssemblyQualifiedName == baseGrpcClientImplName)
-                .FirstOrDefault();
+                .FirstOrDefault(t => t.IsClass && !t.IsAbstract && t.BaseType?.AssemblyQualifiedName == baseGrpcClientImplName);
 
             if (grpcImplType is not null)
             {
                 pairs.Add((grpcInterfaceType, grpcImplType));
             }
-            else throw new Exception($"Grpc client interface '{name}' does not have implementation " +
-                $"in assembly '{grpcInterfaceType.Assembly.FullName}'");
+            else
+            {
+                throw new ArgumentException($"Grpc client interface '{name}' does not have implementation " +
+                    $"in assembly '{grpcInterfaceType.Assembly.FullName}'");
+            }
         }
 
         return pairs;

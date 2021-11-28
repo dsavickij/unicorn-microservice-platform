@@ -17,8 +17,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj" />
-	  <ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.32.0.39516">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj" />
+		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<CodeAnalysisRuleSet>..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<CodeAnalysisRuleSet>..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 
 </Project>

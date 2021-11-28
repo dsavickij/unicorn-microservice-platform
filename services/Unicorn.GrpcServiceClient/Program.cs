@@ -4,19 +4,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ApplyUnicornConfiguration();
 
-//builder.Host.ConfigureHostConfiguration(a => a.)
-//var config = builder.Configuration;
-
-//builder.Services.Configure<object>();
-
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-//builder.Services.AddGreeterProtoClient();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

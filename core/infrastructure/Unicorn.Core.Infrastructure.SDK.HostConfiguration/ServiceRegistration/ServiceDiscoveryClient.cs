@@ -1,18 +1,19 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Reflection;
+using Ardalis.GuardClauses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RestSharp;
-using System.Reflection;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration;
 
 internal interface IServiceDiscoveryClient
 {
-    Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName);
-    Task<GrpcServiceConfiguration> GetGrpcServiceConfiguration(string serviceName);
+    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName);
+
+    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName);
 }
 
 internal class ServiceDiscoveryClient : IServiceDiscoveryClient
@@ -25,11 +26,11 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     public ServiceDiscoveryClient(IConfiguration configuration, ILogger<ServiceDiscoveryClient> logger)
     {
         var baseUrl = Guard.Against.NullOrWhiteSpace(configuration[ServiceDiscoveryConnStringKey], ServiceDiscoveryConnStringKey);
-        _client = new RestClient(baseUrl);
+        _client = new RestClient(new Uri(baseUrl));
         _logger = logger;
     }
 
-    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfiguration(string serviceName)
+    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName)
     {
         _logger.LogDebug($"Retrieving GRPC service configuration for: {serviceName}");
 
@@ -37,7 +38,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         return await _client.GetAsync<GrpcServiceConfiguration>(request);
     }
 
-    public async Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
+    public async Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName)
     {
         _logger.LogDebug($"Retrieving HTTP service configuration for: {serviceName}");
 
@@ -53,8 +54,10 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 
         foreach (var p in method.GetParameters())
         {
-            if (path.Contains($"{{{p.Name}}}"))
+            if (path.Contains($"{{{p.Name}}}", StringComparison.OrdinalIgnoreCase))
+            {
                 req.AddUrlSegment(p.Name!, serviceName);
+            }
         }
 
         return req;
@@ -63,12 +66,14 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     private string GetPathTemplate(MethodInfo method)
     {
         var attributeType = method.CustomAttributes
-            .SingleOrDefault(ca => ca.AttributeType == typeof(UnicornHttpGet))?.AttributeType;
+            .SingleOrDefault(ca => ca.AttributeType == typeof(UnicornHttpGetAttribute))?.AttributeType;
 
         if (attributeType is null)
-            throw new Exception($"Method '{method.Name}' in interface '{nameof(IServiceDiscoveryService)}' " +
-                $"is not decorated with '{typeof(UnicornHttpGet).FullName}' attribute");
+        {
+            throw new ArgumentNullException($"Method '{method.Name}' in interface '{nameof(IServiceDiscoveryService)}' " +
+                $"is not decorated with '{typeof(UnicornHttpGetAttribute).FullName}' attribute");
+        }
 
-        return (method.GetCustomAttribute(attributeType) as UnicornHttpGet)!.PathTemplate;
+        return (method.GetCustomAttribute(attributeType) as UnicornHttpGetAttribute)!.PathTemplate;
     }
 }

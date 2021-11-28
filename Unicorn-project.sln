@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.SDK", "core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Pocs.ServiceHost", "core\pocs\Unicorn.Core.Pocs.ServiceHost\Unicorn.Core.Pocs.ServiceHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost", "core\development\Unicorn.Core.Development.ServiceHost\Unicorn.Core.Development.ServiceHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc", "core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj", "{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}"
 EndProject
@@ -27,11 +27,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{3E969805-7B74-4446-A42C-0DE247DFE254}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pocs", "pocs", "{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "development", "pocs", "{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{866ADDC4-EC72-4AA9-9B6B-E1D014B1A334}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "service-discovery", "service-discovery", "{9D47E5BD-EC71-44B9-9E87-66CFCCF707D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C849736-8523-4ADD-A528-2E361F79B9E7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

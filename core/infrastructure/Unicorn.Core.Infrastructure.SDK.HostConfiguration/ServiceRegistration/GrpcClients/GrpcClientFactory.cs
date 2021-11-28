@@ -2,7 +2,7 @@
 using Grpc.Net.Client;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServices;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcClients;
 
 internal class GrpcClientFactory : IGrpcClientFactory
 {
@@ -13,11 +13,11 @@ internal class GrpcClientFactory : IGrpcClientFactory
         _cfgProvider = configurationProvider;
     }
 
-    public async Task<T> Call<T>(string grpcServiceName, Func<GrpcChannel, AsyncUnaryCall<T>> grpcMethod)
+    public async Task<T> CallAsync<T>(string grpcServiceName, Func<GrpcChannel, AsyncUnaryCall<T>> grpcServiceMethod)
     {
         var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceName);
         var channel = GrpcChannel.ForAddress(cfg.BaseUrl);
 
-        return await grpcMethod(channel);
+        return await grpcServiceMethod(channel);
     }
 }

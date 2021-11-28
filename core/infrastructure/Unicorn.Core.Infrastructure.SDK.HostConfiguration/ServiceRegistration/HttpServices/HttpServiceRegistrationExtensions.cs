@@ -1,6 +1,5 @@
 ﻿using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection;
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.Common;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
@@ -16,13 +15,13 @@ internal static class HttpServiceRegistrationExtensions
         services.AddTransient<IRestRequestProvider, RestRequestProvider>();
         services.AddTransient<IRestClientProvider, RestClientProvider>();
         services.AddTransient<IRestComponentProvider, RestComponentProvider>();
-        services.AddTransient<ServiceInvocationInterceptor>();
+        services.AddTransient<HttpServiceInvocationInterceptor>();
 
         foreach (var type in GetHttpServiceInterfaceTypes())
         {
             services.AddTransient(type, serviceProvider =>
             {
-                var interceptor = serviceProvider.GetRequiredService<ServiceInvocationInterceptor>();
+                var interceptor = serviceProvider.GetRequiredService<HttpServiceInvocationInterceptor>();
                 return new ProxyGenerator().CreateInterfaceProxyWithoutTarget(type, interceptor);
             });
         }
@@ -32,7 +31,7 @@ internal static class HttpServiceRegistrationExtensions
     {
         var types = new List<Type>();
 
-        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttributeOfType<UnicornHttpServiceMarker>())
+        foreach (var name in AssemblyInspector.GetServiceInterfaceNamesWithAttribute<UnicornHttpServiceMarkerAttribute>())
         {
             var interfaceType = Type.GetType(name, true) ?? throw new ArgumentNullException(name);
             types.Add(interfaceType);

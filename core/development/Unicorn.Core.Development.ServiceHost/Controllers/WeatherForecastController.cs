@@ -59,10 +59,10 @@ public class WeatherForecastController : ControllerBase
         return await _svcDiscoveryService.GetHttpServiceConfiguration("ddd");
     }
 
-    [UnicornGrpcClientMarker]
+    [UnicornGrpcClientMarkerAttribute]
     public interface IMyGrpcServiceClient
     {
-        Task<string> MyAsyncEndpoint();
+        Task<string> MyAsyncEndpointAsync();
     }
 
     public class MyGrpcServiceClient : BaseGrpcClient, IMyGrpcServiceClient
@@ -73,7 +73,7 @@ public class WeatherForecastController : ControllerBase
 
         protected override string GrpcServiceName => nameof(MyGrpcServiceClient);
 
-        public Task<string> MyAsyncEndpoint()
+        public Task<string> MyAsyncEndpointAsync()
         {
             throw new NotImplementedException();
         }
