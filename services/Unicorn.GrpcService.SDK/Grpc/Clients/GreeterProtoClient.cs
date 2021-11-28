@@ -5,6 +5,7 @@ using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
 namespace Unicorn.GrpcService.SDK.Grpc.Clients;
 
+[UnicornGrpcClientMarker]
 public interface IGreeterProtoClient
 {
     Task<HelloReply> SayHelloAsync(HelloRequest request);
@@ -14,7 +15,7 @@ public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
 {
     private Greeter.GreeterClient? _client;
 
-    protected override string GrpcServiceName => "GreeterProtoClient";
+    protected override string GrpcServiceName => "GreeterProtoService";
 
     public GreeterProtoClient(IGrpcClientFactory factory)
         : base(factory)
