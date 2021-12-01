@@ -175,8 +175,9 @@ dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\
 Possible plans for further learning/development:
 
 * Implement several microservices with vertical slice architecture in mind. Use MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
-* Add authentication for inter-service communication
-* Add Authorization? Investigate Azure AD, Microsoft Identity
+* Add unit tests: use FluentAssertions, Autofixture, xUnit
+* Add authentication for inter-service communication. Research: Azure AD, Microsoft Identity
+* Add Authorization? Investigate
 * Ocelot or YARP for APIM/reverse-proxy/API gateway
 * Something regarding messaging:
 	* MassTransit on top of RabbitMQ message broker to try Saga pattern
@@ -186,7 +187,7 @@ Possible plans for further learning/development:
 * Redis for distributed caching 
 * Blazor for some UI and to have something to call API gateway
 * Docker support in the form of single command to launch all microservices in containers
-* Add system monitoring? Prometheus, Grafana, etc.
+* Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
 
 ## Links
 
