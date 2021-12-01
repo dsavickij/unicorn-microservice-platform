@@ -1,9 +1,9 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-project-microservices
-Implementation of microservice architecture with inter-service communication abstracted as much as possible. Communication can be done using HTTP or high performance gRPC protocol.
+Implementation of microservice architecture with inter-service communication abstracted from consumer as much as possible. Communication can be done using HTTP or high performance gRPC protocol.
 
-gRPC support is not tested beyond simple implementation of it, so it is like 'alpha' version.
+gRPC support is not tested beyond simple implementation of it, so it is like 'beta' version.
 
 The project is based on .NET 6.0
 
