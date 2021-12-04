@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.SDK", "core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost", "core\development\Unicorn.Core.Development.ServiceHost\Unicorn.Core.Development.ServiceHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ClientHost", "core\development\Unicorn.Core.Development.ClientHost\Unicorn.Core.Development.ClientHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc", "core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj", "{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}"
 EndProject
@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{3E969805-7B74-4446-A42C-0DE247DFE254}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "development", "pocs", "{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "development", "development", "{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{866ADDC4-EC72-4AA9-9B6B-E1D014B1A334}"
 EndProject
@@ -37,6 +37,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost.SDK", "core\development\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj", "{F55EF461-4A94-4EC1-85F7-02B926DD1736}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Core.Development.ServiceHost", "core\development\Unicorn.Core.Development.ServiceHost\Unicorn.Core.Development.ServiceHost.csproj", "{A332A17E-63D6-4D20-9D17-FCCC94096E52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common", "core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.csproj", "{46B3C464-9A37-48F2-A4F5-DAC48DA02391}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +86,18 @@ Global
 		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F55EF461-4A94-4EC1-85F7-02B926DD1736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F55EF461-4A94-4EC1-85F7-02B926DD1736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F55EF461-4A94-4EC1-85F7-02B926DD1736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F55EF461-4A94-4EC1-85F7-02B926DD1736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A332A17E-63D6-4D20-9D17-FCCC94096E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A332A17E-63D6-4D20-9D17-FCCC94096E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A332A17E-63D6-4D20-9D17-FCCC94096E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A332A17E-63D6-4D20-9D17-FCCC94096E52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46B3C464-9A37-48F2-A4F5-DAC48DA02391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B3C464-9A37-48F2-A4F5-DAC48DA02391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B3C464-9A37-48F2-A4F5-DAC48DA02391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B3C464-9A37-48F2-A4F5-DAC48DA02391}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +116,9 @@ Global
 		{3E969805-7B74-4446-A42C-0DE247DFE254} = {A82D8891-2318-496F-8864-3B58CCCCF2EE}
 		{FAD03742-AD9A-4094-B75A-2B73D0D6EAFC} = {A82D8891-2318-496F-8864-3B58CCCCF2EE}
 		{9D47E5BD-EC71-44B9-9E87-66CFCCF707D1} = {3E969805-7B74-4446-A42C-0DE247DFE254}
+		{F55EF461-4A94-4EC1-85F7-02B926DD1736} = {FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}
+		{A332A17E-63D6-4D20-9D17-FCCC94096E52} = {FAD03742-AD9A-4094-B75A-2B73D0D6EAFC}
+		{46B3C464-9A37-48F2-A4F5-DAC48DA02391} = {5F9F2557-3B49-4383-B6FD-4F37DB19D665}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F75022-EF87-4855-AFF0-0078123AAE2A}

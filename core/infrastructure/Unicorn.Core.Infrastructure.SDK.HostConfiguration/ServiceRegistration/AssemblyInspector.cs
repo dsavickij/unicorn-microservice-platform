@@ -6,9 +6,10 @@ namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration;
 
 internal static class AssemblyInspector
 {
-    public static IEnumerable<string> GetInterfaceNamesWithAttribute<TType>()
+    public static IEnumerable<string> GetInterfaceNamesWithAttribute<TAttribute>()
+        where TAttribute : Attribute
     {
-        var attributeName = typeof(TType).AssemblyQualifiedName;
+        var attributeName = typeof(TAttribute).AssemblyQualifiedName;
         var interfaceNames = new List<string>();
 
         using var ctx = GetMedataLoadContext();

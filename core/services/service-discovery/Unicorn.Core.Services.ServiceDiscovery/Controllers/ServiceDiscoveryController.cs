@@ -40,6 +40,11 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
            {
                 Name = Constants.ServiceName,
                 BaseUrl = "http://localhost:5081"
+           },
+           new HttpServiceConfiguration
+           {
+                Name = "Development.HttpService",
+                BaseUrl = "http://localhost:5287"
            }
         };
 

@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Playground.Core.ProofOfConcepts.TestingHost/Playground.Core.ProofOfConcepts.TestingHost.csproj", "Playground.Core.ProofOfConcepts.TestingHost/"]
-RUN dotnet restore "Playground.Core.ProofOfConcepts.TestingHost/Playground.Core.ProofOfConcepts.TestingHost.csproj"
+COPY ["core/development/Unicorn.Core.Development.ServiceHost/Unicorn.Core.Development.ServiceHost.csproj", "core/development/Unicorn.Core.Development.ServiceHost/"]
+RUN dotnet restore "core/development/Unicorn.Core.Development.ServiceHost/Unicorn.Core.Development.ServiceHost.csproj"
 COPY . .
-WORKDIR "/src/Playground.Core.ProofOfConcepts.TestingHost"
-RUN dotnet build "Playground.Core.ProofOfConcepts.TestingHost.csproj" -c Release -o /app/build
+WORKDIR "/src/core/development/Unicorn.Core.Development.ServiceHost"
+RUN dotnet build "Unicorn.Core.Development.ServiceHost.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Playground.Core.ProofOfConcepts.TestingHost.csproj" -c Release -o /app/publish
+RUN dotnet publish "Unicorn.Core.Development.ServiceHost.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Playground.Core.ProofOfConcepts.TestingHost.dll"]
+ENTRYPOINT ["dotnet", "Unicorn.Core.Development.ServiceHost.dll"]

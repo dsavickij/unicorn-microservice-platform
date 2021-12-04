@@ -29,6 +29,7 @@
 
 
 	<ItemGroup>
+		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj" />
 	</ItemGroup>

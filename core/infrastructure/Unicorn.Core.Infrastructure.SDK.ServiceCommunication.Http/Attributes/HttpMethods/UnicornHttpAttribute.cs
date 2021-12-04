@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
+﻿namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.HttpMethods;
 
 [AttributeUsage(AttributeTargets.Method)]
 public abstract class UnicornHttpAttribute : Attribute

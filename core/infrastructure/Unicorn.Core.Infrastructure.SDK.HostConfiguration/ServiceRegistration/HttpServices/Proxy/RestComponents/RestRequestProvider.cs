@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using RestSharp;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.HttpMethods;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.ParameterBindings;
 
 namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
@@ -16,51 +19,64 @@ internal class RestRequestProvider : IRestRequestProvider
         var request = GetBaseRequest(httpServiceMethod);
 
         AddUrlSegmentParametersToRequestIfNeeded(request, httpServiceMethod, methodArguments);
-        AddQueryParametersToRequestIfNeeded(request, httpServiceMethod, methodArguments);
-        AddJsonBodyToRequestIfNeeded(request, httpServiceMethod, methodArguments);
+        AddQueryStringParametersToRequestIfNeeded(request, httpServiceMethod, methodArguments);
 
-        // TODO: need to add ability to send files in request
+        AddJsonBodyToRequestIfNeeded(request, httpServiceMethod, methodArguments);
+        AddFileIfNeeded(request, httpServiceMethod, methodArguments);
 
         return request;
+    }
+
+    private void AddFileIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    {
+        if (GetHttpMethodType(httpServiceMethod) is Method.POST && methodArguments.Any(x => x is IFormFile))
+        {
+            foreach (var file in methodArguments.Where(x => x is IFormFile).Cast<IFormFile>())
+            {
+                request.AddFile(file.Name, file.CopyTo, file.FileName, file.Length);
+            }
+
+            request.AlwaysMultipartFormData = true;
+        }
     }
 
     private void AddJsonBodyToRequestIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
         if (GetHttpMethodType(httpServiceMethod) is Method.POST or Method.PUT)
         {
-            // TODO: check if only one body argument can be passed to endpoint and remove foreach if needed
-            foreach (var p in GetNonUrlSegmentParameters(httpServiceMethod))
+            foreach (var p in GetBodyMethodParameters(httpServiceMethod))
             {
                 request.AddJsonBody(methodArguments[p.Position]);
             }
         }
     }
 
-    private void AddQueryParametersToRequestIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    private IEnumerable<ParameterInfo> GetBodyMethodParameters(MethodInfo httpServiceMethod)
     {
-        if (GetHttpMethodType(httpServiceMethod) is not Method.POST or Method.PUT)
+        return httpServiceMethod.GetParameters()
+            .Except(GetUrlSegmentMethodParameters(httpServiceMethod))
+            .Except(GetQueryStringMethodParameters(httpServiceMethod))
+            .Where(x => x.CustomAttributes.Any(ca => ca.AttributeType == typeof(UnicornFromBodyAttribute)));
+    }
+
+    // http://example.com?clientId=123 - clientId=123 is query parameter
+    private void AddQueryStringParametersToRequestIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    {
+        foreach (var p in GetQueryStringMethodParameters(httpServiceMethod))
         {
-            foreach (var p in GetNonUrlSegmentParameters(httpServiceMethod))
+            if (methodArguments[p.Position].ToString() is string s)
             {
-                if (methodArguments[p.Position].ToString() is string s)
-                {
-                    request.AddQueryParameter(p.Name!, s);
-                }
-                else
-                {
-                    throw new ArgumentException($"Argument of type '{methodArguments[p.Position].GetType().FullName}'" +
-                        $"is not a string");
-                }
+                request.AddParameter(p.Name!, s, ParameterType.QueryString);
+            }
+            else
+            {
+                throw new ArgumentException($"Argument of type '{methodArguments[p.Position].GetType().FullName}'" +
+                    $"is not a string");
             }
         }
     }
 
-    private IEnumerable<ParameterInfo> GetNonUrlSegmentParameters(MethodInfo httpServiceMethod)
-    {
-        var urlSegmentParams = GetUrlSegmentMethodParameters(httpServiceMethod);
-        return httpServiceMethod.GetParameters().Except(urlSegmentParams);
-    }
-
+    // http://example.com/clients/{clientId} - {clientId} is url segment
     private void AddUrlSegmentParametersToRequestIfNeeded(
         IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
@@ -107,6 +123,16 @@ internal class RestRequestProvider : IRestRequestProvider
         }
 
         return urlSegmentParams;
+    }
+
+    private IEnumerable<ParameterInfo> GetQueryStringMethodParameters(MethodInfo httpServiceMethod)
+    {
+        return httpServiceMethod
+            .GetParameters()
+            .Except(GetUrlSegmentMethodParameters(httpServiceMethod))
+            .Where(x => x.CustomAttributes.All(
+                ca => ca.AttributeType != typeof(UnicornFromBodyAttribute)))
+            .Where(x => x.ParameterType != typeof(IFormFile));
     }
 
     private string GetHttpMethodPathTemplate(MethodInfo method)

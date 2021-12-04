@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.csproj" />
+    <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj" />
+  </ItemGroup>
+
+</Project>

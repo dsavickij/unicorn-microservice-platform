@@ -1,87 +1,50 @@
 using Microsoft.AspNetCore.Mvc;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
-using Unicorn.Core.Services.ServiceDiscovery.SDK;
-using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
+using Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+public class WeatherForecastController : ControllerBase, IDevelopmentHttpService
 {
+    private static readonly string[] Summaries = new[]
+    {
+        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    };
+
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly IServiceDiscoveryService _svcDiscoveryService;
-    private readonly IMyGrpcServiceClient _client;
 
-    public WeatherForecastController(IServiceDiscoveryService serviceDiscoveryService, IMyGrpcServiceClient greeterProtoClient)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger)
     {
-        _svcDiscoveryService = serviceDiscoveryService;
-        _client = greeterProtoClient;
+        _logger = logger;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public async Task<HttpServiceConfiguration> Get()
+    [HttpGet("GetWeatherForecast")]
+    public IEnumerable<WeatherForecast> Get()
     {
-        //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //{
-        //    Date = DateTime.Now.AddDays(index),
-        //    TemperatureC = Random.Shared.Next(-20, 55),
-        //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //})
-        //.ToArray();
-
-        var r = await _client.MyAsyncEndpointAsync();
-
-        //var result = await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ccccc");
-
-        ////var result = await _svcDiscoveryService
-        ////    .CreateHttpServiceConfiguration("test", new HttpServiceConfiguration { Name = "CreateHttpServiceConfiguration" });
-
-        ////var result = await _svcDiscoveryService
-        ////    .UpdateHttpServiceConfiguration("newName", new HttpServiceConfiguration { Name = "test" });
-
-        //return result;
-
-        //await _svcDiscoveryService.DeleteHttpServiceConfiguration("test");
-
-        return new HttpServiceConfiguration();
-
-    }
-
-    [HttpGet("GetWeatherForecast/{name}")]
-    public async Task<HttpServiceConfiguration> GetName(string name)
-    {
-        //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //{
-        //    Date = DateTime.Now.AddDays(index),
-        //    TemperatureC = Random.Shared.Next(-20, 55),
-        //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //})
-        //.ToArray();
-
-        return await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ddd");
-    }
-
-    [UnicornGrpcClientMarker]
-    public interface IMyGrpcServiceClient
-    {
-        Task<string> MyAsyncEndpointAsync();
-    }
-
-    public class MyGrpcServiceClient : BaseGrpcClient, IMyGrpcServiceClient
-    {
-        public MyGrpcServiceClient(IGrpcClientFactory factory) : base(factory)
+        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
-        }
+            Date = DateTime.Now.AddDays(index),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+        })
+        .ToArray();
+    }
 
-        protected override string GrpcServiceName => nameof(MyGrpcServiceClient);
+    [HttpPost("Uploadfile/{txt}")]
+    public Task<int> UploadFileAsync(string txt, string second, IFormFile file)
+    {
+        var ms = new MemoryStream();
+        file.CopyTo(ms);
 
-        public async Task<string> MyAsyncEndpointAsync()
-        {
-            var r = await Factory.CallAsync<string>(GrpcServiceName, null);
+        return Task.FromResult(1);
+    }
 
-            return "";
-        }
+    [HttpPost("Uploadfile2/{txt}")]
+    public Task<int> UploadFileAsync2(string txt, [FromBody] string second)
+    {
+
+        return Task.FromResult(1);
     }
 }
