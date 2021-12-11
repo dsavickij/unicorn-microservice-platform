@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
 using Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
+using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
@@ -12,98 +12,51 @@ namespace Unicorn.Core.Development.ServiceHost.Controllers;
 public class WeatherForecastController : ControllerBase
 {
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly IMyGrpcServiceClient _myGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
     private readonly IDevelopmentHttpService _developmentServiceHost;
-    private readonly IMyGrpcServiceClient _client;
+    private readonly IAuthenticationScope _scopeProvider;
 
     public WeatherForecastController(
         IServiceDiscoveryService serviceDiscoveryService, 
-        IMyGrpcServiceClient greeterProtoClient,
-        IDevelopmentHttpService developmentServiceHost)
+        IMyGrpcServiceClient myGrpcServiceClient,
+        IDevelopmentHttpService developmentServiceHost,
+        IAuthenticationScope scopeProvider)
     {
+        _myGrpcSvcClient = myGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
         _developmentServiceHost = developmentServiceHost;
-        _client = greeterProtoClient;
+        _scopeProvider = scopeProvider;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<HttpServiceConfiguration> Get()
     {
-        //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //{
-        //    Date = DateTime.Now.AddDays(index),
-        //    TemperatureC = Random.Shared.Next(-20, 55),
-        //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //})
-        //.ToArray();
+        using var scope = _scopeProvider.EnterServiceUserScope();
 
-        var r = await _client.MyAsyncEndpointAsync();
+        var r = await _myGrpcSvcClient.Multiply(5, 6);
 
-        //var result = await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ccccc");
+        //var name2 = await _developmentServiceHost.GetNameAsync("dsdsds");
 
-        ////var result = await _svcDiscoveryService
-        ////    .CreateHttpServiceConfiguration("test", new HttpServiceConfiguration { Name = "CreateHttpServiceConfiguration" });
+        //var name = await _developmentServiceHost.GetNameAsync();
 
-        ////var result = await _svcDiscoveryService
-        ////    .UpdateHttpServiceConfiguration("newName", new HttpServiceConfiguration { Name = "test" });
-
-        //return result;
-
-        //await _svcDiscoveryService.DeleteHttpServiceConfiguration("test");
-
-        return new HttpServiceConfiguration();
+        return new HttpServiceConfiguration { Name = r.ToString() };
 
     }
 
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
-        //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //{
-        //    Date = DateTime.Now.AddDays(index),
-        //    TemperatureC = Random.Shared.Next(-20, 55),
-        //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //})
-        //.ToArray();
-
         return await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ddd");
     }
 
     [HttpPut("UploadFile")]
     public async Task UploadFileAsync(IFormFile file)
     {
-        //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //{
-        //    Date = DateTime.Now.AddDays(index),
-        //    TemperatureC = Random.Shared.Next(-20, 55),
-        //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //})
-        //.ToArray();
+        var r1 = await _developmentServiceHost.UploadFileAsync2("dsds", "ssss");
 
-        await _developmentServiceHost.UploadFileAsync2("dsds", "ssss");
+        var r2 = await _developmentServiceHost.UploadFileAsync("dd", "s", file);
 
-        await _developmentServiceHost.UploadFileAsync("dd", "s", file);
-    }
-
-    [UnicornGrpcClientMarker]
-    public interface IMyGrpcServiceClient
-    {
-        Task<string> MyAsyncEndpointAsync();
-    }
-
-    public class MyGrpcServiceClient : BaseGrpcClient, IMyGrpcServiceClient
-    {
-        public MyGrpcServiceClient(IGrpcClientFactory factory) : base(factory)
-        {
-        }
-
-        protected override string GrpcServiceName => nameof(MyGrpcServiceClient);
-
-        public async Task<string> MyAsyncEndpointAsync()
-        {
-            var r = await Factory.CallAsync<string>(GrpcServiceName, null);
-
-            return "";
-        }
+        return;
     }
 }

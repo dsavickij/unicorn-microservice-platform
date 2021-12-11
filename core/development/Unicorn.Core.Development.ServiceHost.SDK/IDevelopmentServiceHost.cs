@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.ParameterAttributes;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.HttpMethods;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.ParameterBindings;
 
 [assembly: UnicornAssemblyServiceName("Development.HttpService")]
 
@@ -11,6 +10,12 @@ namespace Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
 [UnicornHttpServiceMarker]
 public interface IDevelopmentHttpService
 {
+    [UnicornHttpGet("GetName")]
+    Task<string> GetNameAsync();
+
+    [UnicornHttpGet("GetName/{name}")]
+    Task<string> GetNameAsync(string name);
+
     [UnicornHttpPost("Uploadfile/{txt}")]
     Task<int> UploadFileAsync(string txt, string second, IFormFile file);
 

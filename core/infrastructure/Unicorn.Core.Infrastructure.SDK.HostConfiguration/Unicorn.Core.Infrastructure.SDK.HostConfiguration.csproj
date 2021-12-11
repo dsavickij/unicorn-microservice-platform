@@ -14,6 +14,9 @@
 		<PackageReference Include="RestSharp" Version="106.13.0" />
 		<PackageReference Include="RestSharp.Serializers.SystemTextJson" Version="106.13.0" />
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="6.0.0" />
+		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
+		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,7 +24,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.32.0.39516">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.33.0.40503">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -29,9 +32,9 @@
 
 
 	<ItemGroup>
-		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj" />
+		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

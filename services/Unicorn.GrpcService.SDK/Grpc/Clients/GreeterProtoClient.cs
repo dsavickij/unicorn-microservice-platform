@@ -17,7 +17,7 @@ public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
 
     protected override string GrpcServiceName => "GreeterProtoService";
 
-    public GreeterProtoClient(IGrpcClientFactory factory)
+    public GreeterProtoClient(IGrpcServiceClientFactory factory)
         : base(factory)
     {
     }

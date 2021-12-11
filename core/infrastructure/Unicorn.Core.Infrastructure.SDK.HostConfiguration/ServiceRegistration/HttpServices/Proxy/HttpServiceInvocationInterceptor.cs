@@ -22,8 +22,6 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
     {
         var returnType = invocation.Method.ReturnType;
 
-        // TODO: check for return type: if task, check if it is not faulted, log/throw exception
-
         if (returnType.BaseType == _taskType)
         {
             ExecuteGenericTaskReturnTypeInvocation(invocation);
@@ -63,11 +61,13 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
 
         var response = await client.ExecuteAsync(request);
 
-        var result = JsonSerializer.Deserialize(
-            response.Content,
-            invocation.Method.ReturnType.GenericTypeArguments.First(),
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        // TODO: add response validation, if statusCode 404, 503 etc.
 
-        invocation.ReturnValue = invocation.Arguments[0] = result;
+        var result = JsonSerializer.Deserialize(
+           response.Content,
+           invocation.Method.ReturnType.GenericTypeArguments.First(),
+           new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        invocation.ReturnValue = result;
     }
 }

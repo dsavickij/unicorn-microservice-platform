@@ -15,18 +15,27 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
     }
 
     [HttpGet("GetGrpcServiceConfiguration/{serviceName}")]
-    public Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName)
+    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName)
     {
         _logger.LogInformation($"Executing GetGrpcServiceConfiguration for {serviceName}");
 
-        const int port = 5080;
-
-        return Task.FromResult(new GrpcServiceConfiguration
+        var services = new[]
         {
-            Name = serviceName,
-            BaseUrl = "http://localhost:5080",
-            Port = port
-        });
+            new GrpcServiceConfiguration
+            {
+                Name = "GreeterProtoService",
+                BaseUrl = "https://localhost:5080",
+                Port = 5080
+            },
+            new GrpcServiceConfiguration
+            {
+                Name = "MyGrpcService",
+                BaseUrl = "https://localhost:7287",
+                Port = 7287
+            },
+        };
+
+        return services.FirstOrDefault(x => x.Name == serviceName) ?? new GrpcServiceConfiguration();
     }
 
     [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
@@ -44,7 +53,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
            new HttpServiceConfiguration
            {
                 Name = "Development.HttpService",
-                BaseUrl = "http://localhost:5287"
+                BaseUrl = "https://localhost:7287"
            }
         };
 

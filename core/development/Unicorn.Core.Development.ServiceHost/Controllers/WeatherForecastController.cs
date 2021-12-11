@@ -1,7 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
@@ -30,6 +29,18 @@ public class WeatherForecastController : ControllerBase, IDevelopmentHttpService
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [HttpGet("GetName")]
+    public Task<string> GetNameAsync()
+    {
+        return Task.FromResult("Dmitrij");
+    }
+
+    [HttpGet("GetName/{name}")]
+    public Task<string> GetNameAsync(string name)
+    {
+        return Task.FromResult(name);
     }
 
     [HttpPost("Uploadfile/{txt}")]

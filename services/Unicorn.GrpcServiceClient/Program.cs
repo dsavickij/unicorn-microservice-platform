@@ -2,7 +2,7 @@ using Unicorn.Core.Infrastructure.SDK.HostConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ApplyUnicornConfiguration();
+// builder.Host.ApplyUnicornConfiguration();
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -80,3 +80,8 @@
 /core/development/Unicorn.Core.Development.ServiceHost.SDK/obj
 /core/infrastructure/Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common/bin/Debug/net6.0
 /core/infrastructure/Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common/obj
+/core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/bin/Debug/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/obj
+/core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/.vscode
+/core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/bin/Debug/net6.0
+/core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/obj

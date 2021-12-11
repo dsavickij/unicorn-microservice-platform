@@ -3,22 +3,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.Contracts;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcClients;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServiceClients;
 
-internal static class GrpcClientRegistrationExtensions
+internal static class GrpcServiceClientRegistrationExtensions
 {
     public static void AddGrpcClients(this IServiceCollection services)
     {
-        services.AddTransient<IGrpcClientFactory, GrpcClientFactory>();
+        services.AddTransient<IGrpcServiceClientFactory, GrpcServiceClientFactory>();
         services.AddSingleton<IGrpcServiceConfigurationProvider, GrpcServiceConfigurationProvider>();
 
-        foreach (var (grpcClientInterface, grpcClientImpl) in GetGrpcServiceRegistrationTypePairs())
+        foreach (var (grpcClientInterface, grpcClientImpl) in GetGrpcServiceClientRegistrationTypePairs())
         {
             services.AddTransient(grpcClientInterface, grpcClientImpl);
         }
     }
 
-    private static IEnumerable<(Type grpcInterface, Type grpcImpl)> GetGrpcServiceRegistrationTypePairs()
+    private static IEnumerable<(Type grpcInterface, Type grpcImpl)> GetGrpcServiceClientRegistrationTypePairs()
     {
         var baseGrpcClientImplName = typeof(BaseGrpcClient).AssemblyQualifiedName;
         var pairs = new List<(Type, Type)>();

@@ -4,9 +4,9 @@ namespace Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc;
 
 public abstract class BaseGrpcClient
 {
-    protected BaseGrpcClient(IGrpcClientFactory factory) => Factory = factory;
+    protected BaseGrpcClient(IGrpcServiceClientFactory factory) => Factory = factory;
 
-    public IGrpcClientFactory Factory { get; }
+    public IGrpcServiceClientFactory Factory { get; }
 
     protected abstract string GrpcServiceName { get; }
 }

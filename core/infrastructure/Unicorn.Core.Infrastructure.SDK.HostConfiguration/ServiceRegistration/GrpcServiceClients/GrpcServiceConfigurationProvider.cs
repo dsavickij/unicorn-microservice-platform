@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcClients;
+namespace Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServiceClients;
 
 internal interface IGrpcServiceConfigurationProvider
 {

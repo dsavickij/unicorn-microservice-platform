@@ -1,8 +1,10 @@
 using Grpc.Core;
 using GrpcService1;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Unicorn.GrpcService.Services;
 
+[Authorize]
 public class GreeterService : Greeter.GreeterBase
 {
     private readonly ILogger<GreeterService> _logger;

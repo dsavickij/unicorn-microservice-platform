@@ -1,5 +1,5 @@
 ﻿using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.MethodAttributes;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.HttpMethods;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 

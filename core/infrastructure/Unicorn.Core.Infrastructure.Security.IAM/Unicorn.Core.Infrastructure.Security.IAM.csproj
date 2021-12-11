@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.GuardClauses" Version="3.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
+		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
+		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.1" />
+	</ItemGroup>
+
+</Project>
