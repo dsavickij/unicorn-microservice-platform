@@ -176,7 +176,7 @@ Possible plans for further learning/development:
 
 * Implement several microservices with vertical slice architecture in mind. Use MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
 * Add unit tests: use FluentAssertions, Autofixture, xUnit
-* Add authentication for inter-service communication. Research: Azure AD, Microsoft Identity
+* ~~Add authentication for inter-service communication. Research: Azure AD, Microsoft Identity~~ Done. Used OpenIddict for implicit and client credentials authentication flows
 * Add Authorization? Investigate
 * Ocelot or YARP for APIM/reverse-proxy/API gateway
 * Something regarding messaging:
