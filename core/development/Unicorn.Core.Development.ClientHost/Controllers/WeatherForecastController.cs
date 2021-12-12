@@ -21,17 +21,25 @@ public class WeatherForecastController : ControllerBase
         IServiceDiscoveryService serviceDiscoveryService, 
         IMyGrpcServiceClient myGrpcServiceClient,
         IDevelopmentHttpService developmentServiceHost,
-        IAuthenticationScope scopeProvider)
+        IAuthenticationScope scopeProvider,
+        ILogger<WeatherForecastController> logger)
     {
         _myGrpcSvcClient = myGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
         _developmentServiceHost = developmentServiceHost;
         _scopeProvider = scopeProvider;
+        _logger = logger;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<HttpServiceConfiguration> Get()
     {
+        _logger.LogTrace($"Executing GetWeatherForecast at {DateTime.UtcNow}");
+        _logger.LogDebug("Debug msg");
+        _logger.LogInformation("Info message");
+        _logger.LogWarning("Warning message");
+        _logger.LogError("Error at 123");
+
         using var scope = _scopeProvider.EnterServiceUserScope();
 
         var r = await _myGrpcSvcClient.Multiply(5, 6);

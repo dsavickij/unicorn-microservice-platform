@@ -68,12 +68,11 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var attributeType = method.CustomAttributes
             .SingleOrDefault(ca => ca.AttributeType == typeof(UnicornHttpGetAttribute))?.AttributeType;
 
-        if (attributeType is null)
+        return attributeType switch
         {
-            throw new ArgumentNullException($"Method '{method.Name}' in interface '{nameof(IServiceDiscoveryService)}' " +
-                $"is not decorated with '{typeof(UnicornHttpGetAttribute).FullName}' attribute");
-        }
-
-        return (method.GetCustomAttribute(attributeType) as UnicornHttpGetAttribute)!.PathTemplate;
+            null => throw new ArgumentNullException($"Method '{method.Name}' in interface '{nameof(IServiceDiscoveryService)}' " +
+                $"is not decorated with '{typeof(UnicornHttpGetAttribute).FullName}' attribute"),
+            _ => (method.GetCustomAttribute(attributeType) as UnicornHttpGetAttribute)!.PathTemplate
+        };
     }
 }

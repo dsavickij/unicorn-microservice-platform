@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Logging;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.GrpcServiceClients;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.ServiceRegistration.HttpServices;
 using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Settings;
@@ -50,13 +50,6 @@ public static class HostConfigurationExtensions
         services.Configure<THostSettings>(ctx.Configuration.GetSection(typeof(THostSettings).Name));
     }
 
-    private static void ConfigureLogging(this ILoggingBuilder builder)
-    {
-        builder.AddConsole();
-        builder.AddDebug();
-        builder.SetMinimumLevel(LogLevel.Trace);
-    }
-
     private static void ConfigureServiceProvider(this ServiceProviderOptions options)
     {
         options.ValidateOnBuild = true;
@@ -65,6 +58,7 @@ public static class HostConfigurationExtensions
 
     private static void ConfigureServices(this IServiceCollection services)
     {
+        services.AddApplicationInsightsTelemetry();
         services.AddHttpServices();
         services.AddGrpcClients();
         services.ConfigureSwagger();
