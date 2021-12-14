@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.Operation;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.HttpMethods;
 using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.ParameterBindings;
@@ -11,16 +12,16 @@ namespace Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
 public interface IDevelopmentHttpService
 {
     [UnicornHttpGet("GetName")]
-    Task<string> GetNameAsync();
+    Task<OperationResult<string>> GetNameAsync();
 
     [UnicornHttpGet("GetName/{name}")]
-    Task<string> GetNameAsync(string name);
+    Task<OperationResult> GetNameAsync(string name);
 
     [UnicornHttpPost("Uploadfile/{txt}")]
-    Task<int> UploadFileAsync(string txt, string second, IFormFile file);
+    Task<OperationResult<int>> UploadFileAsync(string txt, string second, IFormFile file);
 
     [UnicornHttpPost("Uploadfile2/{txt}")]
-    Task<int> UploadFileAsync2(string txt, [UnicornFromBody] string second);
+    Task<OperationResult<int>> UploadFileAsync2(string txt, [UnicornFromBody] string second);
 
     // fromBody cannot be used with IfOrm file, unsupported media type error
     // [UnicornHttpPost("Uploadfile/{txt}")]

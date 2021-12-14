@@ -9,10 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Grpc.Net.Client" Version="2.41.0" />
 	  <PackageReference Include="Google.Protobuf" Version="3.19.1" />
-	  <!--<PackageReference Include="Grpc.Tools" Version="2.42.0">
-		  --><!--<PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>-->
-	  <!--</PackageReference>-->
   </ItemGroup>
 
 	<ItemGroup>
@@ -24,6 +20,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

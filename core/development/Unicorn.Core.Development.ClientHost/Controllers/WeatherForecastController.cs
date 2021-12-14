@@ -40,15 +40,17 @@ public class WeatherForecastController : ControllerBase
         _logger.LogWarning("Warning message");
         _logger.LogError("Error at 123");
 
-        using var scope = _scopeProvider.EnterServiceUserScope();
+        //  using var scope = _scopeProvider.EnterServiceUserScope();
 
-        var r = await _myGrpcSvcClient.Multiply(5, 6);
+        //  var r = await _myGrpcSvcClient.Multiply(5, 6);
 
-        //var name2 = await _developmentServiceHost.GetNameAsync("dsdsds");
+        var name2 = await _developmentServiceHost.GetNameAsync();
 
-        //var name = await _developmentServiceHost.GetNameAsync();
+        // throw new AggregateException(exs);
 
-        return new HttpServiceConfiguration { Name = r.ToString() };
+        //var name = await _developmentServiceHost.GetNameAsync("name");
+
+        return new HttpServiceConfiguration { Name = "fdf" ?? string.Empty };
 
     }
 

@@ -399,7 +399,7 @@
     <Rule Id="S4225" Action="None" />
     <Rule Id="S4226" Action="Error" />
     <Rule Id="S4260" Action="Error" />
-    <Rule Id="S4261" Action="Error" />
+    <Rule Id="S4261" Action="Warning" /> <!--Async method should have postfix 'Async'-->
     <Rule Id="S4275" Action="Warning" />
     <Rule Id="S4277" Action="Error" />
     <Rule Id="S4426" Action="Error" />

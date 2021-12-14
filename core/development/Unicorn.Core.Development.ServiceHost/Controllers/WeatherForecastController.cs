@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
+using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.Operation;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
@@ -32,30 +32,36 @@ public class WeatherForecastController : ControllerBase, IDevelopmentHttpService
     }
 
     [HttpGet("GetName")]
-    public Task<string> GetNameAsync()
+    public Task<OperationResult<string>> GetNameAsync()
     {
-        return Task.FromResult("Dmitrij");
+        return Task.FromResult(new OperationResult<string>(
+            OperationStatusCode.Status407ProxyAuthenticationRequired,
+             new[] { new OperationError(OperationStatusCode.Status102Processing, "Error") }));
+
+        //    return Task.FromResult(new OperationResult<string>(OperationStatusCode.Status203NonAuthoritative, "test"));
     }
 
     [HttpGet("GetName/{name}")]
-    public Task<string> GetNameAsync(string name)
+    public Task<OperationResult> GetNameAsync(string name)
     {
-        return Task.FromResult(name);
+        return Task.FromResult(new OperationResult(
+            OperationStatusCode.Status410Gone, 
+            new OperationError(OperationStatusCode.Status412PreconditionFailed, "Error 2")));
     }
 
     [HttpPost("Uploadfile/{txt}")]
-    public Task<int> UploadFileAsync(string txt, string second, IFormFile file)
+    public Task<OperationResult<int>> UploadFileAsync(string txt, string second, IFormFile file)
     {
         var ms = new MemoryStream();
         file.CopyTo(ms);
 
-        return Task.FromResult(1);
+        return Task.FromResult(new OperationResult<int>(OperationStatusCode.Status200OK, 1));
     }
 
     [HttpPost("Uploadfile2/{txt}")]
-    public Task<int> UploadFileAsync2(string txt, [FromBody] string second)
+    public Task<OperationResult<int>> UploadFileAsync2(string txt, [FromBody] string second)
     {
 
-        return Task.FromResult(1);
+        return Task.FromResult(new OperationResult<int>(OperationStatusCode.Status200OK, 1));
     }
 }

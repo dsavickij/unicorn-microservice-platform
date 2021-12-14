@@ -31,9 +31,11 @@ public static class HostConfigurationExtensions
     {
         if (environment.IsDevelopment())
         {
-            builder.UseSwagger();
-            builder.UseSwaggerUI(UnicornSwaggerSettings.UIOptions);
+            builder.UseDeveloperExceptionPage();
         }
+
+        builder.UseSwagger();
+        builder.UseSwaggerUI(UnicornSwaggerSettings.UIOptions);
 
         builder.UseHttpsRedirection();
         builder.UseAuthentication();

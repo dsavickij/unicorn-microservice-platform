@@ -85,3 +85,13 @@
 /core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/.vscode
 /core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/bin/Debug/net6.0
 /core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/obj
+/core/development/Unicorn.Core.Development.ClientHost/bin/Release/net6.0
+/core/development/Unicorn.Core.Development.ServiceHost/bin/Release/net6.0
+/core/development/Unicorn.Core.Development.ServiceHost.SDK/bin/Release/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.SDK.HostConfiguration/bin/Release/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc/bin/Release/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http/bin/Release/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/bin/Release/net6.0/ref
+/core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/bin/Release/net6.0
+/core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/bin/Release/net6.0
+/core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/bin/Release/net6.0
