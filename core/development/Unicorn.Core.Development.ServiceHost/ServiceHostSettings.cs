@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Infrastructure.SDK.HostConfiguration.Settings;
+﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
 public class ServiceHostSettings : BaseHostSettings
 {

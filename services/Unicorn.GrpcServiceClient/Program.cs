@@ -1,4 +1,4 @@
-using Unicorn.Core.Infrastructure.SDK.HostConfiguration;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 var builder = WebApplication.CreateBuilder(args);
 

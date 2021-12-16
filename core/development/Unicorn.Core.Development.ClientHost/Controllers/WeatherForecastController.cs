@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
-using Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
 using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;

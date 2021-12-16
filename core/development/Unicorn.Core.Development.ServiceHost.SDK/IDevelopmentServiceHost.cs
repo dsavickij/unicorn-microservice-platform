@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.Operation;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.Attributes.ParameterBindings;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
 
 [assembly: UnicornAssemblyServiceName("Development.HttpService")]
 
-namespace Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
+namespace Unicorn.Core.Development.ServiceHost.SDK;
 
 [UnicornHttpServiceMarker]
 public interface IDevelopmentHttpService

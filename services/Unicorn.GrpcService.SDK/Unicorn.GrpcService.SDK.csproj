@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc" Version="1.0.0" />
+		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.Grpc.SDK" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

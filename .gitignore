@@ -95,3 +95,11 @@
 /core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/bin/Release/net6.0
 /core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/bin/Release/net6.0
 /core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/bin/Release/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Common/bin/Debug/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Common/obj
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Grpc.SDK/bin
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Grpc.SDK/obj
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Http.SDK/bin
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Http.SDK/obj
+/core/infrastructure/Unicorn.Core.Infrastructure.HostConfiguration.SDK/bin
+/core/infrastructure/Unicorn.Core.Infrastructure.HostConfiguration.SDK/obj

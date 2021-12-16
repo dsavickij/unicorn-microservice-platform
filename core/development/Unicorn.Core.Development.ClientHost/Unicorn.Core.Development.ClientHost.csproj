@@ -13,8 +13,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.SDK.HostConfiguration\Unicorn.Core.Infrastructure.SDK.HostConfiguration.csproj" />
+	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj" />
 	  <ProjectReference Include="..\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj" />
 	</ItemGroup>
+
 
 </Project>

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Unicorn.Core.Infrastructure.Development.ServiceHost.SDK;
-using Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Common.Operation;
+using Unicorn.Core.Development.ServiceHost.SDK;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
