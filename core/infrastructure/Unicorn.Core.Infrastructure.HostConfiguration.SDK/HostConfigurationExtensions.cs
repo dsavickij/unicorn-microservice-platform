@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -61,6 +62,7 @@ public static class HostConfigurationExtensions
     private static void ConfigureServices(this IServiceCollection services)
     {
         services.AddApplicationInsightsTelemetry();
+        AssemblyInspector.UseHostUnicornAssemblies(assemblies => services.AddMediatR(assemblies));
         services.AddHttpServices();
         services.AddGrpcClients();
         services.ConfigureSwagger();

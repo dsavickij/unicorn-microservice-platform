@@ -23,7 +23,7 @@ internal static class GrpcServiceClientRegistrationExtensions
         var baseGrpcClientImplName = typeof(BaseGrpcClient).AssemblyQualifiedName;
         var pairs = new List<(Type, Type)>();
 
-        foreach (var name in AssemblyInspector.GetInterfaceNamesWithAttribute<UnicornGrpcClientMarkerAttribute>())
+        foreach (var name in AssemblyInspector.GetInterfaceNamesDecoratedWith<UnicornGrpcClientMarkerAttribute>())
         {
             var grpcInterfaceType = Guard.Against.Null(Type.GetType(name, true), name);
 

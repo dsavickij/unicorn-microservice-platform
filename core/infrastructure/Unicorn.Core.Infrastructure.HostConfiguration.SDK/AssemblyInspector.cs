@@ -2,11 +2,11 @@
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 
-namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration;
+namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 internal static class AssemblyInspector
 {
-    public static IEnumerable<string> GetInterfaceNamesWithAttribute<TAttribute>()
+    public static IEnumerable<string> GetInterfaceNamesDecoratedWith<TAttribute>()
         where TAttribute : Attribute
     {
         var attributeName = typeof(TAttribute).AssemblyQualifiedName;
@@ -33,8 +33,26 @@ internal static class AssemblyInspector
         return interfaceNames;
     }
 
-    private static bool IsUnicornAssembly(Assembly assembly) =>
-        assembly.FullName!.Contains("Unicorn", StringComparison.OrdinalIgnoreCase);
+    /// <summary>
+    /// Loads host entry and referenced assemblies to be used in delegate (e.g. to do one-time registration in MediatR)
+    /// </summary>
+    /// <param name="assemblyUtilizer">Delegate to use loaded assemblies</param>
+    public static void UseHostUnicornAssemblies(Action<Assembly[]> assemblyUtilizer)
+    {
+        var referencedAssemblies = Assembly.GetEntryAssembly()!
+            .GetReferencedAssemblies()
+            .Where(x => IsUnicornAssemblyName(x))
+            .Select(x => Assembly.Load(x));
+
+        var allAssemblies = new List<Assembly>(referencedAssemblies) { Assembly.GetEntryAssembly()! }.ToArray();
+
+        assemblyUtilizer(allAssemblies);
+    }
+
+    private static bool IsUnicornAssembly(Assembly assembly) => IsUnicornAssemblyName(assembly.GetName());
+
+    private static bool IsUnicornAssemblyName(AssemblyName assemblyName) =>
+        assemblyName.Name!.Contains("Unicorn", StringComparison.OrdinalIgnoreCase);
 
     private static IEnumerable<string> GetAssemblyFilesFromCurrentDirectory()
     {
