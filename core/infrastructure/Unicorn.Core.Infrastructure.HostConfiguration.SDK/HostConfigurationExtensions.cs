@@ -1,10 +1,11 @@
 ﻿using Ardalis.GuardClauses;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Logging;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Middlewares;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.GrpcServiceClients;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
@@ -43,6 +44,7 @@ public static class HostConfigurationExtensions
         builder.UseAuthorization();
 
         builder.UseUnicornOperationContext();
+        builder.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
         return builder;
     }
@@ -62,7 +64,7 @@ public static class HostConfigurationExtensions
     private static void ConfigureServices(this IServiceCollection services)
     {
         services.AddApplicationInsightsTelemetry();
-        AssemblyInspector.UseHostUnicornAssemblies(assemblies => services.AddMediatR(assemblies));
+        services.AddMediatorComponents();
         services.AddHttpServices();
         services.AddGrpcClients();
         services.ConfigureSwagger();

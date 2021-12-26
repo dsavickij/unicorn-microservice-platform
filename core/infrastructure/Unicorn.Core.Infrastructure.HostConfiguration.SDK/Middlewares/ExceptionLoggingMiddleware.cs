@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.Middlewares;
@@ -20,7 +21,7 @@ internal class ExceptionLoggingMiddleware
         {
             await _next(context);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not ValidationException)
         {
             var msg = GetErrorMessage(ex);
             _logger.LogError(ex, message: msg, Array.Empty<object>());

@@ -5,4 +5,5 @@ namespace Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfigurati
 
 public record GetHttpServiceConfigurationRequest : IRequest<HttpServiceConfiguration>
 {
+    public string ServiceName { get; set; } = string.Empty;
 }
