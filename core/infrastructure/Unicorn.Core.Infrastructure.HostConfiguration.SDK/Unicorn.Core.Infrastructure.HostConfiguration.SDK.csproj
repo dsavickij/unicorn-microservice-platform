@@ -9,16 +9,15 @@
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="10.3.6" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
-		<PackageReference Include="MediatR" Version="9.0.0" />
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="MediatR" Version="10.0.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="Ardalis.GuardClauses" Version="3.3.0" />
 		<PackageReference Include="Castle.Core" Version="4.4.1" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.19.0" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
 		<PackageReference Include="Unicorn.Core.Services.ServiceDiscovery.SDK" Version="1.0.0" />
-		<PackageReference Include="RestSharp" Version="106.13.0" />
-		<PackageReference Include="RestSharp.Serializers.SystemTextJson" Version="106.13.0" />
+		<PackageReference Include="RestSharp" Version="107.0.1" />
 		<PackageReference Include="System.Reflection.MetadataLoadContext" Version="6.0.0" />
 		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
 		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.1" />

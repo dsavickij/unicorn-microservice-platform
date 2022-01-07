@@ -34,10 +34,12 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
 
     private async Task ExecuteTaskReturnTypeInvocationAsync(IInvocation invocation)
     {
-        var client = await _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
-        var request = _restComponentProvider.GetRestRequest(invocation.Method, invocation.Arguments);
+        var client = _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
+        var request = _restComponentProvider.GetRestRequestAsync(invocation.Method, invocation.Arguments);
 
-        await client.ExecuteAsync(request);
+        await Task.WhenAll(client, request);
+
+        await client.Result.ExecuteAsync(request.Result);
     }
 
     private void ExecuteGenericTaskReturnTypeInvocation(IInvocation invocation)
@@ -56,15 +58,17 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
 
     private async Task ExecuteGenericTaskReturnTypeInvocationAsync(IInvocation invocation)
     {
-        var client = await _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
-        var request = _restComponentProvider.GetRestRequest(invocation.Method, invocation.Arguments);
+        var client = _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
+        var request = _restComponentProvider.GetRestRequestAsync(invocation.Method, invocation.Arguments);
 
-        var response = await client.ExecuteAsync(request);
+        await Task.WhenAll(client, request);
+
+        var response = await client.Result.ExecuteAsync(request.Result);
 
         // TODO: add response validation, if statusCode 404, 503 etc.
 
         var result = JsonSerializer.Deserialize(
-           response.Content,
+           response.Content!,
            invocation.Method.ReturnType.GenericTypeArguments.First(),
            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 

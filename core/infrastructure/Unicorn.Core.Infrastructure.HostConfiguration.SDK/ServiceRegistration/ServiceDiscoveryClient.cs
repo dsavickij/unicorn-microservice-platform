@@ -46,11 +46,11 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         return await _client.GetAsync<HttpServiceConfiguration>(request);
     }
 
-    private IRestRequest GetRequest(string methodName, string serviceName)
+    private RestRequest GetRequest(string methodName, string serviceName)
     {
         var method = typeof(IServiceDiscoveryService).GetMethod(methodName)!;
         var path = GetPathTemplate(method);
-        var req = new RestRequest(path, Method.GET, DataFormat.Json);
+        var req = new RestRequest(path, Method.Get);
 
         foreach (var p in method.GetParameters())
         {

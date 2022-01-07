@@ -19,9 +19,9 @@ internal class RestComponentProvider : IRestComponentProvider
         _requestProvider = restRequestProvider;
     }
 
-    public async Task<IRestClient> GetRestClientAsync(Type httpServiceInterface) =>
+    public async Task<RestClient> GetRestClientAsync(Type httpServiceInterface) =>
         await _clientProvider.GetRestClientAsync(httpServiceInterface);
 
-    public IRestRequest GetRestRequest(MethodInfo httpServiceMethod, IList<object> methodArguments) =>
-        _requestProvider.GetRestRequest(httpServiceMethod, methodArguments);
+    public async Task<RestRequest> GetRestRequestAsync(MethodInfo httpServiceMethod, IList<object> methodArguments) =>
+       await _requestProvider.GetRestRequestAsync(httpServiceMethod, methodArguments);
 }

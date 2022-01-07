@@ -1,5 +1,5 @@
 ﻿namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
-public abstract class BaseHostSettings
+public abstract record BaseHostSettings
 {
 }

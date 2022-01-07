@@ -8,12 +8,12 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.
 
 public interface IRestRequestProvider
 {
-    public IRestRequest GetRestRequest(MethodInfo httpServiceMethod, IList<object> methodArguments);
+    Task<RestRequest> GetRestRequestAsync(MethodInfo httpServiceMethod, IList<object> methodArguments);
 }
 
 internal class RestRequestProvider : IRestRequestProvider
 {
-    public IRestRequest GetRestRequest(MethodInfo httpServiceMethod, IList<object> methodArguments)
+    public async Task<RestRequest> GetRestRequestAsync(MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
         var request = GetBaseRequest(httpServiceMethod);
 
@@ -21,27 +21,30 @@ internal class RestRequestProvider : IRestRequestProvider
         AddQueryStringParametersToRequestIfNeeded(request, httpServiceMethod, methodArguments);
 
         AddJsonBodyToRequestIfNeeded(request, httpServiceMethod, methodArguments);
-        AddFileIfNeeded(request, httpServiceMethod, methodArguments);
+        await AddFileIfNeededAsync(request, httpServiceMethod, methodArguments);
 
         return request;
     }
 
-    private void AddFileIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    private async Task AddFileIfNeededAsync(RestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
-        if (GetHttpMethodType(httpServiceMethod) is Method.POST && methodArguments.Any(x => x is IFormFile))
+        if (GetHttpMethodType(httpServiceMethod) is Method.Post && methodArguments.Any(x => x is IFormFile))
         {
             foreach (var file in methodArguments.Where(x => x is IFormFile).Cast<IFormFile>())
             {
-                request.AddFile(file.Name, file.CopyTo, file.FileName, file.Length);
+                var ms = new MemoryStream();
+                await file.CopyToAsync(ms);
+
+                request.AddFile(file.Name, ms.ToArray(), file.FileName);
             }
 
             request.AlwaysMultipartFormData = true;
         }
     }
 
-    private void AddJsonBodyToRequestIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    private void AddJsonBodyToRequestIfNeeded(RestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
-        if (GetHttpMethodType(httpServiceMethod) is Method.POST or Method.PUT)
+        if (GetHttpMethodType(httpServiceMethod) is Method.Post or Method.Put)
         {
             foreach (var p in GetBodyMethodParameters(httpServiceMethod))
             {
@@ -59,7 +62,7 @@ internal class RestRequestProvider : IRestRequestProvider
     }
 
     // http://example.com?clientId=123 - clientId=123 is query parameter
-    private void AddQueryStringParametersToRequestIfNeeded(IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    private void AddQueryStringParametersToRequestIfNeeded(RestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
         foreach (var p in GetQueryStringMethodParameters(httpServiceMethod))
         {
@@ -76,8 +79,7 @@ internal class RestRequestProvider : IRestRequestProvider
     }
 
     // http://example.com/clients/{clientId} - {clientId} is url segment
-    private void AddUrlSegmentParametersToRequestIfNeeded(
-        IRestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
+    private void AddUrlSegmentParametersToRequestIfNeeded(RestRequest request, MethodInfo httpServiceMethod, IList<object> methodArguments)
     {
         var urlSegmentParameters = GetUrlSegmentParameters(httpServiceMethod, methodArguments);
 
@@ -87,12 +89,12 @@ internal class RestRequestProvider : IRestRequestProvider
         }
     }
 
-    private IRestRequest GetBaseRequest(MethodInfo httpServiceMethod)
+    private RestRequest GetBaseRequest(MethodInfo httpServiceMethod)
     {
         var methodType = GetHttpMethodType(httpServiceMethod);
         var pathTemplate = GetHttpMethodPathTemplate(httpServiceMethod);
 
-        return new RestRequest(pathTemplate, methodType, DataFormat.Json);
+        return new RestRequest(pathTemplate, methodType);
     }
 
     private IEnumerable<Parameter> GetUrlSegmentParameters(MethodInfo httpServiceMethod, IList<object> methodArguments)
@@ -101,7 +103,7 @@ internal class RestRequestProvider : IRestRequestProvider
 
         foreach (var p in GetUrlSegmentMethodParameters(httpServiceMethod))
         {
-            var parameter = new Parameter(p.Name!, methodArguments[p.Position], ParameterType.UrlSegment);
+            var parameter = Parameter.CreateParameter(p.Name!, methodArguments[p.Position], ParameterType.UrlSegment);
             urlSegmentParams.Add(parameter);
         }
 
@@ -157,10 +159,10 @@ internal class RestRequestProvider : IRestRequestProvider
         {
             return httpAttributeType switch
             {
-                _ when httpAttributeType == typeof(UnicornHttpGetAttribute) => Method.GET,
-                _ when httpAttributeType == typeof(UnicornHttpPostAttribute) => Method.POST,
-                _ when httpAttributeType == typeof(UnicornHttpPutAttribute) => Method.PUT,
-                _ when httpAttributeType == typeof(UnicornHttpDeleteAttribute) => Method.DELETE,
+                _ when httpAttributeType == typeof(UnicornHttpGetAttribute) => Method.Get,
+                _ when httpAttributeType == typeof(UnicornHttpPostAttribute) => Method.Post,
+                _ when httpAttributeType == typeof(UnicornHttpPutAttribute) => Method.Put,
+                _ when httpAttributeType == typeof(UnicornHttpDeleteAttribute) => Method.Delete,
                 _ => throw new NotSupportedException(httpAttributeType.AssemblyQualifiedName)
             };
         }
