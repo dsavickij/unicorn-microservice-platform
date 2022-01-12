@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
 [ApiController]
-public class WeatherForecastController : ControllerBase, IDevelopmentHttpService
+public class WeatherForecastController : BaseUnicornController, IDevelopmentHttpService
 {
     private static readonly string[] Summaries = new[]
     {

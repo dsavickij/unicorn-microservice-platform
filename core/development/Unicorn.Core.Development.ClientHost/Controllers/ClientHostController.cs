@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
+using Unicorn.Core.Development.ClientHost.Features.OneWayTest;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
@@ -9,7 +11,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
-public class ClientHostController : BaseController
+public class ClientHostController : BaseUnicornController
 { 
     private readonly ILogger<ClientHostController> _logger;
     private readonly IMyGrpcServiceClient _myGrpcSvcClient;
@@ -32,7 +34,8 @@ public class ClientHostController : BaseController
     }
 
     [HttpGet("GetHttpServiceConfiguration")]
-    public async Task<HttpServiceConfiguration> Get() => await SendAsync(new GetHttpServiceConfigurationRequest());
+    public async Task<OperationResult<HttpServiceConfiguration>> Get() => 
+        await SendAsync(new GetHttpServiceConfigurationRequest { ServiceName = "Test" });
 
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
@@ -49,4 +52,7 @@ public class ClientHostController : BaseController
 
         return;
     }
+
+    [HttpGet("OneWayTest")]
+    public async Task GetOneWay() => await SendAsync(new OneWayRequest { MyProperty = 5 });
 }

@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Handlers;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 
-public class GetHttpServiceConfigurationRequestHandler : IRequestHandler<GetHttpServiceConfigurationRequest, HttpServiceConfiguration>
+public class GetHttpServiceConfigurationRequestHandler : BaseHandler<GetHttpServiceConfigurationRequest, HttpServiceConfiguration>
 {
     private readonly ILogger<GetHttpServiceConfigurationRequestHandler> _logger;
 
@@ -11,8 +12,9 @@ public class GetHttpServiceConfigurationRequestHandler : IRequestHandler<GetHttp
     {
         _logger = logger;
     }
-    
-    public Task<HttpServiceConfiguration> Handle(GetHttpServiceConfigurationRequest request, CancellationToken cancellationToken)
+
+    protected override async Task<OperationResult<HttpServiceConfiguration>> HandleAsync(
+        GetHttpServiceConfigurationRequest request, CancellationToken cancellationToken)
     {
         _logger.LogTrace($"Executing GetWeatherForecast at {DateTime.UtcNow}");
         _logger.LogDebug("Debug msg");
@@ -20,6 +22,6 @@ public class GetHttpServiceConfigurationRequestHandler : IRequestHandler<GetHttp
         _logger.LogWarning("Warning message");
         _logger.LogError("Error at 123");
 
-        return Task.FromResult(new HttpServiceConfiguration { Name = "Name", BaseUrl = "Url" });
+        return Ok(new HttpServiceConfiguration { Name = "Name", BaseUrl = "Url" });
     }
 }
