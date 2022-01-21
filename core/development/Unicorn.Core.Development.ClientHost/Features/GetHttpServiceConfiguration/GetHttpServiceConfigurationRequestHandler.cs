@@ -1,4 +1,6 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+﻿using OneOf;
+using OneOf.Types;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Handlers;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
@@ -16,12 +18,32 @@ public class GetHttpServiceConfigurationRequestHandler : BaseHandler<GetHttpServ
     protected override async Task<OperationResult<HttpServiceConfiguration>> HandleAsync(
         GetHttpServiceConfigurationRequest request, CancellationToken cancellationToken)
     {
-        _logger.LogTrace($"Executing GetWeatherForecast at {DateTime.UtcNow}");
-        _logger.LogDebug("Debug msg");
-        _logger.LogInformation("Info message");
-        _logger.LogWarning("Warning message");
-        _logger.LogError("Error at 123");
+        return HandleRequestAsync(request).Match(
+          cfg => Ok(cfg),
+          none => NotFound(),
+          noAuthorization => Forbidden(),
+          dependencyFailure => BadRequest(dependencyFailure.OperationResult.Errors));
+    }
 
-        return Ok(new HttpServiceConfiguration { Name = "Name", BaseUrl = "Url" });
+    private OneOf<HttpServiceConfiguration, None, NoAuthorization, DependencyFailure> HandleRequestAsync(
+        GetHttpServiceConfigurationRequest request)
+    {
+        var services = new[]
+        {
+            new HttpServiceConfiguration { Name = "test" },
+            new HttpServiceConfiguration { Name = "test2" }
+        };
+
+        if (2 == 3)
+        {
+            return new NoAuthorization();
+        }
+
+        var cfg = services.FirstOrDefault(s => s.Name.Equals(request.ServiceName));
+
+        return cfg is null ? new None() : cfg;
     }
 }
+
+public record struct NoAuthorization { }
+public record struct DependencyFailure(OperationResult OperationResult) { }

@@ -17,10 +17,11 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj" />
 	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj" />
+	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Protos\MyGrpcService.proto" GrpcServices="Client">
+		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MyGrpcService.proto" GrpcServices="Client">
 			<Link>Grpc\Protos\MyGrpcService.proto"</Link>
 		</Protobuf>
 	</ItemGroup>

@@ -1,3 +1,4 @@
+using Unicorn.Core.Development.ServiceHost.Controllers;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 var builder = WebApplication.CreateBuilder(args);

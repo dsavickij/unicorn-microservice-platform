@@ -103,3 +103,5 @@
 /core/infrastructure/Unicorn.Core.Infrastructure.Communication.Http.SDK/obj
 /core/infrastructure/Unicorn.Core.Infrastructure.HostConfiguration.SDK/bin
 /core/infrastructure/Unicorn.Core.Infrastructure.HostConfiguration.SDK/obj
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.MessageBroker/bin/Debug/net6.0
+/core/infrastructure/Unicorn.Core.Infrastructure.Communication.MessageBroker/obj

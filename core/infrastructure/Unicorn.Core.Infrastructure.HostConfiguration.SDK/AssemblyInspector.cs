@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Attributes;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
@@ -47,6 +49,31 @@ internal static class AssemblyInspector
         var allAssemblies = new List<Assembly>(referencedAssemblies) { Assembly.GetEntryAssembly()! }.ToArray();
 
         assemblyUtilizer(allAssemblies);
+    }
+
+    public static IEnumerable<Type> GetUnicornControllers()
+    {
+        return Assembly.GetEntryAssembly()!.GetExportedTypes().Where(
+            x => x.BaseType != null &&
+            x.BaseType.IsGenericType &&
+            x.BaseType.GetGenericTypeDefinition() == typeof(UnicornBaseController<>));
+    }
+
+    public static IEnumerable<MethodInfo> GetAllUnicornControllerOneWayMethods()
+    {
+        var m = GetUnicornControllers()
+            .SelectMany(x => x.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
+            .Where(x => x.CustomAttributes.Any(x => x.AttributeType == typeof(NonActionAttribute)));
+
+        return m;
+    }
+
+    public static IEnumerable<MethodInfo> GetAllUnicornHttpServiceOneWayMethods()
+    {
+        return GetUnicornControllers()
+           .SelectMany(x => x.BaseType!.GenericTypeArguments)
+           .SelectMany(x => x.GetMethods())
+           .Where(x => x.CustomAttributes.FirstOrDefault(x => x.AttributeType == typeof(UnicornOneWayAttribute)) is not null);
     }
 
     private static bool IsUnicornAssembly(Assembly assembly) => IsUnicornAssemblyName(assembly.GetName());

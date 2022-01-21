@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 using Unicorn.Core.Development.ClientHost.Features.OneWayTest;
@@ -8,51 +9,64 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
+using static Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostConfigurationExtensions;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
-public class ClientHostController : BaseUnicornController
-{ 
+public interface IClientHostService
+{
+}
+
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
     private readonly ILogger<ClientHostController> _logger;
+    private readonly IBus _bus;
     private readonly IMyGrpcServiceClient _myGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
-    private readonly IDevelopmentHttpService _developmentServiceHost;
+    private readonly IHttpService _developmentServiceHost;
     private readonly IAuthenticationScope _scopeProvider;
 
     public ClientHostController(
-        IServiceDiscoveryService serviceDiscoveryService, 
+        IServiceDiscoveryService serviceDiscoveryService,
         IMyGrpcServiceClient myGrpcServiceClient,
-        IDevelopmentHttpService developmentServiceHost,
+        IHttpService developmentServiceHost,
         IAuthenticationScope scopeProvider,
-        ILogger<ClientHostController> logger)
+        ILogger<ClientHostController> logger,
+        IBus bus)
     {
         _myGrpcSvcClient = myGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
         _developmentServiceHost = developmentServiceHost;
         _scopeProvider = scopeProvider;
         _logger = logger;
+        _bus = bus;
     }
 
     [HttpGet("GetHttpServiceConfiguration")]
-    public async Task<OperationResult<HttpServiceConfiguration>> Get() => 
-        await SendAsync(new GetHttpServiceConfigurationRequest { ServiceName = "Test" });
+    public async Task<OperationResult<HttpServiceConfiguration>> Get() =>
+        await SendAsync(new GetHttpServiceConfigurationRequest { ServiceName = "test" });
 
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
-        return await _svcDiscoveryService.GetHttpServiceConfigurationAsync("ddd");
+        await _developmentServiceHost.SendMessageOneWay(5);
+        await _developmentServiceHost.SendMessageOneWay2();
+
+        return new HttpServiceConfiguration();
+    }
+
+    [HttpPut("UploadFile2")]
+    public async Task<string> UploadFileAsync2(int file)
+    {
+        return "fff";
     }
 
     [HttpPut("UploadFile")]
     public async Task UploadFileAsync(IFormFile file)
     {
-        var r1 = await _developmentServiceHost.UploadFileAsync2("dsds", "ssss");
-
-        var r2 = await _developmentServiceHost.UploadFileAsync("dd", "s", file);
-
         return;
     }
 
     [HttpGet("OneWayTest")]
-    public async Task GetOneWay() => await SendAsync(new OneWayRequest { MyProperty = 5 });
+    public async Task GetOneWay(int number) => await SendAsync(new OneWayRequest { MyProperty = number });
 }
