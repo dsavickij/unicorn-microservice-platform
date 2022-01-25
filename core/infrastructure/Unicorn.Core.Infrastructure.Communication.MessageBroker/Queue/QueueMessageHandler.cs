@@ -4,21 +4,20 @@ using Unicorn.Core.Infrastructure.Communication.MessageBroker.Messages;
 
 namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
 
-public class UnicornOneWayMessageConsumer : IConsumer<UnicornOneWayMessage>
+internal class QueueMessageHandler : IConsumer<UnicornQueueMessage>
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly IOneWayControllerMethodProvider _controllerMethodProvider;
+    private readonly IControllerMethodProvider _methodProvider;
 
-    public UnicornOneWayMessageConsumer(IServiceProvider serviceProvider, IOneWayControllerMethodProvider controllerMethodProvider)
+    public QueueMessageHandler(IServiceProvider serviceProvider, IControllerMethodProvider methodProvider)
     {
         _serviceProvider = serviceProvider;
-        _controllerMethodProvider = controllerMethodProvider;
+        _methodProvider = methodProvider;
     }
 
-    public async Task Consume(ConsumeContext<UnicornOneWayMessage> context)
+    public async Task Consume(ConsumeContext<UnicornQueueMessage> context)
     {
-        var method = _controllerMethodProvider.GetOneWayMethod(context.Message.MethodName, context.Message.Arguments.Count());
-
+        var method = _methodProvider.GetOneWayMethod(context.Message.MethodName, context.Message.Arguments.Count());
         var controlller = _serviceProvider.GetRequiredService(method.DeclaringType!);
 
         var arguments = context.Message.Arguments

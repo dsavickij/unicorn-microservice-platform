@@ -2,8 +2,8 @@
 using System.Text.Json;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.Logging;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Attributes;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Messages;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy;
@@ -12,16 +12,16 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
 {
     private readonly ILogger _logger;
     private readonly Type _taskType = typeof(Task);
-    private readonly IRestComponentProvider _restComponentProvider;
-    private readonly IOneWayMethodInvocationExecutor _oneWayExecutor;
+    private readonly IHttpRequestDispatcher _httpRequestDispatcher;
+    private readonly IQueueMessageDispatcher _queueMessageDispatcher;
 
     public HttpServiceInvocationInterceptor(
-        IRestComponentProvider restComponentProvider,
-        IOneWayMethodInvocationExecutor oneWayMethodInvocationExecutor,
+        IHttpRequestDispatcher httpRequestDispatcher,
+        IQueueMessageDispatcher queueMessageDispatcher,
         ILogger<HttpServiceInvocationInterceptor> logger)
     {
-        _restComponentProvider = restComponentProvider;
-        _oneWayExecutor = oneWayMethodInvocationExecutor;
+        _httpRequestDispatcher = httpRequestDispatcher;
+        _queueMessageDispatcher = queueMessageDispatcher;
         _logger = logger;
     }
 
@@ -29,48 +29,41 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
     {
         if (invocation.Method.ReturnType.BaseType == _taskType)
         {
-            ExecuteGenericTaskReturnTypeInvocation(invocation);
+            ExecuteHttpRequestDispatchAsync(invocation);
         }
         else
         {
             invocation.ReturnValue = invocation.ReturnValue switch
             {
                 _ when invocation.Method.ReturnType == _taskType && IsOneWayMethod(invocation.Method) =>
-                    ExecuteTaskReturnTypeOneWayInvocationAsync(invocation),
+                    ExecuteOneWayMessageDisptachAsync(invocation),
                 _ when invocation.Method.ReturnType == _taskType =>
-                    ExecuteTaskReturnTypeInvocationAsync(invocation)
+                    ExecuteNoResultHttpRequestDispatchAsync(invocation)
             };
         }
     }
 
-    private async Task ExecuteTaskReturnTypeOneWayInvocationAsync(IInvocation invocation)
+    private async Task ExecuteOneWayMessageDisptachAsync(IInvocation invocation)
     {
-        var msg = new UnicornOneWayMessage
+        var msg = new UnicornQueueMessage
         {
             MethodName = invocation.Method.Name,
-            Arguments = invocation.Arguments.Select(x => new Argument
+            Arguments = invocation.Arguments.Select(arg => new Argument
             {
-                TypeName = x.GetType().AssemblyQualifiedName!,
-                Value = x
+                TypeName = arg.GetType().AssemblyQualifiedName!,
+                Value = arg
             })
         };
 
         var queueName = QueueNameFormatter.GetNamespaceBasedName(invocation.Method);
 
-        await _oneWayExecutor.SendToQueueAsync(queueName, msg);
+        await _queueMessageDispatcher.SendAsync(queueName, msg);
     }
 
-    private async Task ExecuteTaskReturnTypeInvocationAsync(IInvocation invocation)
-    {
-        var client = _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
-        var request = _restComponentProvider.GetRestRequestAsync(invocation.Method, invocation.Arguments);
+    private async Task ExecuteNoResultHttpRequestDispatchAsync(IInvocation invocation) =>
+        await _httpRequestDispatcher.SendNoResultHttpRequestAsync(invocation.Method, invocation.Arguments);
 
-        await Task.WhenAll(client, request);
-
-        await client.Result.ExecuteAsync(request.Result);
-    }
-
-    private void ExecuteGenericTaskReturnTypeInvocation(IInvocation invocation)
+    private void ExecuteHttpRequestDispatchAsync(IInvocation invocation)
     {
         var returnType = invocation.Method.ReturnType;
 
@@ -87,22 +80,6 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
     private bool IsOneWayMethod(MethodInfo method) =>
         method.GetCustomAttributes(true).FirstOrDefault(x => x is UnicornOneWayAttribute) is not null;
 
-    private async Task ExecuteGenericTaskReturnTypeInvocationAsync(IInvocation invocation)
-    {
-        var client = _restComponentProvider.GetRestClientAsync(invocation.Method.DeclaringType!);
-        var request = _restComponentProvider.GetRestRequestAsync(invocation.Method, invocation.Arguments);
-
-        await Task.WhenAll(client, request);
-
-        var response = await client.Result.ExecuteAsync(request.Result);
-
-        // TODO: add response validation, if statusCode 404, 503 etc.
-
-        var result = JsonSerializer.Deserialize(
-           response.Content!,
-           invocation.Method.ReturnType.GenericTypeArguments.First(),
-           new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-        invocation.ReturnValue = result;
-    }
+    private async Task ExecuteGenericTaskReturnTypeInvocationAsync(IInvocation invocation) =>
+        invocation.ReturnValue = await _httpRequestDispatcher.SendHttpRequestAsync(invocation.Method, invocation.Arguments);
 }

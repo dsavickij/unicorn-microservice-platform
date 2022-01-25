@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Attributes;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Implementations;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
-internal static class AssemblyInspector
+internal static class AssemblyScanner
 {
     public static IEnumerable<string> GetInterfaceNamesDecoratedWith<TAttribute>()
         where TAttribute : Attribute
@@ -59,21 +60,34 @@ internal static class AssemblyInspector
             x.BaseType.GetGenericTypeDefinition() == typeof(UnicornBaseController<>));
     }
 
-    public static IEnumerable<MethodInfo> GetAllUnicornControllerOneWayMethods()
+    public static IEnumerable<OneWayMethodConfiguration> GetOneWayMethodConfigurations()
     {
-        var m = GetUnicornControllers()
-            .SelectMany(x => x.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
-            .Where(x => x.CustomAttributes.Any(x => x.AttributeType == typeof(NonActionAttribute)));
+        var configurations = new List<OneWayMethodConfiguration>();
 
-        return m;
-    }
+        foreach (var controller in GetUnicornControllers())
+        {
+            var httpServiceInterfaceType = controller.BaseType!.GetGenericArguments()[0];
 
-    public static IEnumerable<MethodInfo> GetAllUnicornHttpServiceOneWayMethods()
-    {
-        return GetUnicornControllers()
-           .SelectMany(x => x.BaseType!.GenericTypeArguments)
-           .SelectMany(x => x.GetMethods())
-           .Where(x => x.CustomAttributes.FirstOrDefault(x => x.AttributeType == typeof(UnicornOneWayAttribute)) is not null);
+            var interfaceMethods = httpServiceInterfaceType
+                .GetMethods()
+                .Where(x => x.CustomAttributes.FirstOrDefault(x => x.AttributeType == typeof(UnicornOneWayAttribute)) is not null);
+
+            foreach (var interfaceMethod in interfaceMethods)
+            {
+                var controllerMethod = controller
+                    .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                    .Where(x => x.CustomAttributes.Any(x => x.AttributeType == typeof(NonActionAttribute)))
+                    .Single(x => x.Name == interfaceMethod.Name && x.GetParameters().Length == interfaceMethod.GetParameters().Length);
+
+                configurations.Add(new OneWayMethodConfiguration
+                {
+                    InterfaceMethod = interfaceMethod,
+                    ControllerMethod = controllerMethod
+                });
+            }
+        }
+
+        return configurations;
     }
 
     private static bool IsUnicornAssembly(Assembly assembly) => IsUnicornAssemblyName(assembly.GetName());
@@ -83,7 +97,7 @@ internal static class AssemblyInspector
 
     private static IEnumerable<string> GetAssemblyFilesFromCurrentDirectory()
     {
-        var path = Path.GetDirectoryName(typeof(AssemblyInspector).Assembly.Location) ?? string.Empty;
+        var path = Path.GetDirectoryName(typeof(AssemblyScanner).Assembly.Location) ?? string.Empty;
         return Directory.GetFiles(path).Where(fileName => fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase));
     }
 
@@ -94,7 +108,7 @@ internal static class AssemblyInspector
         // Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc and
         // Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http
 
-        var currentAssembly = typeof(AssemblyInspector).Assembly;
+        var currentAssembly = typeof(AssemblyScanner).Assembly;
         var coreAssembly = typeof(object).Assembly;
         var httpServiceMarkerAssembly = typeof(UnicornHttpServiceMarkerAttribute).Assembly;
         var grpcClientMarkerAssembly = typeof(UnicornGrpcClientMarkerAttribute).Assembly;

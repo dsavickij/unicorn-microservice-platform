@@ -5,13 +5,13 @@ using Unicorn.Core.Development.ClientHost.Features.OneWayTest;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
-using static Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostConfigurationExtensions;
 
-namespace Unicorn.Core.Development.ServiceHost.Controllers;
+namespace Unicorn.Core.Development.ClientHost.Controllers;
 
 public interface IClientHostService
 {
@@ -21,6 +21,7 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
 {
     private readonly ILogger<ClientHostController> _logger;
     private readonly IBus _bus;
+    private readonly IUnicornEventPublisher _publisher;
     private readonly IMyGrpcServiceClient _myGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
     private readonly IHttpService _developmentServiceHost;
@@ -32,7 +33,8 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
         IHttpService developmentServiceHost,
         IAuthenticationScope scopeProvider,
         ILogger<ClientHostController> logger,
-        IBus bus)
+        IBus bus,
+        IUnicornEventPublisher publisher)
     {
         _myGrpcSvcClient = myGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
@@ -40,6 +42,7 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
         _scopeProvider = scopeProvider;
         _logger = logger;
         _bus = bus;
+        _publisher = publisher;
     }
 
     [HttpGet("GetHttpServiceConfiguration")]
@@ -49,6 +52,8 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
+        await _publisher.Publish(new MyMessage { Number = 5 });
+
         await _developmentServiceHost.SendMessageOneWay(5);
         await _developmentServiceHost.SendMessageOneWay2();
 

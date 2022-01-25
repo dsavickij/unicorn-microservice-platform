@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Attributes;
+namespace Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class UnicornOneWayAttribute : Attribute

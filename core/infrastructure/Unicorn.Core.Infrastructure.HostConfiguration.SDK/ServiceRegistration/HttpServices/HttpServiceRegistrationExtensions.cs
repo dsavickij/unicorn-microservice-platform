@@ -14,7 +14,7 @@ internal static class HttpServiceRegistrationExtensions
         services.AddSingleton<IHttpServiceConfigurationProvider, HttpServiceConfigurationProvider>();
         services.AddTransient<IRestRequestProvider, RestRequestProvider>();
         services.AddTransient<IRestClientProvider, RestClientProvider>();
-        services.AddTransient<IRestComponentProvider, RestComponentProvider>();
+        services.AddTransient<IHttpRequestDispatcher, HttpRequestDispatcher>();
         services.AddTransient<HttpServiceInvocationInterceptor>();
 
         foreach (var type in GetHttpServiceInterfaceTypes())
@@ -31,7 +31,7 @@ internal static class HttpServiceRegistrationExtensions
     {
         var types = new List<Type>();
 
-        foreach (var name in AssemblyInspector.GetInterfaceNamesDecoratedWith<UnicornHttpServiceMarkerAttribute>())
+        foreach (var name in AssemblyScanner.GetInterfaceNamesDecoratedWith<UnicornHttpServiceMarkerAttribute>())
         {
             var interfaceType = Type.GetType(name, true) ?? throw new ArgumentNullException(name);
             types.Add(interfaceType);

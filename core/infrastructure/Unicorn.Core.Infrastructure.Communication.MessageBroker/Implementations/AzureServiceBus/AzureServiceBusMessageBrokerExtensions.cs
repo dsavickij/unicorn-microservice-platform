@@ -18,27 +18,57 @@ public static class AzureServiceBusMessageBrokerExtensions
             RetryLimit = 3
         };
 
-        services.AddMassTransit(x =>
+        services.AddMassTransit(busConfigurator =>
         {
-            x.AddConsumer<UnicornOneWayMessageConsumer>();
-            x.UsingAzureServiceBus((context, configurator) =>
+            busConfigurator.AddConsumer<QueueMessageHandler>();
+            busConfigurator.AddEventConsumers();
+
+            busConfigurator.UsingAzureServiceBus((context, configurator) =>
             {
                 configurator.Host(cfg.ConnectionString);
-                configurator.AddReceiveEndpoints(context, cfg.ReceiveQueueNames);
+                configurator.AddQueueListeners(context, cfg.OneWayMethods.Select(x => QueueNameFormatter.GetNamespaceBasedName(x.InterfaceMethod)));
+                configurator.AddEventListeners(context, cfg.SubscriptionId);
             });
         });
 
         services.AddMassTransitHostedService();
-        services.AddTransient<IOneWayMethodInvocationExecutor, OneWayMethodInvocationExecutor>();
-        services.AddTransient<IOneWayControllerMethodProvider>(_ => new OneWayControllerMethodProvider(cfg.ReceiveMethods));
+        services.AddTransient<IQueueMessageDispatcher, QueueMessageDispatcher>();
+
+        services.AddSingleton<IControllerMethodProvider>(
+            _ => new ControllerMethodProvider(cfg.OneWayMethods.Select(x => x.ControllerMethod)));
+
+        services.AddTransient<IUnicornEventPublisher, UnicornEventPublisher>();
     }
 
-    private static void AddReceiveEndpoints(this IReceiveConfigurator configurator, IBusRegistrationContext context, IEnumerable<string> receiveQueueNames)
+    private static void AddQueueListeners(
+        this IReceiveConfigurator configurator, 
+        IBusRegistrationContext context, 
+        IEnumerable<string> receiveQueueNames)
     {
         //TODO: add validation on UnicornHttpService for one way method name uniqueness
         foreach (var queueName in receiveQueueNames)
         {
-            configurator.ReceiveEndpoint(queueName, c => c.ConfigureConsumer<UnicornOneWayMessageConsumer>(context));
+            configurator.ReceiveEndpoint(queueName, c => c.ConfigureConsumer<QueueMessageHandler>(context));
+        }
+    }
+
+    private static void AddEventListeners(
+        this IReceiveConfigurator configurator, 
+        IBusRegistrationContext context, 
+        Guid subscriptionId)
+    {
+
+        foreach (var handler in AssemblyScanner.GetEventHandlers())
+        {
+            configurator.ReceiveEndpoint(subscriptionId.ToString(), c => c.ConfigureConsumer(context, handler));
+        }
+    }
+
+    private static void AddEventConsumers(this IRegistrationConfigurator configurator)
+    {
+        foreach (var handler in AssemblyScanner.GetEventHandlers())
+        {
+            configurator.AddConsumer(handler);
         }
     }
 }

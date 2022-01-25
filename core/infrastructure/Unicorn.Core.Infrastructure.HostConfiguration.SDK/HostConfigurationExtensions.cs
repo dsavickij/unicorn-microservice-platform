@@ -79,9 +79,8 @@ public static class HostConfigurationExtensions
         services.AddAzureServiceBusMessageBroker(cfg =>
         {
             cfg.ConnectionString = settings.OneWayCommunicationSettings.ConnectionString;
-            cfg.ReceiveQueueNames = AssemblyInspector.GetAllUnicornHttpServiceOneWayMethods().Select(
-                x => QueueNameFormatter.GetNamespaceBasedName(x));
-            cfg.ReceiveMethods = AssemblyInspector.GetAllUnicornControllerOneWayMethods();
+            cfg.SubscriptionId = settings.OneWayCommunicationSettings.SubscriptionId;
+            cfg.OneWayMethods = AssemblyScanner.GetOneWayMethodConfigurations();
         });
     }
 
@@ -96,7 +95,7 @@ public static class HostConfigurationExtensions
 
     private static void RegisterControllers(this IServiceCollection services)
     {
-        foreach (var controller in AssemblyInspector.GetUnicornControllers())
+        foreach (var controller in AssemblyScanner.GetUnicornControllers())
         {
             services.AddTransient(controller);
         }

@@ -5,6 +5,19 @@ namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Implementation
 public record MessageBrokerConfiguration
 {
     public string ConnectionString { get; set; } = string.Empty;
-    public IEnumerable<string> ReceiveQueueNames { get; set; } = Array.Empty<string>();
-    public IEnumerable<MethodInfo> ReceiveMethods { get; set; } = Array.Empty<MethodInfo>();
+    public Guid SubscriptionId { get; set; }
+    public IEnumerable<OneWayMethodConfiguration> OneWayMethods { get; set; } = Array.Empty<OneWayMethodConfiguration>();
+}
+
+public record OneWayMethodConfiguration
+{
+    /// <summary>
+    /// Method in HTTP service interface used to create queue name and start listening to it
+    /// </summary>
+    public MethodInfo? InterfaceMethod { get; set; }
+
+    /// <summary>
+    /// Implementation of method in HTTP service interface used to call after receving a message from queue
+    /// </summary>
+    public MethodInfo? ControllerMethod { get; set; }
 }

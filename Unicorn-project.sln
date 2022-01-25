@@ -50,7 +50,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.Authentication.OpenIddict", "core\services\authentication\Unicorn.Core.Services.Authentication.OpenIddict\Unicorn.Core.Services.Authentication.OpenIddict.csproj", "{8B0FF5AB-E85D-4B28-B820-28F945B87993}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Core.Infrastructure.Communication.MessageBroker", "core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj", "{1EC72C3B-6732-4DEA-9627-9BE84040D243}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.MessageBroker", "core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj", "{1EC72C3B-6732-4DEA-9627-9BE84040D243}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

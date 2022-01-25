@@ -16,7 +16,7 @@ internal static class MediatorRegistrationExtensions
 
     private static void AddValidators(IServiceCollection services)
     {
-        AssemblyInspector.UseHostUnicornAssemblies(assemblies => services.AddValidatorsFromAssemblies(assemblies));
+        AssemblyScanner.UseHostUnicornAssemblies(assemblies => services.AddValidatorsFromAssemblies(assemblies));
     }
 
     private static void AddPipelineBehaviours(IServiceCollection services)
@@ -26,6 +26,6 @@ internal static class MediatorRegistrationExtensions
 
     private static void AddMediatorRequestsAndHandlers(IServiceCollection services)
     {
-        AssemblyInspector.UseHostUnicornAssemblies(assemblies => services.AddMediatR(assemblies));
+        AssemblyScanner.UseHostUnicornAssemblies(assemblies => services.AddMediatR(assemblies));
     }
 }

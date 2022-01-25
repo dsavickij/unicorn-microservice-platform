@@ -1,5 +1,5 @@
 ﻿using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Attributes;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 
 [assembly: UnicornAssemblyServiceName("Development.HttpService")]
 
