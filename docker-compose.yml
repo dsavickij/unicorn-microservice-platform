@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  unicorn.core.development.clienthost:
+    image: ${DOCKER_REGISTRY-}unicorncoredevelopmentclienthost
+    build:
+      context: .
+      dockerfile: core/development/Unicorn.Core.Development.ClientHost/Dockerfile

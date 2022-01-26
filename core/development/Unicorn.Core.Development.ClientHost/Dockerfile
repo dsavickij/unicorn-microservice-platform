@@ -7,16 +7,23 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Playground.Core.ProofOfConcepts.TestingHost/Playground.Core.ProofOfConcepts.TestingHost.csproj", "Playground.Core.ProofOfConcepts.TestingHost/"]
-RUN dotnet restore "Playground.Core.ProofOfConcepts.TestingHost/Playground.Core.ProofOfConcepts.TestingHost.csproj"
+COPY ["core/development/Unicorn.Core.Development.ClientHost/Unicorn.Core.Development.ClientHost.csproj", "core/development/Unicorn.Core.Development.ClientHost/"]
+COPY ["core/infrastructure/Unicorn.Core.Infrastructure.HostConfiguration.SDK/Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj", "core/infrastructure/Unicorn.Core.Infrastructure.HostConfiguration.SDK/"]
+COPY ["core/infrastructure/Unicorn.Core.Infrastructure.Communication.Grpc.SDK/Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj", "core/infrastructure/Unicorn.Core.Infrastructure.Communication.Grpc.SDK/"]
+COPY ["core/infrastructure/Unicorn.Core.Infrastructure.Communication.Common/Unicorn.Core.Infrastructure.Communication.Common.csproj", "core/infrastructure/Unicorn.Core.Infrastructure.Communication.Common/"]
+COPY ["core/infrastructure/Unicorn.Core.Infrastructure.Communication.MessageBroker/Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj", "core/infrastructure/Unicorn.Core.Infrastructure.Communication.MessageBroker/"]
+COPY ["core/infrastructure/Unicorn.Core.Infrastructure.Communication.Http.SDK/Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj", "core/infrastructure/Unicorn.Core.Infrastructure.Communication.Http.SDK/"]
+COPY ["core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/Unicorn.Core.Infrastructure.Security.IAM.csproj", "core/infrastructure/Unicorn.Core.Infrastructure.Security.IAM/"]
+COPY ["core/development/Unicorn.Core.Development.ServiceHost.SDK/Unicorn.Core.Development.ServiceHost.SDK.csproj", "core/development/Unicorn.Core.Development.ServiceHost.SDK/"]
+RUN dotnet restore "core/development/Unicorn.Core.Development.ClientHost/Unicorn.Core.Development.ClientHost.csproj"
 COPY . .
-WORKDIR "/src/Playground.Core.ProofOfConcepts.TestingHost"
-RUN dotnet build "Playground.Core.ProofOfConcepts.TestingHost.csproj" -c Release -o /app/build
+WORKDIR "/src/core/development/Unicorn.Core.Development.ClientHost"
+RUN dotnet build "Unicorn.Core.Development.ClientHost.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Playground.Core.ProofOfConcepts.TestingHost.csproj" -c Release -o /app/publish
+RUN dotnet publish "Unicorn.Core.Development.ClientHost.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Playground.Core.ProofOfConcepts.TestingHost.dll"]
+ENTRYPOINT ["dotnet", "Unicorn.Core.Development.ClientHost.dll"]

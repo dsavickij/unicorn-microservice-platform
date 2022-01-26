@@ -33,7 +33,6 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
         IHttpService developmentServiceHost,
         IAuthenticationScope scopeProvider,
         ILogger<ClientHostController> logger,
-        IBus bus,
         IUnicornEventPublisher publisher)
     {
         _myGrpcSvcClient = myGrpcServiceClient;
@@ -41,7 +40,6 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
         _developmentServiceHost = developmentServiceHost;
         _scopeProvider = scopeProvider;
         _logger = logger;
-        _bus = bus;
         _publisher = publisher;
     }
 

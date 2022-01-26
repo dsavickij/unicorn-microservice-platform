@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
 
-public interface IControllerMethodProvider
+internal interface IControllerMethodProvider
 {
     MethodInfo GetOneWayMethod(string methodName, int numberOfParameters);
 }

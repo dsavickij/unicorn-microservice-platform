@@ -3,7 +3,7 @@ using Unicorn.Core.Infrastructure.Communication.MessageBroker.Messages;
 
 namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
 
-public interface IQueueMessageDispatcher
+internal interface IQueueMessageDispatcher
 {
     Task SendAsync(string methodFullName, UnicornQueueMessage message);
 }

@@ -57,7 +57,6 @@ public static class AzureServiceBusMessageBrokerExtensions
         IBusRegistrationContext context, 
         Guid subscriptionId)
     {
-
         foreach (var handler in AssemblyScanner.GetEventHandlers())
         {
             configurator.ReceiveEndpoint(subscriptionId.ToString(), c => c.ConfigureConsumer(context, handler));
