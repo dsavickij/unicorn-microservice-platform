@@ -108,3 +108,8 @@
 /obj/Docker
 /bin/Debug
 /obj/Debug
+/eShop/Unicorn.eShop.CartService/bin/Debug/net6.0
+/eShop/Unicorn.eShop.CartService/obj
+/eShop/Unicorn.eShop.CartService.SDK/bin/Debug/net6.0
+/eShop/Unicorn.eShop.CartService.SDK/obj/Debug/net6.0
+/eShop/Unicorn.eShop.CartService.SDK/obj

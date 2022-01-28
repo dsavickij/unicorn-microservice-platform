@@ -1,6 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Validation.AspNetCore;
 using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
@@ -10,22 +8,16 @@ namespace Unicorn.Core.Infrastructure.Security.IAM;
 
 public static class AuthenticationConfigurationExtensions
 {
-    public static void ConfigureAuthentication(this IServiceCollection services, Microsoft.Extensions.Hosting.HostBuilderContext ctx)
+    public static void ConfigureAuthentication(this IServiceCollection services, AuthenticationSettings authenticationSettings)
     {
-        services.Configure<AuthenticationSettings>(ctx.Configuration.GetSection(nameof(AuthenticationSettings)));
-
         services.AddTransient<IAuthenticationScope, UnicornAuthenticationScope>();
         services.AddTransient<ITokenManager, TokenManager>();
 
-        services.ConfigureOpenIddct();
+        services.ConfigureOpenIddct(authenticationSettings);
     }
 
-    private static void ConfigureOpenIddct(this IServiceCollection services)
+    private static void ConfigureOpenIddct(this IServiceCollection services, AuthenticationSettings authenticationSettings)
     {
-        var cfg = Guard.Against.Null(
-            services.BuildServiceProvider().GetRequiredService<IOptions<AuthenticationSettings>>(),
-            nameof(AuthenticationSettings)).Value;
-
         services.AddAuthentication(options =>
         {
             options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
@@ -38,7 +30,7 @@ public static class AuthenticationConfigurationExtensions
             {
                 // Note: the validation handler uses OpenID Connect discovery
                 // to retrieve the issuer signing keys used to validate tokens.
-                options.SetIssuer(cfg.AuthorityUrl);
+                options.SetIssuer(authenticationSettings.AuthorityUrl);
 
                 // options.UseIntrospection()
                 //  .SetClientId(cfg.ClientCredentials.ClientId)

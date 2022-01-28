@@ -12,7 +12,7 @@
 		<PackageReference Include="Unicorn.Core.Infrastructure.HostConfiguration.SDK" Version="1.0.0" />
 		<PackageReference Include="RestSharp" Version="107.0.1" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-		<PackageReference Include="Unicorn.GrpcService.SDK" Version="1.0.0" />
+		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.Grpc.SDK" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

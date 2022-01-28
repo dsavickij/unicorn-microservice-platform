@@ -25,6 +25,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Unicorn.GrpcService.SDK\Unicorn.GrpcService.SDK.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<CodeAnalysisRuleSet>..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>

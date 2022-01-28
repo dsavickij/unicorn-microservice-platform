@@ -1,8 +1,14 @@
 version: '3.4'
 
 services:
-  unicorn.core.development.clienthost:
-    image: ${DOCKER_REGISTRY-}unicorncoredevelopmentclienthost
+  cartdb:
+    image: postgres
+
+  unicorn.eshop.cartservice:
+    image: ${DOCKER_REGISTRY-}unicorneshopcartservice
     build:
       context: .
-      dockerfile: core/development/Unicorn.Core.Development.ClientHost/Dockerfile
+      dockerfile: eShop/Unicorn.eShop.CartService/Dockerfile
+
+volumes:
+  postgres_data:
