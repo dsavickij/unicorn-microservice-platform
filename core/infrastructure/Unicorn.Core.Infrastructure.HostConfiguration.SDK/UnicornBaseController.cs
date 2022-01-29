@@ -19,5 +19,8 @@ public abstract class UnicornBaseController<TUnicornHttpServiceInterface> : Cont
     protected async Task<OperationResult<TResponse>> SendAsync<TResponse>(IRequest<OperationResult<TResponse>> request)
         => await Mediator.Send(request);
 
+    protected async Task<OperationResult> SendAsync(IRequest<OperationResult> request)
+        => await Mediator.Send(request);
+
     protected async Task SendAsync(IRequest request) => await Mediator.Send(request);
 }

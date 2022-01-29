@@ -24,6 +24,24 @@ public static class BaseHandler
         }
     }
 
+    public static class WithResult
+    {
+        /// <summary>
+        /// Handler returning result of type TResponse after request execution
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest, OperationResult>
+            where TRequest : IRequest<OperationResult>
+        {
+            public async Task<OperationResult> Handle(TRequest request, CancellationToken cancellationToken)
+            {
+                return await HandleAsync(request, cancellationToken);
+            }
+
+            protected abstract Task<OperationResult> HandleAsync(TRequest request, CancellationToken cancellationToken);
+        }
+    }
+
     public static class WithoutResult
     {
         /// <summary>

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.CartService;
 

@@ -10,6 +10,10 @@ public static class BaseRequest
     {
     }
 
+    public abstract record WithResponse : IRequest<OperationResult>
+    {
+    }
+
     public abstract record WithoutResponse : IRequest
     {
     }

@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Npgsql;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.CartService.SDK.DTOs;
@@ -23,27 +20,16 @@ public class CartController : UnicornBaseController<ICartService>, ICartService
     [HttpPost("api/add-item")]
     public async Task<OperationResult> AddItemAsync([FromBody] CartItemDTO cartItem)
     {
-        return await Mediator.Send(new AddItemRequest { Item = cartItem });
+        return await SendAsync(new AddItemRequest
+        {
+            UserId = new Guid("d4787949-5012-47e0-8082-a5da33e8e1df"),
+            Item = cartItem
+        });
     }
 
     [HttpGet("api/my-cart")]
     public async Task<OperationResult<CartDTO>> GetMyCartAsync()
     {
-        //  using var con = new NpgsqlConnection(_settings.Value.DbConnectionString);
-        //  con.Open();
-
-        //   var sql = "SELECT version()";
-
-        //   using var cmd = new NpgsqlCommand(sql, con);
-
-        //   var version = cmd.ExecuteScalar()!.ToString();
-
-        //  await _ctx.Database.EnsureDeletedAsync();
-        await _ctx.Database.EnsureCreatedAsync();
-
-        await _ctx.Carts.AddAsync(new Cart { Id = Guid.NewGuid(), Name = "text" });
-        await _ctx.SaveChangesAsync(); ;
-
         return await Mediator.Send(new GetMyCartRequest());
     }
 

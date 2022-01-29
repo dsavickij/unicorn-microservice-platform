@@ -8,7 +8,7 @@ namespace Unicorn.eShop.CartService.SDK.DTOs;
 
 public record CartItemDTO
 {
-    public Guid ItemId { get; set; }
+    public Guid CatalogItemId { get; set; }
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }    
 }

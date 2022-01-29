@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.ComponentModel.DataAnnotations.Schema;
+using Unicorn.eShop.CartService.Entities;
 
 namespace Unicorn.eShop.CartService;
 
@@ -9,6 +9,7 @@ public class CartDbContext : DbContext
     private readonly CartHostSettings _settings;
 
     public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
 
     public CartDbContext(IOptions<CartHostSettings> settings)
     {
@@ -19,11 +20,4 @@ public class CartDbContext : DbContext
     {
         optionsBuilder.UseNpgsql(_settings.DbConnectionString);
     }
-}
-
-[Table("Carts")]
-public record Cart
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = "sdsd";
 }
