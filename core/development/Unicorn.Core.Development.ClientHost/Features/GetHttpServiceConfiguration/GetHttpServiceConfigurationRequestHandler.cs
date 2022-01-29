@@ -7,7 +7,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 namespace Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 
 public class GetHttpServiceConfigurationRequestHandler : 
-    BaseHandler.WithResultOf<HttpServiceConfiguration>.AfterExecutionOf<GetHttpServiceConfigurationRequest>
+    BaseHandler.WithResult<HttpServiceConfiguration>.For<GetHttpServiceConfigurationRequest>
 {
     private readonly ILogger<GetHttpServiceConfigurationRequestHandler> _logger;
 

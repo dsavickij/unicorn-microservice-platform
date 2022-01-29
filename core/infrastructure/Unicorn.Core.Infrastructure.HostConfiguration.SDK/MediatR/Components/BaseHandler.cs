@@ -5,14 +5,14 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 public static class BaseHandler
 {
-    public static class WithResultOf<TResponse>
+    public static class WithResult<TResponse>
         where TResponse : class
     {
         /// <summary>
         /// Handler returning result of type TResponse after request execution
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
-        public abstract class AfterExecutionOf<TRequest> : OperationResults<TResponse>, IRequestHandler<TRequest, OperationResult<TResponse>>
+        public abstract class For<TRequest> : OperationResults<TResponse>, IRequestHandler<TRequest, OperationResult<TResponse>>
             where TRequest : IRequest<OperationResult<TResponse>>
         {
             public async Task<OperationResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public static class BaseHandler
         /// <summary>
         /// Handler with no result to return after request execution
         /// </summary>
-        public abstract class AfterExecutionOf<TRequest> : OperationResults, IRequestHandler<TRequest, Unit>
+        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest, Unit>
             where TRequest : IRequest
         {
             public async Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)

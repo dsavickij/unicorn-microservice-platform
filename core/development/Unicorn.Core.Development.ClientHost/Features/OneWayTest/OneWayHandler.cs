@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Development.ClientHost.Features.OneWayTest;
 
-public class OneWayHandler : BaseHandler.WithoutResult.AfterExecutionOf<OneWayRequest>
+public class OneWayHandler : BaseHandler.WithoutResult.For<OneWayRequest>
 {
     protected override async Task HandleAsync(OneWayRequest request, CancellationToken cancellationToken)
     {
