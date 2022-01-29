@@ -1,8 +1,8 @@
-﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Handlers;
+﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 namespace Unicorn.Core.Development.ClientHost.Features.OneWayTest;
 
-public class OneWayHandler : BaseOneWayHandler<OneWayRequest>
+public class OneWayHandler : BaseHandler.WithoutResult.AfterExecutionOf<OneWayRequest>
 {
     protected override async Task HandleAsync(OneWayRequest request, CancellationToken cancellationToken)
     {

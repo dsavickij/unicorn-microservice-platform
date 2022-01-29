@@ -1,6 +1,6 @@
 ﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 
-namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Handlers.Responses;
+namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 public abstract class OperationResults<TResponse> : OperationResults
 {

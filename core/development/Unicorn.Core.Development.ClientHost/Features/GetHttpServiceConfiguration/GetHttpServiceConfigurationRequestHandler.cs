@@ -1,12 +1,13 @@
 ﻿using OneOf;
 using OneOf.Types;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Handlers;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 
-public class GetHttpServiceConfigurationRequestHandler : BaseHandler<GetHttpServiceConfigurationRequest, HttpServiceConfiguration>
+public class GetHttpServiceConfigurationRequestHandler : 
+    BaseHandler.WithResultOf<HttpServiceConfiguration>.AfterExecutionOf<GetHttpServiceConfigurationRequest>
 {
     private readonly ILogger<GetHttpServiceConfigurationRequestHandler> _logger;
 
