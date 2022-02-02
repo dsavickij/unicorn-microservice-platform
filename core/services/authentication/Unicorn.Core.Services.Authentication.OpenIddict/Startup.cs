@@ -75,6 +75,18 @@ public class Startup
             // Register the OpenIddict server components.
             .AddServer(options =>
             {
+                options.Configure(opt =>
+                {
+                    opt.TokenValidationParameters.ValidIssuers = new[]
+                    {
+                        "http://localhost:8001",
+                        "https://localhost:8003",
+                        "https://unicorn.core.services.authentication.openiddict:443",
+                        "https://host.docker.internal:8003",
+                        "https://host.docker.internal:44319",
+                        "https://host.docker.internal"
+                    };
+                });
 
                 options.DisableAccessTokenEncryption();
                 // Enable the authorization, logout, userinfo, and introspection endpoints.
@@ -134,7 +146,7 @@ public class Startup
             {
                 // Import the configuration from the local OpenIddict server instance.
                 options.UseLocalServer();
-
+   
                 // Register the ASP.NET Core host.
                 options.UseAspNetCore();
             });

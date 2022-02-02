@@ -20,6 +20,7 @@ public class Worker : IHostedService
         using var scope = _serviceProvider.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         await context.Database.EnsureCreatedAsync();
 
         await CreateApplicationsAsync();
@@ -42,7 +43,10 @@ public class Worker : IHostedService
                     RedirectUris =
                     {
                         new Uri("https://localhost:44398/signin-oidc"),
-                        new Uri("https://localhost:7001/swagger/oauth2-redirect.html")
+                        new Uri("http://localhost:8000/swagger/oauth2-redirect.html"),
+                        new Uri("https://localhost:8001/swagger/oauth2-redirect.html"),
+                        new Uri("https://localhost:7001/swagger/oauth2-redirect.html"),
+                        new Uri("https://host.docker.internal:8001/swagger/oauth2-redirect.html")
                     },
                     Permissions =
                     {

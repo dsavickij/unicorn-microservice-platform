@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Implementations;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 

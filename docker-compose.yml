@@ -1,14 +1,23 @@
 version: '3.4'
 
 services:
-  cartdb:
-    image: postgres
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
 
-  unicorn.eshop.cartservice:
-    image: ${DOCKER_REGISTRY-}unicorneshopcartservice
-    build:
-      context: .
-      dockerfile: eShop/Unicorn.eShop.CartService/Dockerfile
+    cartdb:
+        image: postgres
+
+    unicorn.eshop.cartservice:
+        image: ${DOCKER_REGISTRY-}unicorneshopcartservice
+        build:
+            context: .
+            dockerfile: eShop/Unicorn.eShop.CartService/Dockerfile
+
+    #unicorn.core.services.authentication.openiddict:
+    #    image: ${DOCKER_REGISTRY-}unicorncoreservicesauthenticationopeniddict
+    #    build:
+    #        context: .
+    #        dockerfile: core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/Dockerfile
 
 volumes:
-  postgres_data:
+    postgres_data:

@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
-using System.Text.Json;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.Logging;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Messages;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue.Message;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy;
 

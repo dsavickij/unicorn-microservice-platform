@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Messages;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue.Message;
 
-namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
+namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
 
 internal class QueueMessageHandler : IConsumer<UnicornQueueMessage>
 {

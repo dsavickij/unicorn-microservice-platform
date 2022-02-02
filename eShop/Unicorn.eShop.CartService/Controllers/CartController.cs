@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
@@ -36,6 +37,6 @@ public class CartController : UnicornBaseController<ICartService>, ICartService
     [HttpDelete("api/remove-item/{itemId}")]
     public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid itemId)
     {
-        return await Mediator.Send(new RemoveItemRequest { ItemId = itemId });
+        return await Mediator.Send(new RemoveItemRequest { CatalogItemId = itemId });
     }
 }

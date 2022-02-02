@@ -31,11 +31,10 @@ public static class AuthenticationConfigurationExtensions
                 // Note: the validation handler uses OpenID Connect discovery
                 // to retrieve the issuer signing keys used to validate tokens.
                 options.SetIssuer(authenticationSettings.AuthorityUrl);
-
                 // options.UseIntrospection()
                 //  .SetClientId(cfg.ClientCredentials.ClientId)
                 //  .SetClientSecret(cfg.ClientCredentials.ClientSecret);
-
+               
                 // Register the encryption credentials. This sample uses a symmetric
                 // encryption key that is shared between the server and the Api2 sample
                 // (that performs local token validation instead of using introspection).

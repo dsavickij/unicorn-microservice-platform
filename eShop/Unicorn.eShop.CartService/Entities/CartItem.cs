@@ -15,5 +15,5 @@ public record CartItem
     [Required]
     public Guid CartId { get; set; }
     public int Quantity { get; set; }
-    public decimal UnitPrice { get; set; }
+    public decimal ItemPrice { get; set; }
 }

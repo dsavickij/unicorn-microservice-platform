@@ -3,6 +3,7 @@
 public record AuthenticationSettings
 {
     public string AuthorityUrl { get; set; } = string.Empty;
+    public string SwaggerAuthorityUrl { get; set; } = string.Empty;
     public ClientCredentials ClientCredentials { get; set; } = new();
 }
 

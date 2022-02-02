@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
+namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
 
 public static class QueueNameFormatter
 {

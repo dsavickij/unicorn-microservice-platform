@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Implementations.AzureServiceBus;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Logging;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Middlewares;
@@ -81,8 +81,9 @@ public static class HostConfigurationExtensions
         services.ConfigureSwagger();
         services.RegisterControllers();
 
-        services.AddAzureServiceBusMessageBroker(cfg =>
+        services.AddMessageBroker(cfg =>
         {
+            cfg.Type = MessageBrokerType.RabbitMq;
             cfg.ConnectionString = HostSettings.OneWayCommunicationSettings.ConnectionString;
             cfg.SubscriptionId = HostSettings.OneWayCommunicationSettings.SubscriptionId;
             cfg.OneWayMethods = AssemblyScanner.GetOneWayMethodConfigurations();
@@ -98,6 +99,8 @@ public static class HostConfigurationExtensions
         services.AddSwaggerGen(UnicornSwaggerSettings.GetSwaggerGenOptions(HostSettings.AuthenticationSettings.AuthorityUrl));
     }
 
+    // By default, controllers are not registered in dependency conainer, but we need them to here to be able
+    // to call on one way methods defined in them
     private static void RegisterControllers(this IServiceCollection services)
     {
         foreach (var controller in AssemblyScanner.GetUnicornControllers())

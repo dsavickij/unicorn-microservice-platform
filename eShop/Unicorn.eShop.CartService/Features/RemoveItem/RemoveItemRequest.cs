@@ -1,9 +1,8 @@
-﻿using MediatR;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 namespace Unicorn.eShop.CartService.Controllers;
 
-public record RemoveItemRequest : IRequest<OperationResult>
+public record RemoveItemRequest : BaseRequest.WithResponse
 {
-    public Guid ItemId { get; set; }
+    public Guid CatalogItemId { get; set; }
 }

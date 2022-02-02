@@ -1,29 +1,66 @@
 version: '3.4'
 
 services:
-  cartdb:
-    container_name: cartdb
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin1234
-      - POSTGRES_DB=CartDb
-    restart: always
-    ports:
-        - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    rabbitmq:
+        container_name: rabbitmq
+        restart: always
+        ports:
+            - "5672:5672"
+            - "15672:15672"
 
-  unicorn.eshop.cartservice:
-    container_name: unicorn.eshop.cartservice
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - CartHostSettings__DbConnectionString=Server=cartdb;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;
-    depends_on:
-      - cartdb
-    ports:
-      - "8000:80"
-      - "8001:443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    cartdb:
+        container_name: cartdb
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin1234
+            - POSTGRES_DB=CartDb
+        restart: always
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+
+    unicorn.eshop.cartservice:
+        container_name: unicorn.eshop.cartservice
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - CartHostSettings__DbConnectionString=Server=cartdb;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;
+            - CartHostSettings__OneWayCommunicationSettings_ConnectionString=amqp://guest:guest@rabbitmq:5672;
+
+            #- CartHostSettings__AuthenticationSettings__AuthorityUrl=https://host.docker.internal:44319
+            #- CartHostSettings__AuthenticationSettings__SwaggerAuthorityUrl=https://localhost:44319/
+            #- ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+            #- ASPNETCORE_Kestrel__Certificates__Default__Path=/root/certificates/1.pem
+            #- ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/root/certificates/1-key.pem
+        depends_on:
+            - cartdb
+            - rabbitmq
+            #- unicorn.core.services.authentication.openIddict
+        ports:
+            - "8000:80"
+            - "8001:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+            - C:/Src/unicorn-project-microservices/certificates:/root/certificates
+
+    #unicorn.core.services.authentication.openiddict:
+    #    container_name: unicorn.core.services.authentication.openiddict
+    #    environment:
+    #        - ASPNETCORE_ENVIRONMENT=Development
+    #        - ASPNETCORE_URLS=https://+:443;http://+:80
+    #        #- ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
+    #        #- ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Unicorn.eShop.CartService.pfx
+    #        #- ASPNETCORE_Kestrel__Certificates__Default__Path=/certificates/UnicornCertificate.pem
+    #        #- ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/certificates/UnicornCertificate-key.pem
+    #        - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/certificates/2.pem
+    #        - ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/root/certificates/2-key.pem
+    #    ports:
+    #        - "8002:80"
+    #        - "8003:443"
+    #    volumes:
+    #        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    #        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    #        - C:/Src/unicorn-project-microservices/certificates:/root/certificates
+    #        #- $PWD/app/certificates:/certificates

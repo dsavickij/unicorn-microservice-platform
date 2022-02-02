@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Messages;
+﻿namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue.Message;
 
 public record Argument
 {

@@ -19,5 +19,28 @@ RUN dotnet publish "Unicorn.eShop.CartService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+
+#COPY mkcert-v1.4.3-linux-amd64 /usr/local/bin
+#COPY rootCA*.pem /root/.local/share/mkcert/
+#RUN chmod +x /usr/local/bin/mkcert-v1.4.3-linux-amd64 \
+  #&& mkcert-v1.4.3-linux-amd64 -install \
+  #&& rm -rf /usr/local/bin/mkcert-v1.4.3-linux-amd64 
+
+#COPY mkcert /usr/local/bin
+#COPY rootCA*.pem /root/.local/share/mkcert/
+#RUN chmod +x /usr/local/bin/mkcert \
+  #&& mkcert -install \
+  #&& rm -rf /usr/local/bin/mkcert 
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Unicorn.eShop.CartService.dll"]
+
+
+#FROM base AS final
+#WORKDIR /app
+#COPY mkcert /usr/local/bin
+#COPY rootCA*.pem /root/.local/share/mkcert/
+#RUN chmod +x /usr/local/bin/mkcert \
+  #&& mkcert -install \
+  #&& rm -rf /usr/local/bin/mkcert 
+#COPY --from=publish /app/publish .

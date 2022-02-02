@@ -14,6 +14,6 @@ public record Cart
     [Key]
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
-    public List<CartItem> Items { get; set; } = new List<CartItem>();
-    public decimal TotalPrice { get; set; }
+    public IEnumerable<CartItem> Items { get; set; } = Enumerable.Empty<CartItem>();
+    public decimal TotalPrice => Items.Sum(x => x.ItemPrice * x.Quantity);
 }

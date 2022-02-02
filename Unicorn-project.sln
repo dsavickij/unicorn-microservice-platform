@@ -56,9 +56,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eShop", "eShop", "{8D8F1BB1-98E7-423A-A830-D01987A4AAC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.eShop.CartService", "eShop\Unicorn.eShop.CartService\Unicorn.eShop.CartService.csproj", "{536A3903-5B76-4E15-8983-60E3E38EF4A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.CartService", "eShop\Unicorn.eShop.CartService\Unicorn.eShop.CartService.csproj", "{536A3903-5B76-4E15-8983-60E3E38EF4A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.eShop.CartService.SDK", "eShop\Unicorn.eShop.CartService.SDK\Unicorn.eShop.CartService.SDK.csproj", "{6E3FB6F1-510C-4C65-B479-50907504BEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.CartService.SDK", "eShop\Unicorn.eShop.CartService.SDK\Unicorn.eShop.CartService.SDK.csproj", "{6E3FB6F1-510C-4C65-B479-50907504BEBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

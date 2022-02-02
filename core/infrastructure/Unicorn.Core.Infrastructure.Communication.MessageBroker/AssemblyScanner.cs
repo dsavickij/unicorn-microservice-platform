@@ -1,7 +1,8 @@
 ﻿using MassTransit;
 using System.Reflection;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Abstractions;
 
-namespace Unicorn.Core.Infrastructure.Communication.MessageBroker.Implementations.AzureServiceBus;
+namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
 
 internal static class AssemblyScanner
 {

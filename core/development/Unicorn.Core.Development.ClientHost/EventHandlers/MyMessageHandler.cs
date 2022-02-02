@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker;
+using Unicorn.Core.Infrastructure.Communication.MessageBroker.Abstractions;
 
 namespace Unicorn.Core.Development.ClientHost.Controllers;
 
