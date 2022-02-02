@@ -15,5 +15,5 @@ public record Cart
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public IEnumerable<CartItem> Items { get; set; } = Enumerable.Empty<CartItem>();
-    public decimal TotalPrice => Items.Sum(x => x.ItemPrice * x.Quantity);
+    public decimal TotalPrice => Items.Sum(x => x.UnitPrice * x.Quantity);
 }

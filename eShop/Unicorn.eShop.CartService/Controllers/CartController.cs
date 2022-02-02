@@ -18,25 +18,29 @@ public class CartController : UnicornBaseController<ICartService>, ICartService
         _ctx = ctx;
     }
 
-    [HttpPost("api/add-item")]
-    public async Task<OperationResult> AddItemAsync([FromBody] CartItemDTO cartItem)
+    [HttpPost("api/carts/{cartId}/items/add")]
+    public async Task<OperationResult> AddItemAsync([FromRoute] Guid cartId, [FromBody] CartItemDTO cartItem)
     {
         return await SendAsync(new AddItemRequest
         {
-            UserId = new Guid("d4787949-5012-47e0-8082-a5da33e8e1df"),
+            CartId = cartId,
             Item = cartItem
         });
     }
 
-    [HttpGet("api/my-cart")]
+    [HttpGet("api/carts/my")]
     public async Task<OperationResult<CartDTO>> GetMyCartAsync()
     {
-        return await Mediator.Send(new GetMyCartRequest());
+        return await SendAsync(new GetMyCartRequest());
     }
 
-    [HttpDelete("api/remove-item/{itemId}")]
-    public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid itemId)
+    [HttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
+    public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid cartId, [FromRoute] Guid itemId)
     {
-        return await Mediator.Send(new RemoveItemRequest { CatalogItemId = itemId });
+        return await SendAsync(new RemoveItemRequest 
+        { 
+            CartId = cartId, 
+            CatalogItemId = itemId 
+        });
     }
 }

@@ -9,12 +9,12 @@ namespace Unicorn.eShop.CartService.Controllers;
 [UnicornHttpServiceMarker]
 public interface ICartService
 {
-    [UnicornHttpPost("api/add-item")]
-    Task<OperationResult> AddItemAsync([UnicornFromBody] CartItemDTO cartItem);
+    [UnicornHttpPost("api/carts/{cartId}/items/add")]
+    Task<OperationResult> AddItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromBody] CartItemDTO cartItem);
 
-    [UnicornHttpDelete("api/remove-item/{itemId}")]
-    Task<OperationResult> RemoveItemAsync([UnicornFromRoute] Guid itemId);
+    [UnicornHttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
+    Task<OperationResult> RemoveItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] Guid itemId);
 
-    [UnicornHttpGet("api/my-cart")]
+    [UnicornHttpGet("api/carts/my")]
     Task<OperationResult<CartDTO>> GetMyCartAsync();
 }

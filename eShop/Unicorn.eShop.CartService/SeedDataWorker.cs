@@ -31,7 +31,7 @@ internal class SeedDataWorker : IHostedService
                         CartId = CartId_1,
                         CatalogItemId = CatalogItemId_1,
                         Quantity = 5,
-                        ItemPrice = ItemPrice_1
+                        UnitPrice = ItemPrice_1
                     }
                 },
             });
@@ -51,7 +51,7 @@ internal class SeedDataWorker : IHostedService
                             CartId = CartId_2,
                             CatalogItemId = CatalogItemId_2,
                             Quantity = 3,
-                            ItemPrice = ItemPrice_2
+                            UnitPrice = ItemPrice_2
                         },
                         new CartItem
                         {
@@ -59,7 +59,7 @@ internal class SeedDataWorker : IHostedService
                             CartId = CartId_2,
                             CatalogItemId = CatalogItemId_3,
                             Quantity = 2,
-                            ItemPrice = ItemPrice_3
+                            UnitPrice = ItemPrice_3
                         }
                     },
             });

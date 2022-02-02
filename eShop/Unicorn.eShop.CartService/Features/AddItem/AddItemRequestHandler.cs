@@ -24,7 +24,7 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
 
         //TODO: add validation for catalogItem existence in CatalogService
 
-        var cartId = await GetCartIdAsync(request.UserId);
+        var cartId = await GetCartIdAsync(request.CartId);
         await AddItemToCartAsync(cartId, request.Item);
 
         return Ok();
@@ -37,19 +37,19 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
             CartId = cartId,
             CatalogItemId = item.CatalogItemId,
             Quantity = item.Quantity,
-            ItemPrice = item.UnitPrice,
+            UnitPrice = item.UnitPrice,
         });
 
         await _ctx.SaveChangesAsync();
     }
 
-    private async Task<Guid> GetCartIdAsync(Guid userId)
+    private async Task<Guid> GetCartIdAsync(Guid cartId)
     {   
-        var cart = await _ctx.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+        var cart = await _ctx.Carts.FirstOrDefaultAsync(x => x.Id == cartId);
 
         if (cart is null)
         {
-            cart = new Cart { UserId = userId };
+            cart = new Cart { Id = cartId }; // TODO: userId should be added here too
 
             await _ctx.Carts.AddAsync(cart);
             await _ctx.SaveChangesAsync();
