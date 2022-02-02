@@ -60,6 +60,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.CartService",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.CartService.SDK", "eShop\Unicorn.eShop.CartService.SDK\Unicorn.eShop.CartService.SDK.csproj", "{6E3FB6F1-510C-4C65-B479-50907504BEBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.eShop.CartService.Tests", "eShop\Unicorn.eShop.CartService.Tests\Unicorn.eShop.CartService.Tests.csproj", "{864F4863-8844-47D3-92B1-2BBF3873CCDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +140,10 @@ Global
 		{6E3FB6F1-510C-4C65-B479-50907504BEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E3FB6F1-510C-4C65-B479-50907504BEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E3FB6F1-510C-4C65-B479-50907504BEBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{864F4863-8844-47D3-92B1-2BBF3873CCDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{864F4863-8844-47D3-92B1-2BBF3873CCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{864F4863-8844-47D3-92B1-2BBF3873CCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{864F4863-8844-47D3-92B1-2BBF3873CCDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +171,7 @@ Global
 		{1EC72C3B-6732-4DEA-9627-9BE84040D243} = {5F9F2557-3B49-4383-B6FD-4F37DB19D665}
 		{536A3903-5B76-4E15-8983-60E3E38EF4A5} = {8D8F1BB1-98E7-423A-A830-D01987A4AAC8}
 		{6E3FB6F1-510C-4C65-B479-50907504BEBF} = {8D8F1BB1-98E7-423A-A830-D01987A4AAC8}
+		{864F4863-8844-47D3-92B1-2BBF3873CCDD} = {8D8F1BB1-98E7-423A-A830-D01987A4AAC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F75022-EF87-4855-AFF0-0078123AAE2A}

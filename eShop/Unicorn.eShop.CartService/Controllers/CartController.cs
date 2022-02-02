@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.eShop.CartService.Features.ApplyDiscount;
 using Unicorn.eShop.CartService.SDK.DTOs;
 
 namespace Unicorn.eShop.CartService.Controllers;
@@ -10,12 +10,10 @@ namespace Unicorn.eShop.CartService.Controllers;
 public class CartController : UnicornBaseController<ICartService>, ICartService
 {
     private readonly ILogger<CartController> _logger;
-    private readonly CartDbContext _ctx;
 
-    public CartController(ILogger<CartController> logger, CartDbContext ctx)
+    public CartController(ILogger<CartController> logger)
     {
         _logger = logger;
-        _ctx = ctx;
     }
 
     [HttpPost("api/carts/{cartId}/items/add")]
@@ -28,6 +26,17 @@ public class CartController : UnicornBaseController<ICartService>, ICartService
         });
     }
 
+    [HttpGet("api/carts/{cartId}/discounts/{discountCode}")]
+    public async Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync(
+        [FromRoute] Guid cartId, [FromRoute] string discountCode)
+    {
+        return await SendAsync(new ApplyDiscountRequest
+        {
+            CartId = cartId,
+            DiscountCode = discountCode
+        });
+    }
+
     [HttpGet("api/carts/my")]
     public async Task<OperationResult<CartDTO>> GetMyCartAsync()
     {
@@ -37,10 +46,10 @@ public class CartController : UnicornBaseController<ICartService>, ICartService
     [HttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
     public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid cartId, [FromRoute] Guid itemId)
     {
-        return await SendAsync(new RemoveItemRequest 
-        { 
-            CartId = cartId, 
-            CatalogItemId = itemId 
+        return await SendAsync(new RemoveItemRequest
+        {
+            CartId = cartId,
+            CatalogItemId = itemId
         });
     }
 }

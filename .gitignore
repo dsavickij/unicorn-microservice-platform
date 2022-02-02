@@ -113,3 +113,5 @@
 /eShop/Unicorn.eShop.CartService.SDK/bin/Debug/net6.0
 /eShop/Unicorn.eShop.CartService.SDK/obj/Debug/net6.0
 /eShop/Unicorn.eShop.CartService.SDK/obj
+/eShop/Unicorn.eShop.CartService.Tests/obj
+/eShop/Unicorn.eShop.CartService.Tests/bin/Debug/net6.0

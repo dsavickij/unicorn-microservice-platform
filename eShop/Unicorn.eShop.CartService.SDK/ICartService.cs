@@ -17,4 +17,7 @@ public interface ICartService
 
     [UnicornHttpGet("api/carts/my")]
     Task<OperationResult<CartDTO>> GetMyCartAsync();
+
+    [UnicornHttpGet("api/carts/{cartId}/discounts/{discountCode}")]
+    Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] string discountCode);
 }
