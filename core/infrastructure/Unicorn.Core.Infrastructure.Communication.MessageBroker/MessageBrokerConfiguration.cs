@@ -26,6 +26,6 @@ public record OneWayMethodConfiguration
 public enum MessageBrokerType
 {
     Undefined = 0,
-    Azure,
+    AzureServiceBus,
     RabbitMq
 }

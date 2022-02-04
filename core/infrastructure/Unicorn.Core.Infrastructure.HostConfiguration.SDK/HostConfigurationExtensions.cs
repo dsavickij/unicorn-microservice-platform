@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -57,8 +56,7 @@ public static class HostConfigurationExtensions
     {
         services.Configure<THostSettings>(ctx.Configuration.GetSection(typeof(THostSettings).Name));
 
-        var settings = Guard.Against.Null(
-            services.BuildServiceProvider().GetRequiredService<IOptions<THostSettings>>(), nameof(THostSettings));
+        var settings = services.BuildServiceProvider().GetRequiredService<IOptions<THostSettings>>();
 
         if (BaseHostSettingsValidator.DoesNotContainEmptyStrings(settings.Value))
         {
@@ -76,7 +74,7 @@ public static class HostConfigurationExtensions
     {
         services.AddApplicationInsightsTelemetry();
         services.AddMediatorComponents();
-        services.AddHttpServices();
+        services.AddHttpServices(HostSettings.ServiceDiscoverySettings);
         services.AddGrpcClients();
         services.ConfigureSwagger();
         services.RegisterControllers();

@@ -7,11 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["eShop/Unicorn.eShop.CartService/Unicorn.eShop.CartService.csproj", "eShop/Unicorn.eShop.CartService/"]
-COPY ["eShop/Unicorn.eShop.CartService.SDK/Unicorn.eShop.CartService.SDK.csproj", "eShop/Unicorn.eShop.CartService.SDK/"]
-RUN dotnet restore "eShop/Unicorn.eShop.CartService/Unicorn.eShop.CartService.csproj"
+COPY ["eShop/cart/Unicorn.eShop.CartService/Unicorn.eShop.CartService.csproj", "eShop/Unicorn.eShop.CartService/"]
+COPY ["eShop/cart/Unicorn.eShop.CartService.SDK/Unicorn.eShop.CartService.SDK.csproj", "eShop/Unicorn.eShop.CartService.SDK/"]
+RUN dotnet restore "eShop/cart/Unicorn.eShop.CartService/Unicorn.eShop.CartService.csproj"
 COPY . .
-WORKDIR "/src/eShop/Unicorn.eShop.CartService"
+WORKDIR "/src/eShop/cart/Unicorn.eShop.CartService"
 RUN dotnet build "Unicorn.eShop.CartService.csproj" -c Release -o /app/build
 
 FROM build AS publish

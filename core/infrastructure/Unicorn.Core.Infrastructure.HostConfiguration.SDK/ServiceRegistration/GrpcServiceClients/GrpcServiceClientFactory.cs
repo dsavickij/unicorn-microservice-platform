@@ -17,25 +17,41 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
     public async Task<T> CallAsync<T>(string grpcServiceName, Func<GrpcChannel, AsyncUnaryCall<T>> grpcServiceMethod)
     {
         var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceName);
-        var creds = GetCallredentials();
-
-        var channel = GrpcChannel.ForAddress(cfg.BaseUrl, new GrpcChannelOptions
-        {
-            Credentials = ChannelCredentials.Create(new SslCredentials(), creds)
-        });
+        using var channel = GetChannel(cfg.BaseUrl);
 
         return await grpcServiceMethod(channel);
     }
 
-    private CallCredentials GetCallredentials()
+    private GrpcChannel GetChannel(string baseUrl)
+    {
+        if (string.IsNullOrEmpty(UnicornOperationContext.AccessToken))
+        {
+            // if no access token exist, it is assummed non-SSL channel need to be used
+            var httpHandler = new HttpClientHandler
+            {
+                // Return 'true' to allow certificates that are untrusted/invalid
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+
+            return GrpcChannel.ForAddress(baseUrl, new GrpcChannelOptions
+            {
+                Credentials = ChannelCredentials.SecureSsl,
+                HttpHandler = httpHandler
+            });
+        }
+
+        // SSL channel
+        return GrpcChannel.ForAddress(baseUrl, new GrpcChannelOptions
+        {
+            Credentials = ChannelCredentials.Create(new SslCredentials(), GetCallCredentials()),
+        });
+    }
+
+    private CallCredentials GetCallCredentials()
     {
         return CallCredentials.FromInterceptor((context, metadata) =>
         {
-            if (!string.IsNullOrEmpty(UnicornOperationContext.AccessToken))
-            {
-                metadata.Add("Authorization", $"Bearer {UnicornOperationContext.AccessToken}");
-            }
-
+            metadata.Add("Authorization", $"Bearer {UnicornOperationContext.AccessToken}");
             return Task.CompletedTask;
         });
     }

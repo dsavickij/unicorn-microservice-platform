@@ -50,10 +50,12 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
-        await _publisher.Publish(new MyMessage { Number = 5 });
+        var r = await _myGrpcSvcClient.Multiply(5, 4);
+        
+        // await _publisher.Publish(new MyMessage { Number = 5 });
 
-        await _developmentServiceHost.SendMessageOneWay(5);
-        await _developmentServiceHost.SendMessageOneWay2();
+        // await _developmentServiceHost.SendMessageOneWay(5);
+        // await _developmentServiceHost.SendMessageOneWay2();
 
         return new HttpServiceConfiguration();
     }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Unicorn.Core.Development.ServiceHost.Protos;
 using static Unicorn.Core.Development.ServiceHost.Protos.MyGrpcService;
 
-[Authorize]
+// [Authorize]
 public class MyGrpcService : MyGrpcServiceBase
 {
     public override Task<MultiplicationResponse> Multiply(MultiplicationRequest request, ServerCallContext context)

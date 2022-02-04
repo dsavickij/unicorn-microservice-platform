@@ -10,7 +10,7 @@ internal interface IGrpcServiceConfigurationProvider
 
 internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvider
 {
-    private readonly ConcurrentDictionary<string, GrpcServiceConfiguration> _cache = new();
+    private readonly ConcurrentDictionary<string, GrpcServiceConfiguration> _cache = new ();
     private readonly IServiceDiscoveryClient _client;
 
     public GrpcServiceConfigurationProvider(IServiceDiscoveryClient client) => _client = client;

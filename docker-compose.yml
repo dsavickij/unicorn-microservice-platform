@@ -11,7 +11,19 @@ services:
         image: ${DOCKER_REGISTRY-}unicorneshopcartservice
         build:
             context: .
-            dockerfile: eShop/Unicorn.eShop.CartService/Dockerfile
+            dockerfile: eShop/cart/Unicorn.eShop.CartService/Dockerfile
+
+    unicorn.eshop.discount:
+        image: ${DOCKER_REGISTRY-}unicorneshopdiscount
+        build:
+            context: .
+            dockerfile: eShop/discount/Unicorn.eShop.Discount/Dockerfile
+
+    unicorn.core.services.servicediscovery:
+        image: ${DOCKER_REGISTRY-}unicorncoreservicesservicediscovery
+        build:
+            context: .
+            dockerfile: core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/Dockerfile
 
     #unicorn.core.services.authentication.openiddict:
     #    image: ${DOCKER_REGISTRY-}unicorncoreservicesauthenticationopeniddict

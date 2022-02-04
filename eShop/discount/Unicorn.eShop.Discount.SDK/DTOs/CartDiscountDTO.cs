@@ -1,9 +1,10 @@
-﻿namespace Unicorn.eShop.CartService.Controllers;
+﻿namespace Unicorn.eShop.Discount.SDK.gRPC.Clients;
 
 public record CartDiscountDTO
 {
     public Guid DiscountId { get; set; }
-    public string DiscountTitle { get; set; } = "No discount";
+    public string Title { get; set; } = "No discount";
+    public string Description { get; set; } = string.Empty;
     public string DiscountCode { get; set; } = string.Empty;
     public double DiscountPercentage { get; set; } = 0;
 }

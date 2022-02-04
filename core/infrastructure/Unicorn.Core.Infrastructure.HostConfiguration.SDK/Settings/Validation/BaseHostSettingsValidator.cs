@@ -17,7 +17,7 @@ internal static class BaseHostSettingsValidator
     {
         if (IsEmptyOrWhiteSpaces(serviceDiscoverySettings.Url))
         {
-            throw new ArgumentException($"Host settings balue for " +
+            throw new ArgumentException($"Host settings value for " +
                 $"'{nameof(serviceDiscoverySettings.Url)}' is not provided");
         }
     }
@@ -26,13 +26,13 @@ internal static class BaseHostSettingsValidator
     {
         if (oneWayCommunicationSettings.SubscriptionId == Guid.Empty)
         {
-            throw new ArgumentException($"Host settings balue for " +
+            throw new ArgumentException($"Host settings value for " +
                 $"'{nameof(oneWayCommunicationSettings.SubscriptionId)}' is not provided");
         }
 
         if (IsEmptyOrWhiteSpaces(oneWayCommunicationSettings.ConnectionString))
         {
-            throw new ArgumentException($"Host settings balue for " +
+            throw new ArgumentException($"Host settings value for " +
                 $"'{nameof(oneWayCommunicationSettings.ConnectionString)}' is not provided");
         }
     }

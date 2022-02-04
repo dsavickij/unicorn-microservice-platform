@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="Services\gRPC\Protos\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.19.2" />
+		<PackageReference Include="Grpc.Tools" Version="2.43.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.Grpc.SDK" Version="1.0.0" />
+		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.Http.SDK" Version="1.0.0" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Unicorn.eShop.Discount\gRPC\Protos\DiscountGrpcService.proto" Link="Services\gRPC\Protos\DiscountGrpcService.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="..\Unicorn.eShop.Discount\gRPC\Protos\DiscountGrpcService.proto">
+			<Link>Services\gRPC\Protos\DiscountGrpcService.proto</Link>
+		</Protobuf>
+	</ItemGroup>
+
+</Project>

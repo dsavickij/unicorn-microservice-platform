@@ -16,7 +16,7 @@ public static class MessageBrokerConfigurationExtensions
         {
             case MessageBrokerType.Undefined:
                 throw new ArgumentException("Message broker type is not provided");
-            case MessageBrokerType.Azure:
+            case MessageBrokerType.AzureServiceBus:
                 AddAzureServiceBusMessageBroker(services, cfg);
                 break;
             case MessageBrokerType.RabbitMq:

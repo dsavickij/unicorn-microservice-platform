@@ -18,21 +18,19 @@ internal interface IServiceDiscoveryClient
 
 internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 {
-    private const string ServiceDiscoveryConnStringKey = "ServiceDiscoveryServiceUrl";
-
     private readonly ILogger<ServiceDiscoveryClient> _logger;
     private readonly RestClient _client;
 
-    public ServiceDiscoveryClient(IConfiguration configuration, ILogger<ServiceDiscoveryClient> logger)
+    public ServiceDiscoveryClient(string serviceDiscoveryUrl, ILogger<ServiceDiscoveryClient> logger)
     {
-        var baseUrl = Guard.Against.NullOrWhiteSpace(configuration[ServiceDiscoveryConnStringKey], ServiceDiscoveryConnStringKey);
+        var baseUrl = Guard.Against.NullOrWhiteSpace(serviceDiscoveryUrl, serviceDiscoveryUrl);
         _client = new RestClient(new Uri(baseUrl));
         _logger = logger;
     }
 
     public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName)
     {
-        _logger.LogDebug($"Retrieving GRPC service configuration for: {serviceName}");
+        _logger?.LogDebug($"Retrieving GRPC service configuration for: {serviceName}");
 
         var request = GetRequest(nameof(IServiceDiscoveryService.GetGrpcServiceConfigurationAsync), serviceName);
         return await _client.GetAsync<GrpcServiceConfiguration>(request);
@@ -40,7 +38,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 
     public async Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName)
     {
-        _logger.LogDebug($"Retrieving HTTP service configuration for: {serviceName}");
+        _logger?.LogDebug($"Retrieving HTTP service configuration for: {serviceName}");
 
         var request = GetRequest(nameof(IServiceDiscoveryService.GetHttpServiceConfigurationAsync), serviceName);
         return await _client.GetAsync<HttpServiceConfiguration>(request);

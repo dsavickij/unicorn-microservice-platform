@@ -1,17 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.CartService.Features.ApplyDiscount;
 using Unicorn.eShop.CartService.SDK.DTOs;
+using static Azure.Core.HttpHeader;
 
 namespace Unicorn.eShop.CartService.Controllers;
 
 // [Authorize]
-public class CartController : UnicornBaseController<ICartService>, ICartService
+public class CartServiceController : UnicornBaseController<ICartService>, ICartService
 {
-    private readonly ILogger<CartController> _logger;
+    private readonly ILogger<CartServiceController> _logger;
 
-    public CartController(ILogger<CartController> logger)
+    public CartServiceController(ILogger<CartServiceController> logger)
     {
         _logger = logger;
     }

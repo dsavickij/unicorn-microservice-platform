@@ -12,7 +12,7 @@ public static class BaseHandler
         /// Handler returning result of type TResponse after request execution
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
-        public abstract class For<TRequest> : OperationResults<TResponse>, IRequestHandler<TRequest, OperationResult<TResponse>>
+        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest, OperationResult<TResponse>>
             where TRequest : IRequest<OperationResult<TResponse>>
         {
             public async Task<OperationResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken)

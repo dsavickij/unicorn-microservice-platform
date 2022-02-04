@@ -30,12 +30,20 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
             new GrpcServiceConfiguration
             {
                 Name = "MyGrpcService",
-                BaseUrl = "https://localhost:7287",
+                BaseUrl = "http://localhost:5287",
                 Port = 7287
             },
+            new GrpcServiceConfiguration
+            {
+                 Name = "DiscountGrpcService",
+
+                 // BaseUrl = "http://localhost:5220",
+                 BaseUrl = "https://unicorn.eshop.discount:443",
+                 Port = 80
+            }
         };
 
-        return services.FirstOrDefault(x => x.Name == serviceName) ?? new GrpcServiceConfiguration();
+        return services.FirstOrDefault(x => x.Name == serviceName, new GrpcServiceConfiguration());
     }
 
     [HttpGet("GetHttpServiceConfiguration/{serviceName}")]

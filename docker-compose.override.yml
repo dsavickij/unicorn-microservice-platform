@@ -26,24 +26,47 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=https://+:443;http://+:80
             - CartHostSettings__DbConnectionString=Server=cartdb;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;
-            - CartHostSettings__OneWayCommunicationSettings_ConnectionString=amqp://guest:guest@rabbitmq:5672;
-
-            #- CartHostSettings__AuthenticationSettings__AuthorityUrl=https://host.docker.internal:44319
-            #- CartHostSettings__AuthenticationSettings__SwaggerAuthorityUrl=https://localhost:44319/
-            #- ASPNETCORE_Kestrel__Certificates__Default__Password=admin1234
-            #- ASPNETCORE_Kestrel__Certificates__Default__Path=/root/certificates/1.pem
-            #- ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/root/certificates/1-key.pem
+            - CartHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
+            - CartHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
         depends_on:
             - cartdb
             - rabbitmq
-            #- unicorn.core.services.authentication.openIddict
+            - unicorn.core.services.servicediscovery
         ports:
             - "8000:80"
             - "8001:443"
         volumes:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-            - C:/Src/unicorn-project-microservices/certificates:/root/certificates
+
+    unicorn.core.services.servicediscovery:
+        container_name: unicorn.core.services.servicediscovery
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        ports:
+            - "8002:80"
+            - "8003:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+    unicorn.eshop.discount:
+        container_name: unicorn.eshop.discount
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - DiscountHostSettings__DbConnectionString=Server=cartdb;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;
+            - DiscountHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
+            - DiscountHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
+        depends_on:
+            - unicorn.core.services.servicediscovery
+            - rabbitmq
+        ports:
+            - "8004:80"
+            - "8005:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
     #unicorn.core.services.authentication.openiddict:
     #    container_name: unicorn.core.services.authentication.openiddict
