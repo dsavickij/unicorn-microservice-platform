@@ -22,20 +22,23 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     private readonly ILogger<ClientHostController> _logger;
     private readonly IBus _bus;
     private readonly IUnicornEventPublisher _publisher;
-    private readonly IMyGrpcServiceClient _myGrpcSvcClient;
+    private readonly IMultiplicationGrpcServiceClient _multiplicationGrpcSvcClient;
+    private readonly IDivisionGrpcServiceClient _divisionGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
     private readonly IHttpService _developmentServiceHost;
     private readonly IAuthenticationScope _scopeProvider;
 
     public ClientHostController(
         IServiceDiscoveryService serviceDiscoveryService,
-        IMyGrpcServiceClient myGrpcServiceClient,
+        IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient,
+        IDivisionGrpcServiceClient divisionGrpcServiceClient,
         IHttpService developmentServiceHost,
         IAuthenticationScope scopeProvider,
         ILogger<ClientHostController> logger,
         IUnicornEventPublisher publisher)
     {
-        _myGrpcSvcClient = myGrpcServiceClient;
+        _multiplicationGrpcSvcClient = multiplicationGrpcServiceClient;
+        _divisionGrpcSvcClient = divisionGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
         _developmentServiceHost = developmentServiceHost;
         _scopeProvider = scopeProvider;
@@ -50,8 +53,11 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
-        var r = await _myGrpcSvcClient.Multiply(5, 4);
-        
+        var first = _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
+        var second = _divisionGrpcSvcClient.DivideAsync(10, 5);
+
+        await Task.WhenAll(first, second);
+
         // await _publisher.Publish(new MyMessage { Number = 5 });
 
         // await _developmentServiceHost.SendMessageOneWay(5);

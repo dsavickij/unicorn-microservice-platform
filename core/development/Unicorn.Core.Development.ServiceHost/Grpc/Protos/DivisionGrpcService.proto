@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Unicorn.Core.Development.ServiceHost.Grpc.Protos.DivisionGrpcService";
+
+package Definition;
+
+service DivisionGrpcService{
+	rpc Divide(DivisionRequest) returns (DivisionResponse);
+}
+
+ message DivisionRequest{
+	int32 FirstOperand = 1;
+	int32 SecondOperand = 2;
+};
+
+message DivisionResponse{
+	double Result = 1;
+};

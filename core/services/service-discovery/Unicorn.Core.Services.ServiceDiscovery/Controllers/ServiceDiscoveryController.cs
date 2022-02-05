@@ -29,8 +29,8 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
             },
             new GrpcServiceConfiguration
             {
-                Name = "MyGrpcService",
-                BaseUrl = "http://localhost:5287",
+                Name = "Unicorn.Core.Development.ServiceHost",
+                BaseUrl = "https://localhost:7287",
                 Port = 7287
             },
             new GrpcServiceConfiguration
@@ -55,7 +55,7 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
         {
            new HttpServiceConfiguration
            {
-                Name = Constants.ServiceName,
+                Name = Constants.ServiceHostName,
                 BaseUrl = "http://localhost:5081"
            },
            new HttpServiceConfiguration

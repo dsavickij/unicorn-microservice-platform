@@ -8,6 +8,4 @@ public abstract class BaseGrpcClient : OperationResults
     protected BaseGrpcClient(IGrpcServiceClientFactory factory) => Factory = factory;
 
     public IGrpcServiceClientFactory Factory { get; }
-
-    protected abstract string GrpcServiceName { get; }
 }

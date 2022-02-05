@@ -19,8 +19,6 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
     private DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient? _client;
     private readonly ILogger<DiscountGrpcServiceClient> _logger;
 
-    protected override string GrpcServiceName => "DiscountGrpcService";
-
     public DiscountGrpcServiceClient(IGrpcServiceClientFactory factory, ILogger<DiscountGrpcServiceClient> logger) : base(factory)
     {
         _logger = logger;
@@ -31,7 +29,7 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
         try
         {
             var req = new CartDiscountRequest { DiscountCode = discountCode };
-            var response = await Factory.CallAsync(GrpcServiceName, c => GetClient(c).GetCartDiscountAsyncAsync(req));
+            var response = await Factory.CallAsync(c => GetClient(c).GetCartDiscountAsyncAsync(req));
 
             var result = new CartDiscountDTO
             {
@@ -50,12 +48,12 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
         }
         catch (RpcException ex)
         {
-            _logger?.LogError($"Error occured calling gRPC service '{GrpcServiceName}'", ex);
+            _logger?.LogError($"Error occured calling gRPC service", ex);
             throw;
         }
         catch (Exception ex)
         {
-            _logger?.LogError($"Error occured calling gRPC service '{GrpcServiceName}'", ex);
+            _logger?.LogError($"Error occured calling gRPC service", ex);
             throw;
         }
     }

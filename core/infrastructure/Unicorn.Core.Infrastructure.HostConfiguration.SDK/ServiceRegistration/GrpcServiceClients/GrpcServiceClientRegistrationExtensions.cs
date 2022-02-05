@@ -29,7 +29,10 @@ internal static class GrpcServiceClientRegistrationExtensions
 
             var grpcImplType = grpcInterfaceType!.Assembly
                 .GetExportedTypes()
-                .FirstOrDefault(t => t.IsClass && !t.IsAbstract && t.BaseType?.AssemblyQualifiedName == baseGrpcClientImplName);
+                .FirstOrDefault(t => t.IsClass
+                    && !t.IsAbstract
+                    && t.BaseType?.AssemblyQualifiedName == baseGrpcClientImplName
+                    && t.GetInterfaces().Any(i => i == grpcInterfaceType));
 
             if (grpcImplType is not null)
             {

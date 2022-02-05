@@ -14,9 +14,9 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
         _cfgProvider = configurationProvider;
     }
 
-    public async Task<T> CallAsync<T>(string grpcServiceName, Func<GrpcChannel, AsyncUnaryCall<T>> grpcServiceMethod)
+    public async Task<T> CallAsync<T>(Func<GrpcChannel, AsyncUnaryCall<T>> grpcServiceMethod)
     {
-        var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceName);
+        var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceMethod.Method);
         using var channel = GetChannel(cfg.BaseUrl);
 
         return await grpcServiceMethod(channel);

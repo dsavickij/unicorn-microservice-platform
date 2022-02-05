@@ -1,11 +1,13 @@
 ﻿using System.Collections.Concurrent;
+using System.Reflection;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.GrpcServiceClients;
 
 internal interface IGrpcServiceConfigurationProvider
 {
-    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string grpcServiceName);
+    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(MethodInfo grpcServiceMethod);
 }
 
 internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvider
@@ -15,15 +17,23 @@ internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvi
 
     public GrpcServiceConfigurationProvider(IServiceDiscoveryClient client) => _client = client;
 
-    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string grpcServiceName)
+    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(MethodInfo grpcServiceMethod)
     {
-        if (!_cache.ContainsKey(grpcServiceName))
+        if (grpcServiceMethod.DeclaringType is not null && !_cache.ContainsKey(grpcServiceMethod.Name))
         {
-            // TODO: if cfg is null throw exception
-            var cfg = await _client.GetGrpcServiceConfigurationAsync(grpcServiceName);
-            _cache.TryAdd(grpcServiceName, cfg);
+            var attribute = grpcServiceMethod.DeclaringType.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
+
+            if (attribute is UnicornServiceHostNameAttribute nameAttribute)
+            {
+                // TODO: if cfg is null throw exception
+                var cfg = await _client.GetGrpcServiceConfigurationAsync(nameAttribute.ServiceHostName);
+                _cache.TryAdd(grpcServiceMethod.Name, cfg);
+            }
+
+            return _cache[grpcServiceMethod.Name];
         }
 
-        return _cache[grpcServiceName];
+        throw new ArgumentException($"Method '{grpcServiceMethod.Name}' is not declared in the type in SDK for GRPC services. " +
+            $"Only GRPC service methods can be used as a delegate");
     }
 }

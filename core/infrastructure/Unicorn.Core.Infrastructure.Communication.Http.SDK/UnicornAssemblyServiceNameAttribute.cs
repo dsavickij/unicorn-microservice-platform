@@ -11,12 +11,12 @@ namespace Unicorn.Core.Infrastructure.Communication.Http.SDK;
 /// from service discovery service
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
-public class UnicornAssemblyServiceNameAttribute : Attribute
+public class UnicornServiceHostNameAttribute : Attribute
 {
-    public string ServiceName { get; }
+    public string ServiceHostName { get; }
 
-    public UnicornAssemblyServiceNameAttribute(string serviceName)
+    public UnicornServiceHostNameAttribute(string serviceHostName)
     {
-        ServiceName = serviceName;
+        ServiceHostName = serviceHostName;
     }
 }

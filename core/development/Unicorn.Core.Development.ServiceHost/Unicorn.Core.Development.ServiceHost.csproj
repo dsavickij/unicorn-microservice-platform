@@ -26,11 +26,9 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Grpc\Protos\MyGrpcService.proto" GrpcServices="Server" />
+		<Protobuf Include="Grpc\Protos\MultiplicationGrpcService.proto" GrpcServices="Server" />
 	</ItemGroup>
-
-	<ItemGroup>
-    <Folder Include="Grpc\Protos\" />
-  </ItemGroup>
+	
+	
 
 </Project>

@@ -20,8 +20,17 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data/
 
-    unicorn.eshop.cartservice:
-        container_name: unicorn.eshop.cartservice
+    servicediscoverydb:
+        container_name: servicediscoverydb
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=admin1234
+        restart: always
+        ports:
+            - "1433:1433"
+
+    unicorn.eshop.cart:
+        container_name: unicorn.eshop.cart
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=https://+:443;http://+:80
@@ -43,6 +52,8 @@ services:
         container_name: unicorn.core.services.servicediscovery
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - servicediscoverydb
         ports:
             - "8002:80"
             - "8003:443"

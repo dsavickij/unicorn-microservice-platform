@@ -3,7 +3,7 @@ using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-[assembly: UnicornAssemblyServiceName(Constants.ServiceName)]
+[assembly: UnicornServiceHostName(Constants.ServiceHostName)]
 
 namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 

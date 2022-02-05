@@ -24,7 +24,7 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
     {
         if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
-            var name = GetAssemlyServiceName(httpServiceInterface);
+            var name = GetHostServiceName(httpServiceInterface);
             var cfg = await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name);
             _cache.TryAdd(httpServiceInterface.FullName!, cfg);
         }
@@ -32,16 +32,16 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
         return _cache[httpServiceInterface.FullName!];
     }
 
-    private string GetAssemlyServiceName(Type httpServiceInterface)
+    private string GetHostServiceName(Type httpServiceInterface)
     {
-        var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(UnicornAssemblyServiceNameAttribute));
+        var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
 
-        if (attribute is UnicornAssemblyServiceNameAttribute nameAttribute)
+        if (attribute is UnicornServiceHostNameAttribute nameAttribute)
         {
-            return nameAttribute.ServiceName;
+            return nameAttribute.ServiceHostName;
         }
 
         throw new ArgumentException($"Assembly '{httpServiceInterface.Assembly.FullName}' " +
-            $"does not include attribute '{typeof(UnicornAssemblyServiceNameAttribute).FullName}'");
+            $"does not include attribute '{typeof(UnicornServiceHostNameAttribute).FullName}'");
     }
 }

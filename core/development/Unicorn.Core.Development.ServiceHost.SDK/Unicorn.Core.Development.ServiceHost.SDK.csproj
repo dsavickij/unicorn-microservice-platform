@@ -7,23 +7,45 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Grpc\Protos\SubtractionGrpcService.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Grpc.Tools" Version="2.43.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.13" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj" />
-	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj" />
-	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj" />
+		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj" />
+		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj" />
+		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MyGrpcService.proto" GrpcServices="Client">
+		<!--<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MyGrpcService.proto">
 			<Link>Grpc\Protos\MyGrpcService.proto"</Link>
+		</Protobuf>-->
+		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MultiplicationGrpcService.proto">
+			<Link>Grpc\Protos\MultiplicationGrpcService.proto</Link>
 		</Protobuf>
+		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\DivisionGrpcService.proto">
+			<Link>Grpc\Protos\DivisionGrpcService.proto</Link>
+		</Protobuf>
+		<Protobuf Include="Grpc\Protos\SubtractionGrpcService.proto" />
 	</ItemGroup>
+
+
+	<!--<ItemGroup>
+		<None Include="..\Unicorn.eShop.Discount\gRPC\Protos\DiscountGrpcService.proto" Link="Services\gRPC\Protos\DiscountGrpcService.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="..\Unicorn.eShop.Discount\gRPC\Protos\DiscountGrpcService.proto">
+			<Link>Services\gRPC\Protos\DiscountGrpcService.proto</Link>
+		</Protobuf>
+	</ItemGroup>-->
 
 </Project>

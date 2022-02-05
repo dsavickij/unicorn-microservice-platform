@@ -1,7 +1,7 @@
 ﻿using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 
-[assembly: UnicornAssemblyServiceName("Development.HttpService")]
+[assembly: UnicornServiceHostName("Unicorn.Core.Development.ServiceHost")]
 
 namespace Unicorn.Core.Development.ServiceHost.SDK;
 

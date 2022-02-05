@@ -25,6 +25,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Unicorn.Core.Services.ServiceDiscovery.DataAccess\Unicorn.Core.Services.ServiceDiscovery.DataAccess.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<CodeAnalysisRuleSet>..\..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>

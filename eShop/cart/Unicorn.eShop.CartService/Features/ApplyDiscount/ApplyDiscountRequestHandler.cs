@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 using Unicorn.eShop.CartService.SDK.DTOs;
 using Unicorn.eShop.Discount.SDK.gRPC.Clients;

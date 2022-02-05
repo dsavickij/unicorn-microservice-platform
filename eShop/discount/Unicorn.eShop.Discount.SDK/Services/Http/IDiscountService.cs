@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 
-[assembly: UnicornAssemblyServiceName("Unicorn.eShop.Discount")]
+[assembly: UnicornServiceHostName("Unicorn.eShop.Discount")]
 
 namespace Unicorn.eShop.Discount.SDK.Services.Http;
 

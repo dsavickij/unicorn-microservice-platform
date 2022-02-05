@@ -2,5 +2,5 @@
 
 public static class Constants
 {
-    public const string ServiceName = "ServiceDiscovery";
+    public const string ServiceHostName = "Unicorn.Core.Services.ServiceDiscovery";
 }
