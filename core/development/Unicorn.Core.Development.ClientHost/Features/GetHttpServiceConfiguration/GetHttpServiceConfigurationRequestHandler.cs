@@ -31,8 +31,8 @@ public class GetHttpServiceConfigurationRequestHandler :
     {
         var services = new[]
         {
-            new HttpServiceConfiguration { Name = "test" },
-            new HttpServiceConfiguration { Name = "test2" }
+            new HttpServiceConfiguration { ServiceHostName = "test" },
+            new HttpServiceConfiguration { ServiceHostName = "test2" }
         };
 
         if (2 == 3)
@@ -40,7 +40,7 @@ public class GetHttpServiceConfigurationRequestHandler :
             return new NoAuthorization();
         }
 
-        var cfg = services.FirstOrDefault(s => s.Name.Equals(request.ServiceName));
+        var cfg = services.FirstOrDefault(s => s.ServiceHostName.Equals(request.ServiceName));
 
         return cfg is null ? new None() : cfg;
     }

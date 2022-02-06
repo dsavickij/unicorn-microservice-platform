@@ -127,3 +127,10 @@
 /eShop/cart/Unicorn.eShop.CartService.Tests/obj
 /core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery.DataAccess/bin/Debug/net6.0
 /core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery.DataAccess/obj
+/eShop/cart/Unicorn.eShop.Cart/bin/Debug/net6.0
+/eShop/cart/Unicorn.eShop.Cart/obj
+/eShop/cart/Unicorn.eShop.Cart.SDK/bin/Debug/net6.0
+/eShop/cart/Unicorn.eShop.Cart.SDK/obj
+/eShop/cart/Unicorn.eShop.Cart.Tests/bin/Debug/net6.0
+/eShop/cart/Unicorn.eShop.Cart.Tests/obj
+/obj

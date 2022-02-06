@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Services.ServiceDiscovery.Features.GetGrpcServiceConfiguration;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Controllers;
 
-[ApiController]
-public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryService
+public class ServiceDiscoveryController : UnicornBaseController<IServiceDiscoveryService>, IServiceDiscoveryService
 {
     private readonly ILogger<ServiceDiscoveryController> _logger;
 
@@ -14,84 +16,40 @@ public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryServi
         _logger = logger;
     }
 
-    [HttpGet("GetGrpcServiceConfiguration/{serviceName}")]
-    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName)
+    [HttpGet("api/configurations/{serviceHostName}/grpcServiceConfiguration")]
+    public async Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(string serviceHostName)
     {
-        _logger.LogInformation($"Executing GetGrpcServiceConfiguration for {serviceName}");
+        _logger.LogInformation($"Executing GetGrpcServiceConfiguration for {serviceHostName}");
 
-        var services = new[]
-        {
-            new GrpcServiceConfiguration
-            {
-                Name = "GreeterProtoService",
-                BaseUrl = "https://localhost:5080",
-                Port = 5080
-            },
-            new GrpcServiceConfiguration
-            {
-                Name = "Unicorn.Core.Development.ServiceHost",
-                BaseUrl = "https://localhost:7287",
-                Port = 7287
-            },
-            new GrpcServiceConfiguration
-            {
-                 Name = "DiscountGrpcService",
-
-                 // BaseUrl = "http://localhost:5220",
-                 BaseUrl = "https://unicorn.eshop.discount:443",
-                 Port = 80
-            }
-        };
-
-        return services.FirstOrDefault(x => x.Name == serviceName, new GrpcServiceConfiguration());
+        return await SendAsync(new GetGrpcServiceConfigurationRequest { ServiceHostName = serviceHostName });
     }
 
-    [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName)
+    [HttpGet("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    public async Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(string serviceHostName)
     {
-        _logger.LogDebug($"Executing GetHttpServiceConfiguration/{serviceName}");
+        _logger.LogDebug($"Executing GetHttpServiceConfiguration/{serviceHostName}");
 
-        var services = new[]
-        {
-           new HttpServiceConfiguration
-           {
-                Name = Constants.ServiceHostName,
-                BaseUrl = "http://localhost:5081"
-           },
-           new HttpServiceConfiguration
-           {
-                Name = "Development.HttpService",
-                BaseUrl = "https://localhost:7287"
-           }
-        };
-
-        var svc = services.FirstOrDefault(x => x.Name == serviceName) ?? new HttpServiceConfiguration
-        {
-            Name = "Non existing service",
-            BaseUrl = "http://localhost:5080"
-        };
-
-        return Task.FromResult(svc);
+        return await SendAsync(new GetHttpServiceConfigurationRequest { ServiceHostName = serviceHostName });
     }
 
-    [HttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> UpdateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
+    [HttpPut("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    public Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(string serviceHostName, HttpServiceConfiguration httpServiceConfiguration)
     {
         _logger.LogInformation($"UpdateHttpServiceConfiguration");
 
-        return Task.FromResult(httpServiceConfiguration);
+        return Task.FromResult(new OperationResult<HttpServiceConfiguration>(OperationStatusCode.Status200OK, httpServiceConfiguration));
     }
 
-    [HttpPost("CreateHttpServiceConfiguration")]
-    public Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
+    [HttpPost("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    public Task<OperationResult<HttpServiceConfiguration>> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
         _logger.LogInformation($"CreateHttpServiceConfiguration");
 
-        return Task.FromResult(httpServiceConfiguration);
+        return Task.FromResult(new OperationResult<HttpServiceConfiguration>(OperationStatusCode.Status200OK, httpServiceConfiguration));
     }
 
-    [HttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
-    public Task DeleteHttpServiceConfigurationAsync(string serviceName)
+    [HttpDelete("api/configurations/{serviceHostName}")]
+    public Task DeleteHttpServiceConfigurationAsync(string serviceHostName)
     {
         _logger.LogInformation($"DeleteHttpServiceConfiguration");
 

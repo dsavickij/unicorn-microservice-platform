@@ -14,7 +14,7 @@ services:
         image: ${DOCKER_REGISTRY-}unicorneshopcart
         build:
             context: .
-            dockerfile: eShop/cart/Unicorn.eShop.CartService/Dockerfile
+            dockerfile: eShop/cart/Unicorn.eShop.Cart/Dockerfile
 
     unicorn.eshop.discount:
         image: ${DOCKER_REGISTRY-}unicorneshopdiscount

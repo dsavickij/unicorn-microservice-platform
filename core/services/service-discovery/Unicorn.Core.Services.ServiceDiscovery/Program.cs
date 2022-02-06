@@ -1,34 +1,20 @@
-using Microsoft.EntityFrameworkCore;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Services.ServiceDiscovery;
 using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
+// register services on builder.Services if needed
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDatabase(builder.Configuration);
 
-builder.Services.AddDbContext<ServiceDiscoveryDbContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration["DbConnectionString"]);
-});
-
-builder.Services.AddSwaggerGen();
+builder.Host.ApplyUnicornConfiguration<ServiceDiscoveryHostSettings>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseUnicornMiddlewares(app.Environment);
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+// add middlewares here if needed
 
 app.MapControllers();
-
 app.Run();

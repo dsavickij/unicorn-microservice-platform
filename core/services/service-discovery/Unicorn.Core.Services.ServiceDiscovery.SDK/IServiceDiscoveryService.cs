@@ -1,4 +1,5 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
@@ -10,18 +11,18 @@ namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 [UnicornHttpServiceMarker]
 public interface IServiceDiscoveryService
 {
-    [UnicornHttpGet("GetGrpcServiceConfiguration/{serviceName}")]
-    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceName);
+    [UnicornHttpGet("api/configurations/{serviceHostName}/grpcServiceConfiguration")]
+    Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(string serviceHostName);
 
-    [UnicornHttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName);
+    [UnicornHttpGet("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(string serviceHostName);
 
-    [UnicornHttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
-    Task<HttpServiceConfiguration> UpdateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
+    [UnicornHttpPut("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(string serviceHostName, HttpServiceConfiguration httpServiceConfiguration);
 
-    [UnicornHttpPost("CreateHttpServiceConfiguration")]
-    Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
+    [UnicornHttpPost("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    Task<OperationResult<HttpServiceConfiguration>> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
-    [UnicornHttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
-    Task DeleteHttpServiceConfigurationAsync(string serviceName);
+    [UnicornHttpDelete("api/configurations/{serviceHostName}")]
+    Task DeleteHttpServiceConfigurationAsync(string serviceHostName);
 }
