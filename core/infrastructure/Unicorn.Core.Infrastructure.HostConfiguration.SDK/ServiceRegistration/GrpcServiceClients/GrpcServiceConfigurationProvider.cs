@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.GrpcServiceClients;
