@@ -7,13 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\..\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Constants.cs" Link="ServiceRegistration\ServiceDiscovery\SDK\Constants.cs" />
-	  <Compile Include="..\..\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\DTOs\GrpcServiceConfiguration.cs" Link="ServiceRegistration\ServiceDiscovery\SDK\DTOs\GrpcServiceConfiguration.cs" />
-	  <Compile Include="..\..\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\DTOs\HttpServiceConfiguration.cs" Link="ServiceRegistration\ServiceDiscovery\SDK\DTOs\HttpServiceConfiguration.cs" />
-	  <Compile Include="..\..\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\IServiceDiscoveryService.cs" Link="ServiceRegistration\ServiceDiscovery\SDK\IServiceDiscoveryService.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.5.0" />
 		<PackageReference Include="FluentValidation" Version="10.3.6" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
@@ -50,10 +43,6 @@
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ServiceRegistration\ServiceDiscovery\SDK\DTOs\" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
