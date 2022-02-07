@@ -28,6 +28,12 @@ services:
             context: .
             dockerfile: core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/Dockerfile
 
+    unicorn.eshop.catalog:
+        image: ${DOCKER_REGISTRY-}unicorneshopcatalog
+        build:
+            context: .
+            dockerfile: eShop/catalog/Unicorn.eShop.Catalog/Dockerfile
+
     #unicorn.core.services.authentication.openiddict:
     #    image: ${DOCKER_REGISTRY-}unicorncoreservicesauthenticationopeniddict
     #    build:

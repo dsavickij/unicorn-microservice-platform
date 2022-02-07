@@ -80,6 +80,23 @@ services:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
+    unicorn.eshop.catalog:
+        container_name: unicorn.eshop.catalog
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - CatalogHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
+            - CatalogHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
+        depends_on:
+            - unicorn.core.services.servicediscovery
+            - rabbitmq
+        ports:
+            - "8006:80"
+            - "8007:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
     #unicorn.core.services.authentication.openiddict:
     #    container_name: unicorn.core.services.authentication.openiddict
     #    environment:
