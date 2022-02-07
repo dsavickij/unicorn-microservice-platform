@@ -21,8 +21,8 @@ internal interface IServiceDiscoveryClient
 /// This is done to remove cyclic dependency: if ServiceDiscovery would be called using service's SDK,
 /// it would result in attempt to get configuration from ServiceDiscovery, but to do that it would need to
 /// get ServiceDiscovery configuration from ServiceDiscovery. The end result is infinite loop. That's why
-/// this ServiceDisocveryClient was created. Also, to have strongly-types configurations, but avoid reference to
-/// ServiceDiscovery SDK, the files were added to this project as linked ones
+/// this ServiceDisocveryClient was created. Also, to have strongly-typed configurations, but avoid reference to
+/// ServiceDiscovery SDK, the files were added to this project as linked
 /// </summary>
 internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 {
