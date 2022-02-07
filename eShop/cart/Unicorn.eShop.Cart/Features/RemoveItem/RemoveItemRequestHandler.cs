@@ -32,7 +32,7 @@ public class RemoveItemRequestHandler : BaseHandler.WithResult.For<RemoveItemReq
         return item.IsT0 ? item.AsT0 : await RemoveItemAsync(item.AsT1);
     }
 
-    private async Task<Success> RemoveItemAsync(CartItem item)
+    private async Task<Success> RemoveItemAsync(CartItemEntity item)
     {
         _ctx.CartItems.Remove(item);
         await _ctx.SaveChangesAsync();
@@ -40,7 +40,7 @@ public class RemoveItemRequestHandler : BaseHandler.WithResult.For<RemoveItemReq
         return new Success();
     }
 
-    private async Task<OneOf<NotFound, CartItem>> GetCartItemAsync(Guid cartId, Guid catalogItemId)
+    private async Task<OneOf<NotFound, CartItemEntity>> GetCartItemAsync(Guid cartId, Guid catalogItemId)
     {
         var result = await _ctx.CartItems.SingleOrDefaultAsync(x => x.CartId == cartId && x.CatalogItemId == catalogItemId);
 

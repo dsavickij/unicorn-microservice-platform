@@ -6,7 +6,7 @@ namespace Unicorn.eShop.Cart.Entities;
 
 [Table("CartItems")]
 [Index(nameof(CartId), nameof(CatalogItemId), IsUnique = true)]
-public record CartItem
+public record CartItemEntity
 {
     [Key]
     public Guid Id { get; set; }

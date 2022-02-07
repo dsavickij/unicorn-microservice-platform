@@ -8,11 +8,11 @@ namespace Unicorn.eShop.Cart.Entities;
 [Index(nameof(UserId), IsUnique = true)]
 [Index(nameof(Id), IsUnique = true)]
 [Index(nameof(Id), nameof(UserId), IsUnique = true)]
-public record Cart
+public record CartEntity
 {
     [Key]
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
-    public IEnumerable<CartItem> Items { get; set; } = Enumerable.Empty<CartItem>();
+    public IEnumerable<CartItemEntity> Items { get; set; } = Enumerable.Empty<CartItemEntity>();
     public decimal TotalPrice => Items.Sum(x => x.UnitPrice * x.Quantity);
 }

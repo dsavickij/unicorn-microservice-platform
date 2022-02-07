@@ -1,4 +1,5 @@
 ﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
+using Unicorn.eShop.Cart.DataAccess;
 
 namespace Unicorn.eShop.Cart;
 

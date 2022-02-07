@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>f47a873b-df75-4417-97da-ff86115fe2ac</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..</DockerfileContext>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,6 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Unicorn.eShop.Cart.DataAccess\Unicorn.eShop.Cart.DataAccess.csproj" />
 	  <ProjectReference Include="..\Unicorn.eShop.Cart.SDK\Unicorn.eShop.Cart.SDK.csproj" />
 	</ItemGroup>
 

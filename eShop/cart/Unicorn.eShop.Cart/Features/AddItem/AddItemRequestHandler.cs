@@ -31,7 +31,7 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
 
     private async Task AddItemToCartAsync(Guid cartId, CartItemDTO item)
     {
-        await _ctx.CartItems.AddAsync(new CartItem
+        await _ctx.CartItems.AddAsync(new CartItemEntity
         {
             CartId = cartId,
             CatalogItemId = item.CatalogItemId,
@@ -48,7 +48,7 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
 
         if (cart is null)
         {
-            cart = new Entities.Cart { Id = cartId }; // TODO: userId should be added here too
+            cart = new Entities.CartEntity { Id = cartId }; // TODO: userId should be added here too
 
             await _ctx.Carts.AddAsync(cart);
             await _ctx.SaveChangesAsync();
