@@ -26,7 +26,7 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
     {
         if (string.IsNullOrEmpty(UnicornOperationContext.AccessToken))
         {
-            // if no access token exist, it is assummed non-SSL channel need to be used
+            // if no access token exist, it is assummed non-SSL channel needs to be used
             var httpHandler = new HttpClientHandler
             {
                 // Return 'true' to allow certificates that are untrusted/invalid

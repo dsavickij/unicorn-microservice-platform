@@ -34,7 +34,8 @@ internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvi
             return _cache[grpcServiceMethod.Name];
         }
 
-        throw new ArgumentException($"Method '{grpcServiceMethod.Name}' is not declared in the type in SDK for GRPC services. " +
+        throw new ArgumentException($"Method '{grpcServiceMethod.Name}' belongs to type " +
+            $"'{grpcServiceMethod.DeclaringType!.FullName}' is not declared in the type in SDK for GRPC services. " +
             $"Only GRPC service methods can be used as a delegate");
     }
 }

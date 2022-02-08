@@ -21,10 +21,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Features\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj" />
 	</ItemGroup>
 

@@ -1,6 +1,5 @@
 ﻿using DiscountGrpcServiceProto;
 using Grpc.Core;
-using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
@@ -11,12 +10,11 @@ namespace Unicorn.eShop.Discount.SDK.gRPC.Clients;
 [UnicornGrpcClientMarker]
 public interface IDiscountGrpcServiceClient
 {
-    public Task<OperationResult<CartDiscountDTO>> GetCartDiscountAsync(string discountCode);
+    public Task<OperationResult<CartDiscount>> GetCartDiscountAsync(string discountCode);
 }
 
 public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceClient
 {
-    private DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient? _client;
     private readonly ILogger<DiscountGrpcServiceClient> _logger;
 
     public DiscountGrpcServiceClient(IGrpcServiceClientFactory factory, ILogger<DiscountGrpcServiceClient> logger) : base(factory)
@@ -24,14 +22,15 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
         _logger = logger;
     }
 
-    public async Task<OperationResult<CartDiscountDTO>> GetCartDiscountAsync(string discountCode)
+    public async Task<OperationResult<CartDiscount>> GetCartDiscountAsync(string discountCode)
     {
         try
         {
             var req = new CartDiscountRequest { DiscountCode = discountCode };
-            var response = await Factory.CallAsync(c => GetClient(c).GetCartDiscountAsyncAsync(req));
+            var response = await Factory.CallAsync(
+                c => new DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient(c).GetCartDiscountAsyncAsync(req));
 
-            var result = new CartDiscountDTO
+            var result = new CartDiscount
             {
                 DiscountId = Guid.Parse(response.DiscountId),
                 DiscountCode = response.DiscountCode,
@@ -57,7 +56,4 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
             throw;
         }
     }
-
-    private DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient GetClient(GrpcChannel channel) =>
-        _client ??= new DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient(channel);
 }

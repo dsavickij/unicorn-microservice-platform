@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.eShop.Discount.SDK.gRPC.Clients;
 
-public record CartDiscountDTO
+public record CartDiscount
 {
     public Guid DiscountId { get; set; }
     public string Title { get; set; } = "No discount";
