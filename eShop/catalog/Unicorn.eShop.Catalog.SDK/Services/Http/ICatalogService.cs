@@ -13,4 +13,7 @@ public interface ICatalogService
 {
     [UnicornHttpDelete("api/catalog/items/{id}/soft")]
     Task<OperationResult> SoftDeleteItemAsync([UnicornFromRoute] Guid id);
+
+    [UnicornHttpPost("api/catalog/categories")]
+    Task<OperationResult<CatalogCategory>> CreateCatalogCategoryAsync([UnicornFromBody] CatalogCategory catalogCategory);
 }

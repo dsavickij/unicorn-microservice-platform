@@ -16,6 +16,12 @@ public class CatalogServiceController : UnicornBaseController<ICatalogService>, 
         _logger = logger;
     }
 
+    [HttpPost]
+    public Task<OperationResult<CatalogCategory>> CreateCatalogCategoryAsync([FromBody] CatalogCategory catalogCategory)
+    {
+        throw new NotImplementedException();
+    }
+
     [HttpDelete("api/catalog/items/{id}/soft")]
     public async Task<OperationResult> SoftDeleteItemAsync([FromRoute] Guid id)
     {
