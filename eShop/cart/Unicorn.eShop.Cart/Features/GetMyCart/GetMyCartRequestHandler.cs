@@ -2,7 +2,6 @@
 using OneOf;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
-using Unicorn.eShop.Cart.Entities;
 using Microsoft.EntityFrameworkCore;
 using Unicorn.eShop.Cart.SDK.DTOs;
 

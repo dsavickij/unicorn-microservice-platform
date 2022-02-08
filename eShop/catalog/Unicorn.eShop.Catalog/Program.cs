@@ -1,25 +1,19 @@
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.eShop.Catalog;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// register services on builder.Services if needed
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddDatabase(builder.Configuration, builder.Environment.IsDevelopment());
+
+builder.Host.ApplyUnicornConfiguration<CatalogHostSettings>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseUnicornMiddlewares(app.Environment);
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+// add middlewares here if needed
 
 app.MapControllers();
-
 app.Run();

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
-using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationContext;
 using Unicorn.eShop.Cart.Entities;
 using Unicorn.eShop.Cart.SDK.DTOs;
 
@@ -48,7 +47,7 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
 
         if (cart is null)
         {
-            cart = new Entities.CartEntity { Id = cartId }; // TODO: userId should be added here too
+            cart = new CartEntity { Id = cartId }; // TODO: userId should be added here too
 
             await _ctx.Carts.AddAsync(cart);
             await _ctx.SaveChangesAsync();
