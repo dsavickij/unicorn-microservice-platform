@@ -17,8 +17,8 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
 
     protected override async Task<OperationResult> HandleAsync(AddItemRequest request, CancellationToken cancellationToken)
     {
-       // await _ctx.Database.EnsureDeletedAsync();
-       // await _ctx.Database.EnsureCreatedAsync();
+        // await _ctx.Database.EnsureDeletedAsync();
+        // await _ctx.Database.EnsureCreatedAsync();
 
         //TODO: add validation for catalogItem existence in CatalogService
 
@@ -36,13 +36,14 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
             CatalogItemId = item.CatalogItemId,
             Quantity = item.Quantity,
             UnitPrice = item.UnitPrice,
+            IsAvailable = true
         });
 
         await _ctx.SaveChangesAsync();
     }
 
     private async Task<Guid> GetCartIdAsync(Guid cartId)
-    {   
+    {
         var cart = await _ctx.Carts.FirstOrDefaultAsync(x => x.Id == cartId);
 
         if (cart is null)
