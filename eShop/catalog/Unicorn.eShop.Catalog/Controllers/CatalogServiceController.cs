@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.eShop.Catalog.Features.SoftDeleteItem;
 using Unicorn.eShop.Catalog.SDK.Services.Http;
 
 namespace Unicorn.eShop.Catalog.Controllers;
@@ -16,8 +17,8 @@ public class CatalogServiceController : UnicornBaseController<ICatalogService>, 
     }
 
     [HttpDelete("api/catalog/items/{id}/soft")]
-    public Task<OperationResult> SoftDeleteItemAsync([FromRoute] Guid id)
+    public async Task<OperationResult> SoftDeleteItemAsync([FromRoute] Guid id)
     {
-        throw new NotImplementedException();
+        return await SendAsync(new SoftDeleteItemRequest { Id = id });
     }
 }

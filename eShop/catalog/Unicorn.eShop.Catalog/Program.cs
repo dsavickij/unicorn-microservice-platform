@@ -1,5 +1,4 @@
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
-using Unicorn.eShop.Catalog;
 
 var builder = WebApplication.CreateBuilder(args);
 
