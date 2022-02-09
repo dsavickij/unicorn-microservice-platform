@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Unicorn.Core.Development.ServiceHost.Features.GetFilmDescriptions;
+using Unicorn.Core.Development.ServiceHost.Features.GetFilmsDescription;
+using Unicorn.Core.Development.ServiceHost.Features.UpdateFilmDescription;
+using Unicorn.Core.Development.ServiceHost.Features.UploadFilm;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;

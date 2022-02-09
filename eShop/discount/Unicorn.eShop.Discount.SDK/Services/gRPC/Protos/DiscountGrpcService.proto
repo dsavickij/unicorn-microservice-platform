@@ -1,8 +1,8 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "DiscountGrpcServiceProto";
+option csharp_namespace = "Unicorn.eShop.Discount.SDK.Protos";
 
-package DiscountGrpcServiceProto;
+package Discount;
 
 // The greeting service definition.
 service DiscountGrpcServiceProto {

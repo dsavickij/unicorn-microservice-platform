@@ -1,9 +1,9 @@
-﻿using DiscountGrpcServiceProto;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
+using Unicorn.eShop.Discount.SDK.Protos;
 
 namespace Unicorn.eShop.Discount.SDK.gRPC.Clients;
 
@@ -28,7 +28,7 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
         {
             var req = new CartDiscountRequest { DiscountCode = discountCode };
             var response = await Factory.CallAsync(
-                c => new DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient(c).GetCartDiscountAsyncAsync(req));
+                c => new DiscountGrpcServiceProto.DiscountGrpcServiceProtoClient(c).GetCartDiscountAsyncAsync(req));
 
             var result = new CartDiscount
             {

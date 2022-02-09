@@ -2,9 +2,10 @@
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
+using Unicorn.eShop.Discount.SDK;
 using Unicorn.eShop.Discount.SDK.gRPC.Clients;
 
-[assembly: UnicornServiceHostName("Unicorn.eShop.Discount")]
+[assembly: UnicornServiceHostName(Constants.ServiceHostName)]
 
 namespace Unicorn.eShop.Discount.SDK.Services.Http;
 

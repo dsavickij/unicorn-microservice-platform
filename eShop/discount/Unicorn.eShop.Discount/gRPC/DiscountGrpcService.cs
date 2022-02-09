@@ -1,7 +1,7 @@
-﻿using DiscountGrpcServiceProto;
-using Grpc.Core;
+﻿using Grpc.Core;
 using MediatR;
 using Unicorn.eShop.Discount.Features.GetCartDiscount;
+using Unicorn.eShop.Discount.SDK.Protos;
 
 namespace Unicorn.eShop.Discount.gRPC.Services;
 
@@ -10,7 +10,7 @@ public interface IDiscountGrpcService
 
 }
 
-public class DiscountGrpcService : DiscountGrpcServiceProto.DiscountGrpcServiceProto.DiscountGrpcServiceProtoBase
+public class DiscountGrpcService : DiscountGrpcServiceProto.DiscountGrpcServiceProtoBase
 {
     private readonly IMediator _mediator;
 
@@ -18,8 +18,7 @@ public class DiscountGrpcService : DiscountGrpcServiceProto.DiscountGrpcServiceP
 
     public override async Task<CartDiscountReply> GetCartDiscountAsync(CartDiscountRequest request, ServerCallContext context)
     {
-        var mediatorReq = new GetCartDiscountRequest { DiscountCode = request.DiscountCode };
-        var result = await _mediator.Send(mediatorReq);
+        var result = await _mediator.Send(new GetCartDiscountRequest { DiscountCode = request.DiscountCode });
 
         if (result.IsSuccess)
         {
