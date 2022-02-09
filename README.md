@@ -368,7 +368,7 @@ Possible plans for further learning/development:
 * Add Authorization? Investigate
 * Ocelot or YARP for APIM/reverse-proxy/API gateway
 * Something regarding messaging:
-	* MassTransit on top of RabbitMQ message broker to try Saga pattern
+	* ~~MassTransit on top of RabbitMQ message broker to try Saga pattern~~ MassTransit on top of RabbitMQ and Azure ServiceBus was added with no issues. Saga pattern testing if left for the future
 	* Kafka for event sourcing to try what it can be used for
 		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
