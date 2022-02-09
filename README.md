@@ -18,19 +18,28 @@ The project is based on .NET 6.0 and is in constant development.
 * **Enforcement of vertical slice architecture pattern**
 	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develope microservice in the spirit of vertical slice architecture
 * **Common  types for respones**
-	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices	  
+	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
+
+## (Very) Brief overview of technical implementation
+
+Unicorn project is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets are required to include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of later.
+
+During the startup of Unicorn microservice, the appliciation scans librararies and registers HTTP services, gRPC service clients, event handlers, data validation classes and starts to listen to message broker queues for the one-way endpoints the microservice exposes.
+
+During the request, the caller uses service host name in target service SDK to get configuration from Service Discovery service. If HTTP service is being called, HTTP configuration is retrieved and cached. If the gRPC service is called - the same is done for gRPC configuration. 
+
+For proper functioning of microservice, certain configuration is required to be provided in microservice configuration. That include Service Discovery service URL for service configuration retrieval, subscription identifier for subscription to message broker topics and message broker connection string.
 
 ## Table of contents
 - [Repository structure](#repository-structure)
-- [Starting Unicorn.eShop microservices](#starting-unicorneshop-microservices)
-	- [Create local nuget packages](#create-local-nuget-packages)
-	- [Start in Docker containers](#start-in-docker-containers)
-	- [Access the Unicorn.eShop services](#access-the-unicorneshop-services)
-- [Overview of technical implementation](#overview-of-technical-implementation)
-- [Creating a new Unicorn microservice](#creating-a-new-unicorn-microservice)
-	- [Configuring service host](#configuring-service-host)
-	- [Adding HTTP service](#adding-http-service)
-	- [Adding gRPC service client](#adding-grpc-service-client)
+- [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
+	- [Creation of local nuget packages](#creation-of-local-nuget-packages)
+	- [Lauching all services in Docker containers](#lauching-all-services-in-docker-containers)
+	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
+- [Creation of a new Unicorn microservice](#creation-of-a-new-unicorn-microservice)
+	- [Web API host configuration](#web-api-host-configuration)
+	- [Addition of HTTP service](#addition-of-http-service)
+	- [Addition of gRPC service client](#addition-of-grpc-service-client)
 	- [How service call is done?](#how-service-call-is-done)
 - [Notes for further development](#notes-for-further-development)
 - [Links](#links)
@@ -44,11 +53,11 @@ The project is based on .NET 6.0 and is in constant development.
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
 * **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services in early stage of development.
 
-## Starting Unicorn.eShop microservices
+## Getting Unicorn.eShop microservices started
 
-At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
+Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn infrastrcuture packages. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
-### Create local nuget packages
+### Creation of local nuget packages
 
 Unicorn.eShop miroservices use infrastrucuture nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
 
@@ -80,13 +89,13 @@ dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.D
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
-### Start in Docker containers
+### Lauching all services in Docker containers
 
-Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to usedDocker, but that require manual alterations in service configuration files and installation of message broker and databases.
+Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to use Docker, but that requires manual alterations in service configuration files and installation of message broker and databases.
 
 If Docker Desktop is not installed on your machine, please download and intall it. After that, open Unicorn-project-microservices solution in you IDE and set __docker-compose__ as default startup project. Now, start the solution: Unicorn.eShop services will start on Docker.
 
-### Access the Unicorn.eShop services
+### URLs to Unicorn.eShop microservices
 
 Unicorn.eShop microservice HTTP APIs can be accessed by the following URLs:
 
@@ -98,24 +107,15 @@ Unicorn.Core.Services:
 
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
-## Overview of technical implementation
-
-Unicorn project is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets are required to include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of later.
-
-During the startup of Unicorn microservice, the appliciation scans librararies and registers HTTP services, gRPC service clients, event handlers, data validation classes and starts to listen to message broker queues for the one-way endpoints the microservice exposes.
-
-During the request, the caller uses service host name in target service SDK to get configuration from Service Discovery service. If HTTP service is being called, HTTP configuration is retrieved and cached. If the gRPC service is called - the same is done for gRPC configuration. 
-
-For proper functioning of microservice, certain configuration is required to be provided in microservice configuration. That include Service Discovery service URL for service configuration retrieval, subscription identifier for subscription to message broker topics and message broker connection string.
 
 
-## Creating a new Unicorn microservice
+## Creation of a new Unicorn microservice
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
 
 Typical Unicorn microservice consists of at least 1 Web API project and 1 class libarary for SDK.
 
-### Configuring service host
+### Web API host configuration
 
 1. Add `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package to created Web API project
 2. Go to `Program.cs` and remove every line of code here and paste the following:
@@ -178,7 +178,7 @@ public record ServiceHostSettings : BaseHostSettings
 
 That's all what is required to configure new microservice to use __Unicorn.Core.*__ infrastructure packages.
 
-### Adding HTTP service
+### Addition of HTTP service
 
 * Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added to SDK project
 * Assembly attribute `UnicornServiceHostName` with service host name must be added to any class in SDK project. Srvice host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
@@ -265,7 +265,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 }
 
 ```
-### Adding gRPC service client
+### Addition of gRPC service client
 
 * Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added to SDK
 * SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
@@ -374,7 +374,7 @@ Possible plans for further learning/development:
 * Elasticsearch just to see it in action
 * Redis for distributed caching 
 * Blazor for some UI and to have something to call API gateway
-* Docker support in the form of single command to launch all microservices in containers
+* ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
 
 ## Links
