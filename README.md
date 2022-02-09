@@ -11,6 +11,12 @@ Microservices can use all communication types or a combination of them.
 
 The project is based on .NET 6.0 and is in constant development.
 
+## Features
+
+* **Feature 1**
+* **Feature 2**
+* **Feature 3**
+
 ## Solution structure
 
 * **core** - includes projects serving as a foundation for building micorservices
@@ -19,7 +25,7 @@ The project is based on .NET 6.0 and is in constant development.
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small change
 * **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services.
 
-## Starting-up Unicorn.eShop microservices
+## Starting Unicorn.eShop microservices
 
 At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
@@ -55,7 +61,7 @@ dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.D
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
-### Use Docker to start services
+### Start in Docker containers
 
 Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to usedDocker, but that require manual alterations in service configuration files and installation of message broker and databases.
 
@@ -84,69 +90,98 @@ During the request, the caller uses service host name in target service SDK to g
 For proper functioning of microservice, certain configuration is required to be provided in microservice configuration. That include Service Discovery service URL for service configuration retrieval, subscription identifier for subscription to message broker topics and message broker connection string.
 
 
-## How does it work?
+## Creating a new Unicorn microservice
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
 
-### Creation of HTTP service
+### Adding HTTP service
 
 * Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added to SDK project
-* HTTP service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded in controller
-* Assembly attribute `UnicornAssemblyServiceNameAttribute` with service name from ServiceDiscovery must be added to any class in SDK project
+* Assembly attribute `UnicornServiceHostName` with service host name must be added to any class in SDK project. Srvice host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
+* HTTP service configuration with service host name needs to be registered in ServiceDiscovery service
 * HTTP service interface needs to be created. Methods defined in it must be implemented in Web API controller to receive request from microservices 
 	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarker` attribute
 	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` depending on what HTTP method needs to be used to call it. Every attribute need to provide URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added to Web API controller.
    
-HTTP service interface should look similar to this:
+HTTP service interface with all above mentioned attributes should look similar to this:
 
 ```c#
+[assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
+
+namespace Unicorn.eShop.Cart.SDK;
+
 [UnicornHttpServiceMarker]
-public interface IServiceDiscoveryService
+public interface ICartService
 {
-    [UnicornHttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceName);
+    [UnicornHttpPost("api/carts/{cartId}/items/add")]
+    Task<OperationResult> AddItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromBody] CartItemDTO cartItem);
 
-    [UnicornHttpPut("UpdateHttpServiceConfiguration/{serviceName}")]
-    Task<HttpServiceConfiguration> UpdateHttpServiceConfigurationAsync(string serviceName, HttpServiceConfiguration httpServiceConfiguration);
+    [UnicornHttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
+    Task<OperationResult> RemoveItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] Guid itemId);
 
-    [UnicornHttpPost("CreateHttpServiceConfiguration")]
-    Task<HttpServiceConfiguration> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
+    [UnicornHttpGet("api/carts/my")]
+    Task<OperationResult<CartDTO>> GetMyCartAsync();
 
-    [UnicornHttpDelete("DeleteHttpServiceConfiguration/{serviceName}")]
-    Task DeleteHttpServiceConfigurationAsync(string serviceName);
+    [UnicornHttpGet("api/carts/{cartId}/discounts/{discountCode}")]
+    Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] string discountCode);
 }
 
 ```
 
-Method signatures in Web API controller in HTTP service should look similar to this:
+HTTP service interface provided in microservice SDK must be implemented by the microservice to handle requests. To achieve that, a Web API controller needs to be created. This controller must inherit from `UnicornBaseController<>` class and provide HTTP service interface as a generic parameter to it. 
+
+After everthing is done, a Web API controller should look similar to this:
 
 ```c#
-[ApiController]
-public class ServiceDiscoveryController : ControllerBase, IServiceDiscoveryService
+public class CartServiceController : UnicornBaseController<ICartService>, ICartService
 {
-    private readonly ILogger<ServiceDiscoveryController> _logger;
+    private readonly ILogger<CartServiceController> _logger;
 
-    public ServiceDiscoveryController(ILogger<ServiceDiscoveryController> logger)
+    public CartServiceController(ILogger<CartServiceController> logger)
     {
         _logger = logger;
     }
 
-    [HttpGet("GetHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> GetHttpServiceConfiguration(string serviceName)
+    [HttpPost("api/carts/{cartId}/items/add")]
+    public async Task<OperationResult> AddItemAsync([FromRoute] Guid cartId, [FromBody] CartItemDTO cartItem)
     {
-	// do your magic
+        return await SendAsync(new AddItemRequest
+        {
+            CartId = cartId,
+            Item = cartItem
+        });
     }
 
-    [HttpPost("CreateHttpServiceConfiguration/{serviceName}")]
-    public Task<HttpServiceConfiguration> CreateHttpServiceConfiguration(string serviceName, HttpServiceConfiguration httpServiceConfiguration)
+    [HttpGet("api/carts/{cartId}/discounts/{discountCode}")]
+    public async Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync(
+        [FromRoute] Guid cartId, [FromRoute] string discountCode)
     {
-	// do your magic
+        return await SendAsync(new ApplyDiscountRequest
+        {
+            CartId = cartId,
+            DiscountCode = discountCode
+        });
+    }
+
+    [HttpGet("api/carts/my")]
+    public async Task<OperationResult<CartDTO>> GetMyCartAsync()
+    {
+        return await SendAsync(new GetMyCartRequest());
+    }
+
+    [HttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
+    public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid cartId, [FromRoute] Guid itemId)
+    {
+        return await SendAsync(new RemoveItemRequest
+        {
+            CartId = cartId,
+            CatalogItemId = itemId
+        });
     }
 }
 
-
 ```
-### Creation of gRPC service client
+### Adding gRPC service client
 
 * Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added to SDK
 * SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
