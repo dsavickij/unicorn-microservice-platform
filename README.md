@@ -1,19 +1,77 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-project-microservices
-Implementation of microservice architecture with inter-service communication abstracted from consumer as much as possible. Communication can be done using HTTP or high performance gRPC protocol.
+Implementation of microservice architecture with implementation of inter-service communication abstracted from consumer as much as possible. The project puts emphasis on making the development of new microservices as easy as possible by providing unified approach for many components (authentication, data validation, inter-service communication, enforcement of vertical slice architectural style on microservice, etc.) in the form of nuget packages. 
 
-gRPC support is not tested beyond simple implementation of it, so it is like 'beta' version.
+Two types of inter-service communication are supported:
+1. One-way (asynchronous) over RabbitMQ or Azure ServiceBus with support for events and message queues;
+2. Two-way (synchronous) over HTTP or high performance gRPC.
 
-The project is based on .NET 6.0
+Microservices can use all communication types or a combination of them.
 
-## Solution folder structure
+The project is based on .NET 6.0 and is in constant development.
 
-* **core** - includes projects for inter-service communication over HTTP and gRPC as well as all the services required to achieve that
-	* **infrastructure** - projects for inter-services communication
-	* **services** - services required for inter-service communication (only ServiceDiscovery for now)
-	* **development** - projects to facilitate development and testing of infrastructure projects and services. Projects in this folder reference infrastructure projects directly thus the need to create nugets for testing purpose is eliminated
-* **services** - Unicorn microservices which consume infrastructure nuget packages and use core services for inter-service communication
+## Solution structure
+
+* **core** - includes projects serving as a foundation for building micorservices
+	* **infrastructure** - projects for inter-services communication, data validation, authentication, service registration, etc.
+	* **services** - independent services required to ensure the work of microservices (service-discovery, authentcation, etc.)
+	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small change
+* **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services.
+
+## Starting-up Unicorn.eShop microservices
+
+At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
+
+### Create local nuget packages
+
+Unicorn.eShop miroservices use infrastrucuture nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
+
+To create local infrastructure packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
+
+```
+dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+```
+After finishing, Powershell will create project nuget packages in `--output` folder. This folder needs to be added as a local nuget store in Visual Studio. [Here](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources) you can find how to do that.
+
+Inter-service communication between Unicorn microservices is done utilising data provided in SDKs. Thus, Unicorn.eShop service nugets are also required to be created. Once again, change the pathes and run the following commands:
+
+```
+dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+
+```
+### Use Docker to start services
+
+Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to usedDocker, but that require manual alterations in service configuration files and installation of message broker and databases.
+
+If Docker Desktop is not installed on your machine, please download and intall it. After that, open Unicorn-project-microservices solution in you IDE and set __docker-compose__ as default startup project. Now, start the solution: Unicorn.eShop services will start on Docker.
+
+### Access the Unicorn.eShop services
+
+Unicorn.eShop microservice HTTP APIs can be accessed by the following URLs:
+
+* **Unicorn.eShop.Cart** - https://localhost:8001/swagger/index.html
+* **Unicorn.eShop.Discount** - https://localhost:8005/swagger/index.html
+* **Unicorn.eShop.Catalog** - https://localhost:8007/swagger/index.html
+
+Unicorn.Core.Services:
+
+* **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
 ## How does it work?
 
