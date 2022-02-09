@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Grpc\Protos\MultiplicationGrpcService.proto" />
 		<None Remove="Grpc\Protos\SubtractionGrpcService.proto" />
 	</ItemGroup>
 
@@ -28,13 +29,9 @@
 		<!--<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MyGrpcService.proto">
 			<Link>Grpc\Protos\MyGrpcService.proto"</Link>
 		</Protobuf>-->
-		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MultiplicationGrpcService.proto">
-			<Link>Grpc\Protos\MultiplicationGrpcService.proto</Link>
-		</Protobuf>
-		<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\DivisionGrpcService.proto">
-			<Link>Grpc\Protos\DivisionGrpcService.proto</Link>
-		</Protobuf>
-		<Protobuf Include="Grpc\Protos\SubtractionGrpcService.proto" />
+		<Protobuf Include="Grpc\Protos\MultiplicationGrpcService.proto" GrpcServices="Server, Client" />
+		<Protobuf Include="Grpc\Protos\DivisionGrpcService.proto" GrpcServices="Server, Client" />
+		<Protobuf Include="Grpc\Protos\SubtractionGrpcService.proto" GrpcServices="Server, Client" />
 	</ItemGroup>
 
 

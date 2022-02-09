@@ -2,7 +2,7 @@
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 
-namespace Unicorn.Core.Development.ServiceHost.Controllers;
+namespace Unicorn.Core.Development.ServiceHost.Features.UpdateFilmDescription;
 
 public record UpdateFilmDescriptionRequest : IRequest<OperationResult<FilmDescriptionDTO>>
 {

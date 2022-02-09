@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Development.ServiceHost.Grpc.Protos.DivisionGrpcService;
+﻿using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
 

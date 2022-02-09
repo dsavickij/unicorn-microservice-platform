@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-option csharp_namespace = "Unicorn.Core.Development.ServiceHost.Grpc.Protos.SubtractionGrpcService";
+option csharp_namespace = "Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos";
 
-package Definition;
+package Subtraction;
 
 service SubtractionGrpcService{
-	rpc Subract(SubtractionRequest) returns (SubtractionResponse);
+	rpc Subtract(SubtractionRequest) returns (SubtractionResponse);
 }
 
  message SubtractionRequest{

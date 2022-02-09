@@ -1,8 +1,8 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Unicorn.Core.Development.ServiceHost.Grpc.Protos.DivisionGrpcService";
+option csharp_namespace = "Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos";
 
-package Definition;
+package Division;
 
 service DivisionGrpcService{
 	rpc Divide(DivisionRequest) returns (DivisionResponse);

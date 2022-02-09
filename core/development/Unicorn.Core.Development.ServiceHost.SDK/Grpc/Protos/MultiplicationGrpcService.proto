@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option csharp_namespace = "Unicorn.Core.Development.ServiceHost.Grpc.Protos.MultiplicationGrpcService";
+option csharp_namespace = "Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos";
 
-package Definition;
+package Multiplication;
 
 service MultiplicationGrpcService{
 	rpc Multiply(MultiplicationRequest) returns (MultiplicationResponse);

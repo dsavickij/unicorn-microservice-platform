@@ -24,6 +24,7 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     private readonly IUnicornEventPublisher _publisher;
     private readonly IMultiplicationGrpcServiceClient _multiplicationGrpcSvcClient;
     private readonly IDivisionGrpcServiceClient _divisionGrpcSvcClient;
+    private readonly ISubtractionGrpcServiceClient _subtractionGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
     private readonly IHttpService _developmentServiceHost;
     private readonly IAuthenticationScope _scopeProvider;
@@ -32,6 +33,7 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
         IServiceDiscoveryService serviceDiscoveryService,
         IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient,
         IDivisionGrpcServiceClient divisionGrpcServiceClient,
+        ISubtractionGrpcServiceClient subtractionGrpcServiceClient,
         IHttpService developmentServiceHost,
         IAuthenticationScope scopeProvider,
         ILogger<ClientHostController> logger,
@@ -39,6 +41,7 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     {
         _multiplicationGrpcSvcClient = multiplicationGrpcServiceClient;
         _divisionGrpcSvcClient = divisionGrpcServiceClient;
+        _subtractionGrpcSvcClient = subtractionGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
         _developmentServiceHost = developmentServiceHost;
         _scopeProvider = scopeProvider;
@@ -53,6 +56,8 @@ public class ClientHostController : UnicornBaseController<IClientHostService>, I
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
+        var result = await _subtractionGrpcSvcClient.SubtractAsync(2, 1);
+               
         var first = _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
         var second = _divisionGrpcSvcClient.DivideAsync(10, 5);
 
