@@ -54,6 +54,7 @@ public static class HostConfigurationExtensions
     private static void ConfigureHostSettings<THostSettings>(this IServiceCollection services, HostBuilderContext ctx)
         where THostSettings : BaseHostSettings
     {
+        // TODO: investigate ConfigureOptions<T>
         services.Configure<THostSettings>(ctx.Configuration.GetSection(typeof(THostSettings).Name));
 
         var settings = services.BuildServiceProvider().GetRequiredService<IOptions<THostSettings>>();
