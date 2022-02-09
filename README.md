@@ -1,29 +1,48 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-project-microservices
-Implementation of microservice architecture with implementation of inter-service communication abstracted from consumer as much as possible. The project puts emphasis on making the development of new microservices as easy as possible by providing unified approach for many components (authentication, data validation, inter-service communication, enforcement of vertical slice architectural style on microservice, etc.) in the form of nuget packages. 
-
-Two types of inter-service communication are supported:
-1. One-way (asynchronous) over RabbitMQ or Azure ServiceBus with support for events and message queues;
-2. Two-way (synchronous) over HTTP or high performance gRPC.
-
-Microservices can use all communication types or a combination of them.
+Implementation of microservice architecture with common components, required for every microservice for its operations, concentrated in separate projects and consumed as nuget packages. The project puts emphasis on making the development of new microservices as fast as possible and it achieves that by pushing many components (authentication, data validation, inter-service communication, enforcement of vertical slice architectural style on microservice, etc.) out of concerns of the team working on new microservice. 
 
 The project is based on .NET 6.0 and is in constant development.
 
 ## Features
 
-* **Feature 1**
-* **Feature 2**
-* **Feature 3**
+* **Support for one-way (asynchronous) communication**
+	* Inter-service communication using message queues and events (topics) is supported using RabbitMQ or Azure ServiceBus message broker 	
+* **Support for two-way (synchronous) communication**
+	* Inter-service communication is supported over HTTP or high performance gRPC protocols.  	
+* **Microservice SDK nuget is all what is needed**
+	* Microservice's SDK contains everything what is required for consuming service to successfully call it
+* **High level of abstraction**
+	* Owner of microservice does not need to write any code to ensure microservice operation as that come "out of the box" from infrastructure packages	
+* **Enforcement of vertical slice architecture pattern**
+	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develope microservice in the spirit of vertical slice architecture
+* **Common  types for respones**
+	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices	  
 
-## Solution structure
+## Table of contents
+- [Repository structure](#repository-structure)
+- [Starting Unicorn.eShop microservices](#starting-unicorneshop-microservices)
+	- [Create local nuget packages](#create-local-nuget-packages)
+	- [Start in Docker containers](#start-in-docker-containers)
+	- [Access the Unicorn.eShop services](#access-the-unicorneshop-services)
+- [Overview of technical implementation](#overview-of-technical-implementation)
+- [Creating a new Unicorn microservice](#creating-a-new-unicorn-microservice)
+	- [Configuring service host](#configuring-service-host)
+	- [Adding HTTP service](#adding-http-service)
+	- [Adding gRPC service client](#adding-grpc-service-client)
+	- [How service call is done?](#how-service-call-is-done)
+- [Notes for further development](#notes-for-further-development)
+- [Links](#links)
 
-* **core** - includes projects serving as a foundation for building micorservices
+
+## Repository structure
+
+* **core** - includes projects serving as a foundation for building microservices
 	* **infrastructure** - projects for inter-services communication, data validation, authentication, service registration, etc.
 	* **services** - independent services required to ensure the work of microservices (service-discovery, authentcation, etc.)
-	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small change
-* **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services.
+	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
+* **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services in early stage of development.
 
 ## Starting Unicorn.eShop microservices
 
@@ -35,7 +54,7 @@ Unicorn.eShop miroservices use infrastrucuture nuget packages to configure the h
 
 To create local infrastructure packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
 
-```
+```c#
 dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
@@ -55,7 +74,7 @@ After finishing, Powershell will create project nuget packages in `--output` fol
 
 Inter-service communication between Unicorn microservices is done utilising data provided in SDKs. Thus, Unicorn.eShop service nugets are also required to be created. Once again, change the pathes and run the following commands:
 
-```
+```c#
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
@@ -93,6 +112,71 @@ For proper functioning of microservice, certain configuration is required to be 
 ## Creating a new Unicorn microservice
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
+
+Typical Unicorn microservice consists of at least 1 Web API project and 1 class libarary for SDK.
+
+### Configuring service host
+
+1. Add `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package to created Web API project
+2. Go to `Program.cs` and remove every line of code here and paste the following:
+
+```c#
+var builder = WebApplication.CreateBuilder(args);
+
+// register services on builder.Services if needed
+
+builder.Host.ApplyUnicornConfiguration<ServiceHostSettings>();
+
+var app = builder.Build();
+
+app.UseUnicornMiddlewares(app.Environment);
+
+// add middlewares here if needed
+
+app.MapControllers();
+app.Run();
+
+```
+
+3. `ServiceHostSettings` in `builder.Host.ApplyUnicornConfiguration<ServiceHostSettings>();` represents the configuration record for microservice. This record must inherit from BaseHostSettings and look similar to this:
+
+```c#
+public record ServiceHostSettings : BaseHostSettings
+{
+    public string DbConnectionString { get; set; } = string.Empty;
+}
+```
+5. `ServiceHostSettings` can contain additional configuration specific for the service. Above you can see it contains `DbConnectionString` property
+6. Go to `appSettings.Development.json` and add the following configuration:
+
+```json
+  "ServiceHostSettings": {
+    "DbConnectionString": "Server=production;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;",
+    "ServiceDiscoverySettings": {
+      "Url": "http://localhost:5081"
+    },
+    "OneWayCommunicationSettings": {
+      "ConnectionString": "<INSERT RABBITMQ CONNECTION STRING HERE>",
+      "SubscriptionId": "6f5b8662-f95c-4951-ba4a-bf9ab94f7b7a"
+    },
+    "AuthenticationSettings": {
+      "AuthorityUrl": "https://localhost:44319/",
+      "ClientCredentials": {
+        "ClientId": "console",
+        "ClientSecret": "388D45FA-B36B-4988-BA59-B187D329C207",
+        "Scopes": ""
+      }
+    }
+  }
+```
+7. In JSON above you need to:
+	*  add  `ServiceHostSettings:ServiceDiscoverySettings:Url` value for Service Discovery service
+	*  add `ServiceHostSettings:OneWayCommunicationSettings:ConnectionString` value for message broker
+	*  add `ServiceHostSettings:OneWayCommunicationSettings:SubscirptionId` value for topic subscription to receive events
+	*  leave `ServiceHostSettings:AuthenticationSettings` as is because authentication is disabled due to certificate issues while running application in Docker
+8. Copy of this JSON configuration also needs to be added to `appSettings.json` if the microservice will ever be launched using Release configuration
+
+That's all what is required to configure new microservice to use __Unicorn.Core.*__ infrastructure packages.
 
 ### Adding HTTP service
 
