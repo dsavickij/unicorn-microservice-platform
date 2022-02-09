@@ -73,6 +73,17 @@ Unicorn.Core.Services:
 
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
+## Overview of technical implementation
+
+Unicorn project is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets are required to include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of later.
+
+During the startup of Unicorn microservice, the appliciation scans librararies and registers HTTP services, gRPC service clients, event handlers, data validation classes and starts to listen to message broker queues for the one-way endpoints the microservice exposes.
+
+During the request, the caller uses service host name in target service SDK to get configuration from Service Discovery service. If HTTP service is being called, HTTP configuration is retrieved and cached. If the gRPC service is called - the same is done for gRPC configuration. 
+
+For proper functioning of microservice, certain configuration is required to be provided in microservice configuration. That include Service Discovery service URL for service configuration retrieval, subscription identifier for subscription to message broker topics and message broker connection string.
+
+
 ## How does it work?
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
