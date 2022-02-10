@@ -16,7 +16,7 @@ The project is based on .NET 6.0 and is in constant development.
 * **High level of abstraction**
 	* Owner of microservice does not need to write any code to ensure microservice operation as that come "out of the box" from infrastructure packages	
 * **Enforcement of vertical slice architecture pattern**
-	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develope microservice in the spirit of vertical slice architecture
+	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develop microservice in the spirit of vertical slice architecture
 * **Common  types for respones**
 	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
 
@@ -39,7 +39,10 @@ For proper functioning of microservice, certain configuration is required to be 
 - [Creation of a new Unicorn microservice](#creation-of-a-new-unicorn-microservice)
 	- [Web API host configuration](#web-api-host-configuration)
 	- [Addition of HTTP service](#addition-of-http-service)
+		- [Addition of two-way endpoint](#addition-of-two-way-endpoint)
+		- [Addition of one-way endpoint](#addition-of-one-way-endpoint) 
 	- [Addition of gRPC service](#addition-of-grpc-service)
+	- [Addition of events](#addition-of-events)
 	- [How service call is done?](#how-service-call-is-done)
 - [Notes for further development](#notes-for-further-development)
 - [Links](#links)
@@ -252,6 +255,14 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 }
 
 ```
+#### Addition of two-way endpoint
+
+In progress...
+
+#### Addition of one-way endpoint
+
+In progress...
+
 ### Addition of gRPC service
 
 1. Add `Unicorn.Core.Infrastructure.Communication.Grpc.SDD` nuget package needs to SDK project
@@ -329,6 +340,10 @@ app.MapGrpcService<GreeterGrpcService>();
 ```
 
 After that, if everything was done correctly, gRPC service is ready to be used. All is needed to ocnsume it is to issue microservice SDK nuget.
+
+#### Addition of events
+
+In progress...
 
 ### How service call is done?
 
