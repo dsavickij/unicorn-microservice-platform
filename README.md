@@ -39,7 +39,7 @@ For proper functioning of microservice, certain configuration is required to be 
 - [Creation of a new Unicorn microservice](#creation-of-a-new-unicorn-microservice)
 	- [Web API host configuration](#web-api-host-configuration)
 	- [Addition of HTTP service](#addition-of-http-service)
-	- [Addition of gRPC service client](#addition-of-grpc-service-client)
+	- [Addition of gRPC service](#addition-of-grpc-service)
 	- [How service call is done?](#how-service-call-is-done)
 - [Notes for further development](#notes-for-further-development)
 - [Links](#links)
@@ -228,43 +228,31 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
     [HttpPost("api/carts/{cartId}/items/add")]
     public async Task<OperationResult> AddItemAsync([FromRoute] Guid cartId, [FromBody] CartItemDTO cartItem)
     {
-        return await SendAsync(new AddItemRequest
-        {
-            CartId = cartId,
-            Item = cartItem
-        });
+	// do your magic
     }
 
     [HttpGet("api/carts/{cartId}/discounts/{discountCode}")]
     public async Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync(
         [FromRoute] Guid cartId, [FromRoute] string discountCode)
     {
-        return await SendAsync(new ApplyDiscountRequest
-        {
-            CartId = cartId,
-            DiscountCode = discountCode
-        });
+	// do your magic
     }
 
     [HttpGet("api/carts/my")]
     public async Task<OperationResult<CartDTO>> GetMyCartAsync()
     {
-        return await SendAsync(new GetMyCartRequest());
+	// do your magic
     }
 
     [HttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
     public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid cartId, [FromRoute] Guid itemId)
     {
-        return await SendAsync(new RemoveItemRequest
-        {
-            CartId = cartId,
-            CatalogItemId = itemId
-        });
+	// do your magic
     }
 }
 
 ```
-### Addition of gRPC service client
+### Addition of gRPC service
 
 1. Add `Unicorn.Core.Infrastructure.Communication.Grpc.SDD` nuget package needs to SDK project
 2. Add gRPC service Proto file to SDK project and provide the service definiton: methods, message types, etc.
