@@ -34,7 +34,7 @@ For proper functioning of microservice, certain configuration is required to be 
 - [Repository structure](#repository-structure)
 - [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
 	- [Creation of local nuget packages](#creation-of-local-nuget-packages)
-	- [Lauching all services in Docker containers](#lauching-all-services-in-docker-containers)
+	- [Lauch all services in Docker containers](#lauch-all-services-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
 - [Creation of a new Unicorn microservice](#creation-of-a-new-unicorn-microservice)
 	- [Web API host configuration](#web-api-host-configuration)
@@ -89,7 +89,7 @@ dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.D
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
-### Lauching all services in Docker containers
+### Lauch all services in Docker containers
 
 Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to use Docker, but that requires manual alterations in service configuration files and installation of message broker and databases.
 
