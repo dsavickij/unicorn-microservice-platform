@@ -185,11 +185,50 @@ That's all what is required to configure new microservice to use __Unicorn.Core.
 1. Add `Unicorn.Core.Infrastructure.Communication.Http.SDK` nuget package to SDK project
 2. If it was not added before, add assembly attribute `UnicornServiceHostNameAttribute` with service host name to SDK project. Service host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
 3. Register HTTP service configuration with service host name in ServiceDiscovery service
-4. Create HTTP service interface. Methods defined in it must be implemented in Web API controller to receive request from microservices 
-	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarkerAttribute` attribute
-	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` depending on what HTTP method needs to be used to call it. Every attribute need to provide URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added in Web API controller.
+4. Create HTTP service interface. Methods defined in it will be implemented in Web API controller to receive request from microservices 
+5. Decorate HTTP service interface with `UnicornHttpServiceMarkerAttribute` attribute
    
 HTTP service interface with all above mentioned attributes should look similar to this:
+
+```c#
+[assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
+
+namespace Unicorn.eShop.Cart.SDK;
+
+[UnicornHttpServiceMarker]
+public interface ICartService
+{
+}
+
+```
+
+HTTP service interface provided in microservice SDK must be implemented by the microservice to handle requests. To achieve that, a Web API controller needs to be created. This controller must inherit from `UnicornBaseController<>` class and provide HTTP service interface as a generic parameter to it. 
+
+After everything is done, a Web API controller should look similar to this:
+
+```c#
+public class CartServiceController : UnicornBaseController<ICartService>, ICartService
+{
+    private readonly ILogger<CartServiceController> _logger;
+
+    public CartServiceController(ILogger<CartServiceController> logger)
+    {
+        _logger = logger;
+    }
+}
+
+```
+#### Addition of two-way endpoint
+
+HTTP service endpoints are defined in HTTP service interface. There is support for GET, POST, PUT and DELETE methods.
+
+To add two-way endpoint, the following must be done:
+
+1. Open HTTP service interface in microservice's SDK project
+2. Add method signature
+3. Decorate method signature with Unicorn HTTP method attribute: ```UnicornHttpGetAttribute``` for GET method, ```UnicornHttpPostAttribute``` for POST method and so on. These attributes require path to be provided for their constructors
+4. If method signature has parameters, add data binding attributes like ```UnicornFromRouteAttribute```, ```UnicornFromBodyAttribute``` besides them
+5. After everything is done, HTTP service interface with added two-way endpoints should look similar to this:
 
 ```c#
 [assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
@@ -211,12 +250,11 @@ public interface ICartService
     [UnicornHttpGet("api/carts/{cartId}/discounts/{discountCode}")]
     Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] string discountCode);
 }
-
 ```
 
-HTTP service interface provided in microservice SDK must be implemented by the microservice to handle requests. To achieve that, a Web API controller needs to be created. This controller must inherit from `UnicornBaseController<>` class and provide HTTP service interface as a generic parameter to it. 
-
-After everything is done, a Web API controller should look similar to this:
+6. Next, implement endpoints defined in HTTP service interface in microservice controller 
+7. Change Unicorn attributes to ASP.NET equivalents. For exmmple, change ```UnicornHttpPostAttribute``` to ```HttpPostAttribute```
+8. After everything is done, controller should look something like this:
 
 ```c#
 public class CartServiceController : UnicornBaseController<ICartService>, ICartService
@@ -255,9 +293,6 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 }
 
 ```
-#### Addition of two-way endpoint
-
-In progress...
 
 #### Addition of one-way endpoint
 
