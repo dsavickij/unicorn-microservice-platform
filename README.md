@@ -220,7 +220,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 ```
 #### Addition of two-way endpoint
 
-HTTP service endpoints are defined in HTTP service interface. There is support for GET, POST, PUT and DELETE methods.
+Two-way HTTP service endpoints are defined in HTTP service interface. There is support for GET, POST, PUT and DELETE methods.
 
 To add two-way endpoint, the following must be done:
 
@@ -291,12 +291,53 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 	// do your magic
     }
 }
-
 ```
 
 #### Addition of one-way endpoint
 
-In progress...
+One-way HTTP service endpoints are defined in HTTP service interface.
+
+To add one-way endpoint, the following must be done:
+
+1. Open HTTP service interface in microservice's SDK project
+2. Add method signature
+3. Decorate method signature with Unicorn one-way method attribute ```UnicornOneWayAttribute```
+5. After everything is done, HTTP service interface with added one-way endpoint should look similar to this:
+
+```c#
+[assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
+
+namespace Unicorn.eShop.Cart.SDK;
+
+[UnicornHttpServiceMarker]
+public interface ICartService
+{
+    [UnicornOneWay]
+    Task SendMessageOneWay();
+}
+```
+6. Next, in Web API project add one-way method to controller which implements HTTP service interface
+7. Decorate added endpoint with APS.NET ```NonActionAttribute``` attribute
+8. After everything is done, controller should look similar to this:
+
+```c#
+public class CartServiceController : UnicornBaseController<ICartService>, ICartService
+{
+    private readonly ILogger<CartServiceController> _logger;
+
+    public CartServiceController(ILogger<CartServiceController> logger)
+    {
+        _logger = logger;
+    }
+
+    [NonAction]
+    public async Task SendMessageOneWay()
+    {
+	// do your magic
+    }
+}
+```
+9. Issue new version of microservice SDK nuget package and consumers will be able use newly defined one-way endpoint.
 
 ### Addition of gRPC service
 
