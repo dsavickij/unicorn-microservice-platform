@@ -108,7 +108,6 @@ Unicorn.Core.Services:
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
 
-
 ## Creation of a new Unicorn microservice
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
@@ -117,8 +116,8 @@ Typical Unicorn microservice consists of at least 1 Web API project and 1 class 
 
 ### Web API host configuration
 
-1. Add `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package to created Web API project
-2. Go to `Program.cs` and remove every line of code here and paste the following:
+1. Add `Unicorn.Core.Infrastructure.HostConfiguration.SDK` nuget package to created Web API project
+2. Go to `Program.cs`, remove every line of code and paste the following:
 
 ```c#
 var builder = WebApplication.CreateBuilder(args);
@@ -180,12 +179,12 @@ That's all what is required to configure new microservice to use __Unicorn.Core.
 
 ### Addition of HTTP service
 
-* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added to SDK project
-* Assembly attribute `UnicornServiceHostName` with service host name must be added to any class in SDK project. Srvice host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
-* HTTP service configuration with service host name needs to be registered in ServiceDiscovery service
-* HTTP service interface needs to be created. Methods defined in it must be implemented in Web API controller to receive request from microservices 
-	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarker` attribute
-	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` depending on what HTTP method needs to be used to call it. Every attribute need to provide URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added to Web API controller.
+1. Add `Unicorn.Core.Infrastructure.Communication.Http.SDK` nuget package to SDK project
+2. If it was not added before, add assembly attribute `UnicornServiceHostNameAttribute` with service host name to SDK project. Service host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
+3. Register HTTP service configuration with service host name in ServiceDiscovery service
+4. Create HTTP service interface. Methods defined in it must be implemented in Web API controller to receive request from microservices 
+	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarkerAttribute` attribute
+	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` depending on what HTTP method needs to be used to call it. Every attribute need to provide URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added in Web API controller.
    
 HTTP service interface with all above mentioned attributes should look similar to this:
 
@@ -214,7 +213,7 @@ public interface ICartService
 
 HTTP service interface provided in microservice SDK must be implemented by the microservice to handle requests. To achieve that, a Web API controller needs to be created. This controller must inherit from `UnicornBaseController<>` class and provide HTTP service interface as a generic parameter to it. 
 
-After everthing is done, a Web API controller should look similar to this:
+After everything is done, a Web API controller should look similar to this:
 
 ```c#
 public class CartServiceController : UnicornBaseController<ICartService>, ICartService
@@ -267,13 +266,31 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 ```
 ### Addition of gRPC service client
 
-* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added to SDK
-* SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
-* gRPC service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
-* gRPC service client interface needs to be created
-* gRPC service client interface must be decorated with `UnicornGrpcClientMarker` attribute
-* gRPC service client implementation needs to be created
-* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class. `BaseGrcpClient` will require to set `GrpcServiceName` property which must be identical to the registered gRPC service configuration in ServiceDiscovery
+1. Add `Unicorn.Core.Infrastructure.Communication.Grpc.SDD` nuget package needs to SDK project
+2. Add gRPC service Proto file to SDK project and provide the service definiton: methods, message types, etc.
+3. Add the following lines in SDK projet's `*.csproj` file:
+
+```xml
+<ItemGroup>
+	<PackageReference Include="Google.Protobuf" Version="3.19.2" />
+	<PackageReference Include="Grpc.Tools" Version="2.43.0">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+</ItemGroup>
+```
+
+4. As SDK project will be consumed by the microservice's Web API project as well by other microservices through nuget, compilation services need to be set to generate gRPC service and client code. To achieve that, slightly change and add the following lines to SDK `*.csproj` file:
+
+```xml
+<ItemGroup>
+  <Protobuf Include="<RELATIVE PATH TO PROTO FILE>" GrpcServices="Server, Client" />
+</ItemGroup>
+```
+
+5. Register gRPC service configuration ServiceDiscovery service.
+6. In SDK project, create  gRPC service client interface
+	* gRPC service client interface must be decorated with `UnicornGrpcClientMarkerAttribute` attribute
 
 gRPC service client interface should look similar to this:
 
@@ -283,16 +300,17 @@ public interface IGreeterProtoClient
 {
     Task<HelloReply> SayHelloAsync(HelloRequest request);
 }
-
 ```
-While gRPC service client implementation should look similar to this:
+
+7. In SDK project, create gRPC service client
+	* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class
+
+gRPC service client implementation should look similar to this:
 
 ```c#
 public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
 {
     private Greeter.GreeterClient? _client;
-
-    protected override string GrpcServiceName => "GreeterProtoService";
 
     public GreeterProtoClient(IGrpcClientFactory factory)
         : base(factory)
@@ -300,11 +318,30 @@ public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
     }
 
     public async Task<HelloReply> SayHelloAsync(HelloRequest request) =>
-        await Factory.Call(GrpcServiceName, c => GetClient(c)!.SayHelloAsync(request));
-
-    private Greeter.GreeterClient? GetClient(GrpcChannel channel) => _client ??= new Greeter.GreeterClient(channel);
+        await Factory.Call(GrpcServiceName, c => new Greeter.GreeterClient(c)!.SayHelloAsync(request));
 }
 ```
+9. In microservice's Web API project, create gRPC service implementation by inheriting from base class generated after SDK project compilation. This service will be handling requests sendt from gRPC client
+
+This service should like similar to this:
+
+```c#
+public class GreeterGrpcService : GreeterProto.GreeterProtoBase
+{
+    public override async Task<SayHelloReply> SayHelloAsync(SayHelloRequest request, ServerCallContext context)
+    {
+	// do your magic
+    }
+}
+```
+10. Add gRPC service in microservice's Web API project `Program.cs`:
+
+```c#
+app.MapGrpcService<GreeterGrpcService>();
+```
+
+After that, if everything was done correctly, gRPC service is ready to be used. All is needed to ocnsume it is to issue microservice SDK nuget.
+
 ### How service call is done?
 
 Unicorn microservice host to be able to call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package and call `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
@@ -338,25 +375,6 @@ And called just like any other object in the project:
     {
         return await _svcDiscoveryService.GetHttpServiceConfiguration("myService");
     }
-```
-
-## Starting services
-Microservices in _services_ folder require infrastructure nuget packages. These nugets are not published, so they need to be created locally and put in local nuget store on your machine.
-
-Local nuget store can be added in Visual Studio settings just by selecting folder where nugets will be placed.
-
-To create all the required nugets, change pathes and run these commands in Visual Studio\'s Developer Powershell:
-
-```
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
-
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
-
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
-
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.SDK.HostConfiguration\Unicorn.Core.Infrastructure.SDK.HostConfiguration.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
-
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\Unicorn.GrpcService.SDK\Unicorn.GrpcService.SDK.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
 ```
 ## Notes for further development
 
