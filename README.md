@@ -33,17 +33,20 @@ For proper functioning of microservice, certain configuration is required to be 
 ## Table of contents
 - [Repository structure](#repository-structure)
 - [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
-	- [Creation of local nuget packages](#creation-of-local-nuget-packages)
-	- [Lauch all services in Docker containers](#lauch-all-services-in-docker-containers)
+	- [Creating local nuget packages](#creating-local-nuget-packages)
+	- [Launching microservices in Docker containers](#launching-microservices-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
-- [Creation of a new Unicorn microservice](#creation-of-a-new-unicorn-microservice)
+- [Creation of new Unicorn microservice](#creation-of-new-unicorn-microservice)
 	- [Web API host configuration](#web-api-host-configuration)
-	- [Addition of HTTP service](#addition-of-http-service)
-		- [Addition of two-way endpoint](#addition-of-two-way-endpoint)
-		- [Addition of one-way endpoint](#addition-of-one-way-endpoint) 
-	- [Addition of gRPC service](#addition-of-grpc-service)
-	- [Addition of events](#addition-of-events)
-	- [How service call is done?](#how-service-call-is-done)
+	- [Adding HTTP service](#adding-http-service)
+		- [Adding two-way endpoints](#adding-two-way-endpoints)
+		- [Adding of one-way endpoints](#adding-one-way-endpoints) 
+	- [Adding gRPC service](#adding-grpc-service)
+	- [Adding events](#adding-events)
+- [Inter-service communication](#inter-service-communication)
+	- [Calling HTTP service endpoints](#calling-http-service-endpoints)
+	- [Calling gRPC service endpoints](#calling-grpc-service-endpoints)
+	- [Subscribing to and handling of events](#subscribing-to-and-handling-of-events) 	
 - [Notes for further development](#notes-for-further-development)
 - [Links](#links)
 
@@ -60,7 +63,7 @@ For proper functioning of microservice, certain configuration is required to be 
 
 Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn infrastrcuture packages. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
-### Creation of local nuget packages
+### Creating local nuget packages
 
 Unicorn.eShop miroservices use infrastrucuture nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
 
@@ -92,7 +95,7 @@ dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.D
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
-### Lauch all services in Docker containers
+### Launching microservices in Docker containers
 
 Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to use Docker, but that requires manual alterations in service configuration files and installation of message broker and databases.
 
@@ -111,7 +114,7 @@ Unicorn.Core.Services:
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
 
-## Creation of a new Unicorn microservice
+## Creation of new Unicorn microservice
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
 
@@ -180,7 +183,7 @@ public record ServiceHostSettings : BaseHostSettings
 
 That's all what is required to configure new microservice to use __Unicorn.Core.*__ infrastructure packages.
 
-### Addition of HTTP service
+### Adding HTTP service
 
 1. Add `Unicorn.Core.Infrastructure.Communication.Http.SDK` nuget package to SDK project
 2. If it was not added before, add assembly attribute `UnicornServiceHostNameAttribute` with service host name to SDK project. Service host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
@@ -218,7 +221,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 }
 
 ```
-#### Addition of two-way endpoint
+#### Adding two-way endpoints
 
 Two-way HTTP service endpoints are defined in HTTP service interface. There is support for GET, POST, PUT and DELETE methods.
 
@@ -293,7 +296,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 }
 ```
 
-#### Addition of one-way endpoint
+#### Adding one-way endpoints
 
 One-way HTTP service endpoints are defined in HTTP service interface.
 
@@ -339,7 +342,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
 ```
 9. Issue new version of microservice SDK nuget package and consumers will be able use newly defined one-way endpoint.
 
-### Addition of gRPC service
+### Adding gRPC service
 
 1. Add `Unicorn.Core.Infrastructure.Communication.Grpc.SDD` nuget package needs to SDK project
 2. Add gRPC service Proto file to SDK project and provide the service definiton: methods, message types, etc.
@@ -417,44 +420,123 @@ app.MapGrpcService<GreeterGrpcService>();
 
 After that, if everything was done correctly, gRPC service is ready to be used. All is needed to ocnsume it is to issue microservice SDK nuget.
 
-#### Addition of events
+#### Adding events
 
-In progress...
+Unicorn platform supports events using RabbitMQ and Azure ServiceBus message brokers. Event is a simple data class/record in microservice's SDK project, which consumer receives if it has subsribed to it by creating consumer. 
 
-### How service call is done?
+The event class/record is used to publish event and to subsribe to it for its receival. 
 
-Unicorn microservice host to be able to call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package and call `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
-
-```c# 
-builder.Host.ApplyUnicornConfiguration();
-```
-
-`ApplyUnicornConfiguration` extension method will scan assemblies for HTTP services and gRPC service clients and add them to dependency injection container. 
-
-For HTTP service, proxy is created and registered to be resolved when HTTP service interface needs to be injected through class constructor. Proxy will intercept any invocation of HTTP service interface, transform it into HTTP request, send it, retrieve result and then propage it to the calling code.
-
-For gRCP service client, gRPC service client interface and client implementation is registered.
-
-On the first call to HTTP or gRPC service, service configuration from ServiceDiscovery service is retrieved and held in cache indefinitely for further reuse.
-
-Afterwards, any HTTP service or gRCP service can be injected into any class using its interface:
+Event can look something like this:
 
 ```c#
-    public WeatherForecastController(IServiceDiscoveryService serviceDiscoveryService)
-    {
-        _svcDiscoveryService = serviceDiscoveryService;
-    }
+public record MyEvent
+{
+    public int Number { get; set; }
+}
+
 ```
 
-And called just like any other object in the project:
+Event publising is done by resolving ```IUnicornEventPublisher``` through dependency injection and providing event instance to its only method. Code for event publishing looks like this:
 
 ```c#
-    [HttpGet(Name = "Get")]
-    public async Task<HttpServiceConfiguration> Get()
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
+    private readonly IUnicornEventPublisher _publisher;
+
+    public ClientHostController(IUnicornEventPublisher publisher)
     {
-        return await _svcDiscoveryService.GetHttpServiceConfiguration("myService");
+        _publisher = publisher;
     }
+
+    [HttpGet("GetWeatherForecast/{name}")]
+    public async Task GetName(string name)
+    {
+        await _publisher.Publish(new MyEvent { Number = 5 }););
+    }
+}
 ```
+After event is published, any consumer which has defined its consumer, will receive it. **Information on how to receive event can be found here**.
+
+## Inter-service communication
+
+In Unicorn platform inter-service communication when one microservice tries to communicate with the other requires destination service SDK in the form of nuget package. This nuget contains HTTP and gRPC services, as well as events to which consumer can subscribe. 
+
+During the startup of microservice, the host scans referenced SDKs and registers HTTP and gRPC services in dependency injection container. That means that to call an HTTP or gRPC service, its interface needs to be injected into the class. After injection, the destination endpoint is called just like any other method as execution will be taken care of by Unicorn infrastructure nuget packages.
+
+### Calling HTTP service endpoints
+
+1. Add destination microservice SDK nuget package to Web API project
+2. Inject HTTP service interface into the class which will call the destination endpoint
+3. Call the destination HTTP service endpoint
+
+After everything was done, the code to call HTTP service endpoint may look similar to this:
+
+```c#
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
+    private readonly IHttpService _httpService;
+
+    public ClientHostController(IHttpService httpService)
+    {
+        _httpService = httpService;
+    }
+
+    [HttpGet("GetWeatherForecast/{name}")]
+    public async Task GetName(string name)
+    {
+        var response = await _httpService.SendMessage(new Message() { Id = 1 });
+    }
+}
+```
+
+### Calling gRPC service endpoints
+
+1. Add destination microservice SDK nuget package to Web API project
+2. Inject gRPC service client interface into the class which will call the destination endpoint
+3. Call the destination gRPC service client endpoint
+
+After everything was done, the code to call gRPC service endpoint may look similar to this:
+
+```c#
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
+    private readonly IMultiplicationGrpcServiceClient _multiplicationGrpcSvcClient;
+
+    public ClientHostController(IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient
+    {
+        _multiplicationGrpcSvcClient = multiplicationGrpcServiceClient;
+    }
+
+    [HttpGet("GetWeatherForecast/{name}")]
+    public async Task GetName(string name)
+    { 
+        var response = await _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
+    }
+}
+
+```
+
+### Subscribing to and handling of events
+
+For successfull subscription to events, proper configuration in ```appSettings.json``` is required. The section ```<YOUR SERVICE HOST SETTINGS NAME>:OneWayCommunicationSettings``` needs to have correct values for message broker connection string and subscription identifier.
+
+To subscribe to remote microservice event, the following needs to be done:
+
+1. Add microservice SDK, which includes the event, nuget package to Web API project
+2. Create event handler by creating a class which implements ```IUnicornEventHandler<>``` interface. The interface accepts generic type parameter which needs to be event from SDK - this will ensure that subscription for this type of events will be created
+
+After everything was done, the event handler code should look similar to this:
+
+```c#
+public class MyMessageHandler : IUnicornEventHandler<MyMessage>
+{
+    public Task Consume(ConsumeContext<MyMessage> context)
+    {
+	// do your magic
+    }
+}
+```
+
 ## Notes for further development
 
 Possible plans for further learning/development:
