@@ -9,7 +9,7 @@ namespace Unicorn.Core.Infrastructure.Communication.MessageBroker;
 
 public interface IUnicornEventPublisher
 {
-    Task Publish<T>(T message, CancellationToken cancellationToken = default) where T : class;
+    Task PublishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class;
 }
 
 public class UnicornEventPublisher : IUnicornEventPublisher
@@ -18,7 +18,7 @@ public class UnicornEventPublisher : IUnicornEventPublisher
 
     public UnicornEventPublisher(IPublishEndpoint publisher) => _publisher = publisher;
 
-    public async Task Publish<T>(T message, CancellationToken cancellationToken = default) where T : class
+    public async Task PublishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class
     {
         await _publisher.Publish(message, cancellationToken); 
     }

@@ -76,7 +76,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E8624E3B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.DataAccess", "eShop\cart\Unicorn.eShop.Cart.DataAccess\Unicorn.eShop.Cart.DataAccess.csproj", "{0ED507F4-46BB-4D72-ADB1-61D1A92B66AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.eShop.Catalog.SDK", "eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj", "{2BC64259-0FD8-4D60-92B6-E2194735E602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Catalog.SDK", "eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj", "{2BC64259-0FD8-4D60-92B6-E2194735E602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
