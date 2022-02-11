@@ -118,7 +118,7 @@ Unicorn.Core.Services:
 
 ## Creation of new Unicorn microservice
 
-Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
+Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use Unicorn platform nuget packages.
 
 Typical Unicorn microservice consists of at least 1 Web API project and 1 class libarary for SDK.
 
@@ -553,7 +553,8 @@ Possible plans for further learning/development:
 	* Kafka for event sourcing to try what it can be used for
 		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
-* Redis for distributed caching 
+* Redis for distributed caching
+* Add Polly for request retry logic and exponential back-off
 * Blazor for some UI and to have something to call API gateway
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
