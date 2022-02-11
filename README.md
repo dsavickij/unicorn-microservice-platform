@@ -1,7 +1,9 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
-# unicorn-project-microservices
-Implementation of microservice architecture with common components, required for every microservice for its operations, concentrated in separate projects and consumed as nuget packages. The project puts emphasis on making the development of new microservices as fast as possible and it achieves that by pushing many components (authentication, data validation, inter-service communication, enforcement of vertical slice architectural style on microservice, etc.) out of concerns of the team working on new microservice. 
+# unicorn-microservice-platform
+Unicorn is a platform for development of microservices. The platform consists of shared components for infrastructure and platform-wide common parts, ensuring that no microservice will ever need to 'invent' them again. This separation of concerns allows to focus on development of the features in microservice, thus speeding up the overall process.
+
+Unicorn platform shared components include authentication, input data validation, configuration, inter-service communication and enforcement of vertical slice architectural style.
 
 The project is based on .NET 6.0 and is in constant development.
 
@@ -16,13 +18,13 @@ The project is based on .NET 6.0 and is in constant development.
 * **High level of abstraction**
 	* Owner of microservice does not need to write any code to ensure microservice operation as that come "out of the box" from infrastructure packages	
 * **Enforcement of vertical slice architecture pattern**
-	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develope microservice in the spirit of vertical slice architecture
+	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develop microservice in the spirit of vertical slice architecture
 * **Common  types for respones**
 	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
 
 ## (Very) Brief overview of technical implementation
 
-Unicorn project is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets are required to include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of later.
+Unicorn platform is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of the later.
 
 During the startup of Unicorn microservice, the appliciation scans librararies and registers HTTP services, gRPC service clients, event handlers, data validation classes and starts to listen to message broker queues for the one-way endpoints the microservice exposes.
 
@@ -33,35 +35,41 @@ For proper functioning of microservice, certain configuration is required to be 
 ## Table of contents
 - [Repository structure](#repository-structure)
 - [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
-	- [Creation of local nuget packages](#creation-of-local-nuget-packages)
-	- [Lauching all services in Docker containers](#lauching-all-services-in-docker-containers)
+	- [Creating local nuget packages](#creating-local-nuget-packages)
+	- [Launching microservices in Docker containers](#launching-microservices-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
-- [Creation of a new Unicorn microservice](#creation-of-a-new-unicorn-microservice)
+- [Creation of new Unicorn microservice](#creation-of-new-unicorn-microservice)
 	- [Web API host configuration](#web-api-host-configuration)
-	- [Addition of HTTP service](#addition-of-http-service)
-	- [Addition of gRPC service client](#addition-of-grpc-service-client)
-	- [How service call is done?](#how-service-call-is-done)
+	- [Adding HTTP service](#adding-http-service)
+		- [Adding two-way endpoints](#adding-two-way-endpoints)
+		- [Adding of one-way endpoints](#adding-one-way-endpoints) 
+	- [Adding gRPC service](#adding-grpc-service)
+	- [Adding events](#adding-events)
+- [Inter-service communication](#inter-service-communication)
+	- [Calling HTTP service endpoints](#calling-http-service-endpoints)
+	- [Calling gRPC service endpoints](#calling-grpc-service-endpoints)
+	- [Subscribing to and handling of events](#subscribing-to-and-handling-of-events) 	
 - [Notes for further development](#notes-for-further-development)
 - [Links](#links)
 
 
 ## Repository structure
 
-* **core** - includes projects serving as a foundation for building microservices
+* **core** - includes projects of Unicorn platform
 	* **infrastructure** - projects for inter-services communication, data validation, authentication, service registration, etc.
 	* **services** - independent services required to ensure the work of microservices (service-discovery, authentcation, etc.)
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
-* **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services in early stage of development.
+* **eShop** - example e-commerce microservices built on top of Unicorn platform. Right now these projects include only back-end services in early stage of development.
 
 ## Getting Unicorn.eShop microservices started
 
-Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn infrastrcuture packages. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
+Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn platform. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
-### Creation of local nuget packages
+### Creating local nuget packages
 
-Unicorn.eShop miroservices use infrastrucuture nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
+Unicorn.eShop miroservices use Unicorn platform nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
 
-To create local infrastructure packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
+To create local nuget packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
 
 ```c#
 dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
@@ -89,7 +97,7 @@ dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.D
 dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
-### Lauching all services in Docker containers
+### Launching microservices in Docker containers
 
 Unicorn.eShop services are containerized and require Docker Desktop to start them. It is possible to not to use Docker, but that requires manual alterations in service configuration files and installation of message broker and databases.
 
@@ -108,17 +116,16 @@ Unicorn.Core.Services:
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
 
+## Creation of new Unicorn microservice
 
-## Creation of a new Unicorn microservice
-
-Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use infrastructure packages.
+Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use Unicorn platform nuget packages.
 
 Typical Unicorn microservice consists of at least 1 Web API project and 1 class libarary for SDK.
 
 ### Web API host configuration
 
-1. Add `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package to created Web API project
-2. Go to `Program.cs` and remove every line of code here and paste the following:
+1. Add `Unicorn.Core.Infrastructure.HostConfiguration.SDK` nuget package to created Web API project
+2. Go to `Program.cs`, remove every line of code and paste the following:
 
 ```c#
 var builder = WebApplication.CreateBuilder(args);
@@ -178,16 +185,55 @@ public record ServiceHostSettings : BaseHostSettings
 
 That's all what is required to configure new microservice to use __Unicorn.Core.*__ infrastructure packages.
 
-### Addition of HTTP service
+### Adding HTTP service
 
-* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http` needs to be added to SDK project
-* Assembly attribute `UnicornServiceHostName` with service host name must be added to any class in SDK project. Srvice host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
-* HTTP service configuration with service host name needs to be registered in ServiceDiscovery service
-* HTTP service interface needs to be created. Methods defined in it must be implemented in Web API controller to receive request from microservices 
-	* HTTP service interface needs to be decorated with `UnicornHttpServiceMarker` attribute
-	* HTTP service interface methods need to be decorated with derivative of attribute `UnicornHttpAttribute` depending on what HTTP method needs to be used to call it. Every attribute need to provide URL path template. Respective ASP.NET HTTP method atrributes and path templates also need to be added to Web API controller.
+1. Add `Unicorn.Core.Infrastructure.Communication.Http.SDK` nuget package to SDK project
+2. If it was not added before, add assembly attribute `UnicornServiceHostNameAttribute` with service host name to SDK project. Service host name is a key by which HTTP configuration will be retrieved from Service Discovery service by other microservices
+3. Register HTTP service configuration with service host name in ServiceDiscovery service
+4. Create HTTP service interface. Methods defined in it will be implemented in Web API controller to receive request from microservices 
+5. Decorate HTTP service interface with `UnicornHttpServiceMarkerAttribute` attribute
    
 HTTP service interface with all above mentioned attributes should look similar to this:
+
+```c#
+[assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
+
+namespace Unicorn.eShop.Cart.SDK;
+
+[UnicornHttpServiceMarker]
+public interface ICartService
+{
+}
+
+```
+
+HTTP service interface provided in microservice SDK must be implemented by the microservice to handle requests. To achieve that, a Web API controller needs to be created. This controller must inherit from `UnicornBaseController<>` class and provide HTTP service interface as a generic parameter to it. 
+
+After everything is done, a Web API controller should look similar to this:
+
+```c#
+public class CartServiceController : UnicornBaseController<ICartService>, ICartService
+{
+    private readonly ILogger<CartServiceController> _logger;
+
+    public CartServiceController(ILogger<CartServiceController> logger)
+    {
+        _logger = logger;
+    }
+}
+
+```
+#### Adding two-way endpoints
+
+Two-way HTTP service endpoints are defined in HTTP service interface. There is support for GET, POST, PUT and DELETE methods.
+
+To add two-way endpoint, the following must be done:
+
+1. Open HTTP service interface in microservice's SDK project
+2. Add method signature
+3. Decorate method signature with Unicorn HTTP method attribute: ```UnicornHttpGetAttribute``` for GET method, ```UnicornHttpPostAttribute``` for POST method and so on. These attributes require path to be provided for their constructors
+4. If method signature has parameters, add data binding attributes like ```UnicornFromRouteAttribute```, ```UnicornFromBodyAttribute``` besides them
+5. After everything is done, HTTP service interface with added two-way endpoints should look similar to this:
 
 ```c#
 [assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
@@ -209,12 +255,11 @@ public interface ICartService
     [UnicornHttpGet("api/carts/{cartId}/discounts/{discountCode}")]
     Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] string discountCode);
 }
-
 ```
 
-HTTP service interface provided in microservice SDK must be implemented by the microservice to handle requests. To achieve that, a Web API controller needs to be created. This controller must inherit from `UnicornBaseController<>` class and provide HTTP service interface as a generic parameter to it. 
-
-After everthing is done, a Web API controller should look similar to this:
+6. Next, implement endpoints defined in HTTP service interface in microservice controller 
+7. Change Unicorn attributes to ASP.NET equivalents. For exmmple, change ```UnicornHttpPostAttribute``` to ```HttpPostAttribute```
+8. After everything is done, controller should look something like this:
 
 ```c#
 public class CartServiceController : UnicornBaseController<ICartService>, ICartService
@@ -229,51 +274,103 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
     [HttpPost("api/carts/{cartId}/items/add")]
     public async Task<OperationResult> AddItemAsync([FromRoute] Guid cartId, [FromBody] CartItemDTO cartItem)
     {
-        return await SendAsync(new AddItemRequest
-        {
-            CartId = cartId,
-            Item = cartItem
-        });
+	// do your magic
     }
 
     [HttpGet("api/carts/{cartId}/discounts/{discountCode}")]
     public async Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync(
         [FromRoute] Guid cartId, [FromRoute] string discountCode)
     {
-        return await SendAsync(new ApplyDiscountRequest
-        {
-            CartId = cartId,
-            DiscountCode = discountCode
-        });
+	// do your magic
     }
 
     [HttpGet("api/carts/my")]
     public async Task<OperationResult<CartDTO>> GetMyCartAsync()
     {
-        return await SendAsync(new GetMyCartRequest());
+	// do your magic
     }
 
     [HttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
     public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid cartId, [FromRoute] Guid itemId)
     {
-        return await SendAsync(new RemoveItemRequest
-        {
-            CartId = cartId,
-            CatalogItemId = itemId
-        });
+	// do your magic
     }
 }
-
 ```
-### Addition of gRPC service client
 
-* Nuget package `Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc` needs to be added to SDK
-* SDK must have gRPC Proto file added to it. It is better to add it as a link to a file which is located in gRPC service itself 
-* gRPC service configuration needs to be registered in ServiceDiscovery service. Right now everything is hard coded
-* gRPC service client interface needs to be created
-* gRPC service client interface must be decorated with `UnicornGrpcClientMarker` attribute
-* gRPC service client implementation needs to be created
-* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class. `BaseGrcpClient` will require to set `GrpcServiceName` property which must be identical to the registered gRPC service configuration in ServiceDiscovery
+#### Adding one-way endpoints
+
+One-way HTTP service endpoints are defined in HTTP service interface.
+
+To add one-way endpoint, the following must be done:
+
+1. Open HTTP service interface in microservice's SDK project
+2. Add method signature
+3. Decorate method signature with Unicorn one-way method attribute ```UnicornOneWayAttribute```
+5. After everything is done, HTTP service interface with added one-way endpoint should look similar to this:
+
+```c#
+[assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
+
+namespace Unicorn.eShop.Cart.SDK;
+
+[UnicornHttpServiceMarker]
+public interface ICartService
+{
+    [UnicornOneWay]
+    Task SendMessageOneWay();
+}
+```
+6. Next, in Web API project add one-way method to controller which implements HTTP service interface
+7. Decorate added endpoint with APS.NET ```NonActionAttribute``` attribute
+8. After everything is done, controller should look similar to this:
+
+```c#
+public class CartServiceController : UnicornBaseController<ICartService>, ICartService
+{
+    private readonly ILogger<CartServiceController> _logger;
+
+    public CartServiceController(ILogger<CartServiceController> logger)
+    {
+        _logger = logger;
+    }
+
+    [NonAction]
+    public async Task SendMessageOneWay()
+    {
+	// do your magic
+    }
+}
+```
+9. Issue new version of microservice SDK nuget package and consumers will be able use newly defined one-way endpoint.
+
+### Adding gRPC service
+
+1. Add `Unicorn.Core.Infrastructure.Communication.Grpc.SDD` nuget package needs to SDK project
+2. Add gRPC service Proto file to SDK project and provide the service definiton: methods, message types, etc.
+3. Add the following lines in SDK projet's `*.csproj` file:
+
+```xml
+<ItemGroup>
+	<PackageReference Include="Google.Protobuf" Version="3.19.2" />
+	<PackageReference Include="Grpc.Tools" Version="2.43.0">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+</ItemGroup>
+```
+
+4. As SDK project will be consumed by the microservice's Web API project as well by other microservices through nuget, compilation services need to be set to generate gRPC service and client code. To achieve that, slightly change and add the following lines to SDK `*.csproj` file:
+
+```xml
+<ItemGroup>
+  <Protobuf Include="<RELATIVE PATH TO PROTO FILE>" GrpcServices="Server, Client" />
+</ItemGroup>
+```
+
+5. Register gRPC service configuration ServiceDiscovery service.
+6. In SDK project, create  gRPC service client interface
+	* gRPC service client interface must be decorated with `UnicornGrpcClientMarkerAttribute` attribute
 
 gRPC service client interface should look similar to this:
 
@@ -283,16 +380,17 @@ public interface IGreeterProtoClient
 {
     Task<HelloReply> SayHelloAsync(HelloRequest request);
 }
-
 ```
-While gRPC service client implementation should look similar to this:
+
+7. In SDK project, create gRPC service client
+	* gRPC service client implementation must inherit from gRPC service client interface and `BaseGrpcClient` abstract class
+
+gRPC service client implementation should look similar to this:
 
 ```c#
 public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
 {
     private Greeter.GreeterClient? _client;
-
-    protected override string GrpcServiceName => "GreeterProtoService";
 
     public GreeterProtoClient(IGrpcClientFactory factory)
         : base(factory)
@@ -300,64 +398,147 @@ public class GreeterProtoClient : BaseGrpcClient, IGreeterProtoClient
     }
 
     public async Task<HelloReply> SayHelloAsync(HelloRequest request) =>
-        await Factory.Call(GrpcServiceName, c => GetClient(c)!.SayHelloAsync(request));
-
-    private Greeter.GreeterClient? GetClient(GrpcChannel channel) => _client ??= new Greeter.GreeterClient(channel);
+        await Factory.Call(GrpcServiceName, c => new Greeter.GreeterClient(c)!.SayHelloAsync(request));
 }
 ```
-### How service call is done?
+9. In microservice's Web API project, create gRPC service implementation by inheriting from base class generated after SDK project compilation. This service will be handling requests sendt from gRPC client
 
-Unicorn microservice host to be able to call other microservice from Unicorn universe needs to consume `Unicorn.Core.Infrastructure.SDK.HostConfiguration` nuget package and call `ApplyUnicornConfiguration` extension method on the host builder in `Program.cs`:
-
-```c# 
-builder.Host.ApplyUnicornConfiguration();
-```
-
-`ApplyUnicornConfiguration` extension method will scan assemblies for HTTP services and gRPC service clients and add them to dependency injection container. 
-
-For HTTP service, proxy is created and registered to be resolved when HTTP service interface needs to be injected through class constructor. Proxy will intercept any invocation of HTTP service interface, transform it into HTTP request, send it, retrieve result and then propage it to the calling code.
-
-For gRCP service client, gRPC service client interface and client implementation is registered.
-
-On the first call to HTTP or gRPC service, service configuration from ServiceDiscovery service is retrieved and held in cache indefinitely for further reuse.
-
-Afterwards, any HTTP service or gRCP service can be injected into any class using its interface:
+This service should like similar to this:
 
 ```c#
-    public WeatherForecastController(IServiceDiscoveryService serviceDiscoveryService)
+public class GreeterGrpcService : GreeterProto.GreeterProtoBase
+{
+    public override async Task<SayHelloReply> SayHelloAsync(SayHelloRequest request, ServerCallContext context)
     {
-        _svcDiscoveryService = serviceDiscoveryService;
+	// do your magic
     }
+}
 ```
-
-And called just like any other object in the project:
+10. Add gRPC service in microservice's Web API project `Program.cs`:
 
 ```c#
-    [HttpGet(Name = "Get")]
-    public async Task<HttpServiceConfiguration> Get()
+app.MapGrpcService<GreeterGrpcService>();
+```
+
+After that, if everything was done correctly, gRPC service is ready to be used. All is needed to ocnsume it is to issue microservice SDK nuget.
+
+#### Adding events
+
+Unicorn platform supports events using RabbitMQ and Azure ServiceBus message brokers. Event is a simple data class/record in microservice's SDK project, which consumer receives if it has subsribed to it by creating consumer. 
+
+The event class/record is used to publish event and to subsribe to it for its receival. 
+
+Event can look something like this:
+
+```c#
+public record MyEvent
+{
+    public int Number { get; set; }
+}
+
+```
+
+Event publising is done by resolving ```IUnicornEventPublisher``` through dependency injection and providing event instance to its only method. Code for event publishing looks like this:
+
+```c#
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
+    private readonly IUnicornEventPublisher _publisher;
+
+    public ClientHostController(IUnicornEventPublisher publisher)
     {
-        return await _svcDiscoveryService.GetHttpServiceConfiguration("myService");
+        _publisher = publisher;
     }
+
+    [HttpGet("GetWeatherForecast/{name}")]
+    public async Task GetName(string name)
+    {
+        await _publisher.Publish(new MyEvent { Number = 5 }););
+    }
+}
+```
+After event is published, any consumer which has defined its consumer, will receive it. **Information on how to receive event can be found here**.
+
+## Inter-service communication
+
+In Unicorn platform inter-service communication when one microservice tries to communicate with the other requires destination service SDK in the form of nuget package. This nuget contains HTTP and gRPC services, as well as events to which consumer can subscribe. 
+
+During the startup of microservice, the host scans referenced SDKs and registers HTTP and gRPC services in dependency injection container. That means that to call an HTTP or gRPC service, its interface needs to be injected into the class. After injection, the destination endpoint is called just like any other method as execution will be taken care of by Unicorn infrastructure nuget packages.
+
+### Calling HTTP service endpoints
+
+1. Add destination microservice SDK nuget package to Web API project
+2. Inject HTTP service interface into the class which will call the destination endpoint
+3. Call the destination HTTP service endpoint
+
+After everything was done, the code to call HTTP service endpoint may look similar to this:
+
+```c#
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
+    private readonly IHttpService _httpService;
+
+    public ClientHostController(IHttpService httpService)
+    {
+        _httpService = httpService;
+    }
+
+    [HttpGet("GetWeatherForecast/{name}")]
+    public async Task GetName(string name)
+    {
+        var response = await _httpService.SendMessage(new Message() { Id = 1 });
+    }
+}
 ```
 
-## Starting services
-Microservices in _services_ folder require infrastructure nuget packages. These nugets are not published, so they need to be created locally and put in local nuget store on your machine.
+### Calling gRPC service endpoints
 
-Local nuget store can be added in Visual Studio settings just by selecting folder where nugets will be placed.
+1. Add destination microservice SDK nuget package to Web API project
+2. Inject gRPC service client interface into the class which will call the destination endpoint
+3. Call the destination gRPC service client endpoint
 
-To create all the required nugets, change pathes and run these commands in Visual Studio\'s Developer Powershell:
+After everything was done, the code to call gRPC service endpoint may look similar to this:
+
+```c#
+public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+{
+    private readonly IMultiplicationGrpcServiceClient _multiplicationGrpcSvcClient;
+
+    public ClientHostController(IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient
+    {
+        _multiplicationGrpcSvcClient = multiplicationGrpcServiceClient;
+    }
+
+    [HttpGet("GetWeatherForecast/{name}")]
+    public async Task GetName(string name)
+    { 
+        var response = await _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
+    }
+}
 
 ```
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc\Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
+### Subscribing to and handling of events
 
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
+For successfull subscription to events, proper configuration in ```appSettings.json``` is required. The section ```<YOUR SERVICE HOST SETTINGS NAME>:OneWayCommunicationSettings``` needs to have correct values for message broker connection string and subscription identifier.
 
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.SDK.HostConfiguration\Unicorn.Core.Infrastructure.SDK.HostConfiguration.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
+To subscribe to remote microservice event, the following needs to be done:
 
-dotnet pack 'C:\Users\dsavi\source\repos\unicorn-project-microservices\services\Unicorn.GrpcService.SDK\Unicorn.GrpcService.SDK.csproj' --output 'C:\Users\dsavi\OneDrive\Dokumentai\Local NuGet Store' -p:PackageVersion=1.0.0
+1. Add microservice SDK, which includes the event, nuget package to Web API project
+2. Create event handler by creating a class which implements ```IUnicornEventHandler<>``` interface. The interface accepts generic type parameter which needs to be event from SDK - this will ensure that subscription for this type of events will be created
+
+After everything was done, the event handler code should look similar to this:
+
+```c#
+public class MyMessageHandler : IUnicornEventHandler<MyMessage>
+{
+    public Task Consume(ConsumeContext<MyMessage> context)
+    {
+	// do your magic
+    }
+}
 ```
+
 ## Notes for further development
 
 Possible plans for further learning/development:
@@ -372,7 +553,8 @@ Possible plans for further learning/development:
 	* Kafka for event sourcing to try what it can be used for
 		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
-* Redis for distributed caching 
+* Redis for distributed caching
+* Add Polly for request retry logic and exponential back-off
 * Blazor for some UI and to have something to call API gateway
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
