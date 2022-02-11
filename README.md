@@ -1,7 +1,9 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
-# unicorn-project-microservices
-Implementation of microservice architecture with common components, required for every microservice for its operations, concentrated in separate projects and consumed as nuget packages. The project puts emphasis on making the development of new microservices as fast as possible and it achieves that by pushing many components (authentication, data validation, inter-service communication, enforcement of vertical slice architectural style on microservice, etc.) out of concerns of the team working on new microservice. 
+# unicorn-microservice-platform
+Unicorn is a platform for development of microservices. The platform consists of shared components for infrastructure and platform-wide common parts, ensuring that no microservice will ever need to 'invent' them again. This separation of concerns allows to focus on development of the features in microservice, thus speeding up the overall process.
+
+Unicorn platform shared components include authentication, input data validation, configuration, inter-service communication and enforcement of vertical slice architectural style.
 
 The project is based on .NET 6.0 and is in constant development.
 
@@ -22,7 +24,7 @@ The project is based on .NET 6.0 and is in constant development.
 
 ## (Very) Brief overview of technical implementation
 
-Unicorn project is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of the later.
+Unicorn platform is done with idea to speed up development of new microservices. The speed is achieved by concentrating the most important components and services in __Unicorn.Core.*__ projects and providing their funcionality as nuget packages. Nuget packages is also the primary way to do to service to service communication as these nugets include HTTP service contracts, gRPC service clients, events and service name. Thus, for microservice to call another microservice, the former is required to consume the SDK nuget of the later.
 
 During the startup of Unicorn microservice, the appliciation scans librararies and registers HTTP services, gRPC service clients, event handlers, data validation classes and starts to listen to message broker queues for the one-way endpoints the microservice exposes.
 
@@ -53,21 +55,21 @@ For proper functioning of microservice, certain configuration is required to be 
 
 ## Repository structure
 
-* **core** - includes projects serving as a foundation for building microservices
+* **core** - includes projects of Unicorn platform
 	* **infrastructure** - projects for inter-services communication, data validation, authentication, service registration, etc.
 	* **services** - independent services required to ensure the work of microservices (service-discovery, authentcation, etc.)
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
-* **eShop** - e-commerce microservices built on top of __core/infrastructure__ projects and using __core/services__ in their operations. Right now these projects include only back-end services in early stage of development.
+* **eShop** - example e-commerce microservices built on top of Unicorn platform. Right now these projects include only back-end services in early stage of development.
 
 ## Getting Unicorn.eShop microservices started
 
-Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn infrastrcuture packages. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
+Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn platform. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
 ### Creating local nuget packages
 
-Unicorn.eShop miroservices use infrastrucuture nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
+Unicorn.eShop miroservices use Unicorn platform nuget packages to configure the host and have required components to ensure their operations. The nugets are not pushed to public repository, so they need to be created manually and stored in local nuget store.
 
-To create local infrastructure packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
+To create local nuget packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
 
 ```c#
 dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
