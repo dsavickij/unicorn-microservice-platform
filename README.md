@@ -32,6 +32,19 @@ During the request, the caller uses service host name in target service SDK to g
 
 For proper functioning of microservice, certain configuration is required to be provided in microservice configuration. That include Service Discovery service URL for service configuration retrieval, subscription identifier for subscription to message broker topics and message broker connection string.
 
+## Tech-stack
+
+This section contains the overview of nuget packages, databases and design desicions used in this repository.
+
+* **Microservice inter-service communication is implemented using orchestration pattern**
+* **Microservices use vertical slice architectural approach**
+* **Docker is used for containerization**
+* **Main nuget packages used in solution:**
+	*  RestSharp, Castle.Core, GuardClauses, MassTransit, FluentValidation, MediatR, Swashbuckle (Swagger), OneOf, OpendIddict (for authentication), Entity Framework Core 6, Autofixture, xUnit, FluentAssertions.
+* **Databases:**
+	* PostgreSQL (Unicorn.eShop.Cart microservice)
+	* Microsoft SQL 2019 (Unicorn.Core.Services.ServiceDiscovery microservice)   
+
 ## Table of contents
 - [Repository structure](#repository-structure)
 - [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
