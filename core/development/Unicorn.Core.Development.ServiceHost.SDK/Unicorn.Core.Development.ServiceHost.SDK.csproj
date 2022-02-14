@@ -26,23 +26,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--<Protobuf Include="..\Unicorn.Core.Development.ServiceHost\Grpc\Protos\MyGrpcService.proto">
-			<Link>Grpc\Protos\MyGrpcService.proto"</Link>
-		</Protobuf>-->
 		<Protobuf Include="Grpc\Protos\MultiplicationGrpcService.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Grpc\Protos\DivisionGrpcService.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Grpc\Protos\SubtractionGrpcService.proto" GrpcServices="Server, Client" />
 	</ItemGroup>
-
-
-	<!--<ItemGroup>
-		<None Include="..\Unicorn.eShop.Discount\gRPC\Protos\DiscountGrpcService.proto" Link="Services\gRPC\Protos\DiscountGrpcService.proto" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Protobuf Include="..\Unicorn.eShop.Discount\gRPC\Protos\DiscountGrpcService.proto">
-			<Link>Services\gRPC\Protos\DiscountGrpcService.proto</Link>
-		</Protobuf>
-	</ItemGroup>-->
 
 </Project>
