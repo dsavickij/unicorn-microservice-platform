@@ -22,10 +22,10 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<CodeAnalysisRuleSet>..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>..\..\..\Unicorn-platform-microservices.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<CodeAnalysisRuleSet>..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>..\..\..\Unicorn-platform-microservices.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 </Project>

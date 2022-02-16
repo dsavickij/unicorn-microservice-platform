@@ -8,7 +8,6 @@ namespace Unicorn.eShop.Catalog.Controllers;
 
 public class CatalogServiceController : UnicornBaseController<ICatalogService>, ICatalogService
 {
-
     private readonly ILogger<CatalogServiceController> _logger;
 
     public CatalogServiceController(ILogger<CatalogServiceController> logger)

@@ -17,7 +17,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj" />
+		<ProjectReference Include="..\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.33.0.40503">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<CodeAnalysisRuleSet>..\..\..\Unicorn-platform-microservices.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<CodeAnalysisRuleSet>..\..\..\Unicorn-platform-microservices.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 
 </Project>

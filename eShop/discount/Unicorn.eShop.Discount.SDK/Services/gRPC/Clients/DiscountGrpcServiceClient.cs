@@ -17,7 +17,8 @@ public class DiscountGrpcServiceClient : BaseGrpcClient, IDiscountGrpcServiceCli
 {
     private readonly ILogger<DiscountGrpcServiceClient> _logger;
 
-    public DiscountGrpcServiceClient(IGrpcServiceClientFactory factory, ILogger<DiscountGrpcServiceClient> logger) : base(factory)
+    public DiscountGrpcServiceClient(IGrpcServiceClientFactory factory, ILogger<DiscountGrpcServiceClient> logger)
+        : base(factory)
     {
         _logger = logger;
     }

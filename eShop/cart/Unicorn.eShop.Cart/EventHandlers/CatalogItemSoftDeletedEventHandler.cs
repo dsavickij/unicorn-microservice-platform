@@ -29,10 +29,11 @@ public class CatalogItemSoftDeletedEventHandler : IUnicornEventHandler<CatalogIt
 
             if (items.Count is not 0)
             {
-                items.ForEach( x=> x.IsAvailable = false);
+                items.ForEach(x => x.IsAvailable = false);
                 await _ctx.SaveChangesAsync();
 
-                skip += 100;         
+                skip += items.Count;
+                continue;
             }
 
             break;

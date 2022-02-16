@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Unicorn.eShop.Cart.DataAccess.SeedData;
 
 namespace Unicorn.eShop.Cart.DataAccess;
 

@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Unicorn.eShop.Cart;
 using Unicorn.eShop.Cart.Entities;
-using static SeedDataWorkerContstants;
+using static Unicorn.eShop.Cart.DataAccess.SeedData.SeedDataWorkerContstants;
+
+namespace Unicorn.eShop.Cart.DataAccess.SeedData;
 
 internal class SeedDataWorker : IHostedService
 {
@@ -27,14 +28,14 @@ internal class SeedDataWorker : IHostedService
                 UserId = UserId_1,
                 Items = new[]
                 {
-                    new CartItemEntity
+                new CartItemEntity
                     {
                         Id = ItemId_1,
                         CartId = CartId_1,
                         CatalogItemId = CatalogItemId_1,
                         Quantity = 5,
                         UnitPrice = ItemPrice_1
-                    }
+                    },
                 },
             });
         }
@@ -46,24 +47,24 @@ internal class SeedDataWorker : IHostedService
                 Id = CartId_2,
                 UserId = UserId_2,
                 Items = new[]
-                   {
-                        new CartItemEntity
-                        {
-                            Id = ItemId_2,
-                            CartId = CartId_2,
-                            CatalogItemId = CatalogItemId_2,
-                            Quantity = 3,
-                            UnitPrice = ItemPrice_2
-                        },
-                        new CartItemEntity
-                        {
-                            Id = ItemId_3,
-                            CartId = CartId_2,
-                            CatalogItemId = CatalogItemId_3,
-                            Quantity = 2,
-                            UnitPrice = ItemPrice_3
-                        }
+                {
+                    new CartItemEntity
+                    {
+                        Id = ItemId_2,
+                        CartId = CartId_2,
+                        CatalogItemId = CatalogItemId_2,
+                        Quantity = 3,
+                        UnitPrice = ItemPrice_2
                     },
+                    new CartItemEntity
+                    {
+                        Id = ItemId_3,
+                        CartId = CartId_2,
+                        CatalogItemId = CatalogItemId_3,
+                        Quantity = 2,
+                        UnitPrice = ItemPrice_3
+                    },
+                },
             });
         }
 

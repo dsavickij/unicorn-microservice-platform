@@ -30,16 +30,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Unicorn.Core.Services.ServiceDiscovery.DataAccess\Unicorn.Core.Services.ServiceDiscovery.DataAccess.csproj" />
-	  <ProjectReference Include="..\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj" />
+		<ProjectReference Include="..\Unicorn.Core.Services.ServiceDiscovery.DataAccess\Unicorn.Core.Services.ServiceDiscovery.DataAccess.csproj" />
+		<ProjectReference Include="..\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj" />
 	</ItemGroup>
 
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<CodeAnalysisRuleSet>..\..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>..\..\..\..\Unicorn-platform-microservices.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<CodeAnalysisRuleSet>..\..\..\..\Unicorn-project.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>..\..\..\..\Unicorn-platform-microservices.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
-	
-
 </Project>
