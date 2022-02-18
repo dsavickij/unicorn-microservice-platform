@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Grpc\Protos\Custom\Types.proto" />
 		<None Remove="Grpc\Protos\MultiplicationGrpcService.proto" />
 		<None Remove="Grpc\Protos\SubtractionGrpcService.proto" />
 	</ItemGroup>
@@ -26,6 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="Grpc\Protos\Custom\Types.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Grpc\Protos\MultiplicationGrpcService.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Grpc\Protos\DivisionGrpcService.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Grpc\Protos\SubtractionGrpcService.proto" GrpcServices="Server, Client" />

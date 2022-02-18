@@ -8,6 +8,7 @@ namespace Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
 public interface ISubtractionGrpcServiceClient
 {
     Task<int> SubtractAsync(int first, int second);
+    Task<decimal> SubtractDecimalAsync(decimal first, decimal second);
 }
 
 public class SubtractionGrpcServiceClient : BaseGrpcClient, ISubtractionGrpcServiceClient
@@ -24,6 +25,15 @@ public class SubtractionGrpcServiceClient : BaseGrpcClient, ISubtractionGrpcServ
         var response = await _factory.CallAsync(
             c => new SubtractionGrpcService.SubtractionGrpcServiceClient(c).SubtractAsync(
                new SubtractionRequest { FirstOperand = first, SecondOperand = second }));
+
+        return response.Result;
+    }
+
+    public async Task<decimal> SubtractDecimalAsync(decimal first, decimal second)
+    {
+        var response = await _factory.CallAsync(
+            c => new SubtractionGrpcService.SubtractionGrpcServiceClient(c).SubtractDecimalAsync(
+                new DecimalSubtractionRequest { FirstOperand = first, SecondOperand = second }));
 
         return response.Result;
     }

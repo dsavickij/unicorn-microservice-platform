@@ -2,12 +2,18 @@ syntax = "proto3";
 
 option csharp_namespace = "Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos";
 
+import "Grpc/Protos/Custom/Types.proto";
+
 package Subtraction;
 
 service SubtractionGrpcService{
 	rpc Subtract(SubtractionRequest) returns (SubtractionResponse);
+    rpc SubtractDecimal(DecimalSubtractionRequest) returns (DecimalSubtractionResponse);
 }
 
+///
+/// Subtract endpoint
+///
  message SubtractionRequest{
 	int32 FirstOperand = 1;
 	int32 SecondOperand = 2;
@@ -16,3 +22,17 @@ service SubtractionGrpcService{
 message SubtractionResponse{
 	int32 Result = 1;
 };
+
+///
+/// SubtractDecimal endpoint
+///
+message DecimalSubtractionRequest
+{
+    Types.DecimalValue FirstOperand = 1;
+    Types.DecimalValue SecondOperand = 2;
+}
+
+message DecimalSubtractionResponse
+{
+    Types.DecimalValue Result = 1;
+}
