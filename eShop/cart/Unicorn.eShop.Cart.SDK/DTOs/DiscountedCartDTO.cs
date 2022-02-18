@@ -10,5 +10,5 @@ public record DiscountedCartDTO
 {
     public CartDTO OriginalCart { get; set; } = new CartDTO();
     public CartDiscountDTO Discount { get; set; } = new CartDiscountDTO();
-    public decimal DiscountedTotalPrice { get; set; } = 0;
+    public decimal DiscountedTotalPrice { get; set; }
 }

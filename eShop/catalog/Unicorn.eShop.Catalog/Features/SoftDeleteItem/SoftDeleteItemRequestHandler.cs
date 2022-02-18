@@ -16,7 +16,7 @@ public class SoftDeleteItemRequestHandler : BaseHandler.WithResult.For<SoftDelet
 
     protected override async Task<OperationResult> HandleAsync(SoftDeleteItemRequest request, CancellationToken cancellationToken)
     {
-        await _publisher.Publish(new CatalogItemSoftDeleted { Id = request.Id });
+        await _publisher.PublishAsync(new CatalogItemSoftDeleted { Id = request.Id });
 
         return Ok();
     }

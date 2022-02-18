@@ -20,7 +20,7 @@ public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
         // await _ctx.Database.EnsureDeletedAsync();
         // await _ctx.Database.EnsureCreatedAsync();
 
-        //TODO: add validation for catalogItem existence in CatalogService
+        // TODO: add validation for catalogItem existence in CatalogService
 
         var cartId = await GetCartIdAsync(request.CartId);
         await AddItemToCartAsync(cartId, request.Item);

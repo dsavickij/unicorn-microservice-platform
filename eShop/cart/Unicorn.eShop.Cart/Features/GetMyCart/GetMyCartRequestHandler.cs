@@ -1,8 +1,8 @@
-﻿using OneOf.Types;
+﻿using Microsoft.EntityFrameworkCore;
 using OneOf;
+using OneOf.Types;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
-using Microsoft.EntityFrameworkCore;
 using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.Features.GetMyCart;
@@ -24,6 +24,7 @@ public class GetMyCartRequestHandler : BaseHandler.WithResult<CartDTO>.For<GetMy
 
     private async Task<OneOf<NotFound, Success<CartDTO>>> GetMyCartRequestAsync(GetMyCartRequest request)
     {
+        var req = request;
         var fakeUserId = Guid.NewGuid(); // TODO: change to current userId after authentication fix for docker
 
         var result = await _ctx.Carts.SingleOrDefaultAsync(x => x.UserId == fakeUserId);

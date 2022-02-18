@@ -8,7 +8,8 @@ public class GetCartDiscountRequestHandler : BaseHandler.WithResult<CartDiscount
 {
     protected override Task<OperationResult<CartDiscount>> HandleAsync(GetCartDiscountRequest request, CancellationToken cancellationToken)
     {
-        var discount = new CartDiscount {  
+        var discount = new CartDiscount
+        {
             DiscountId = Guid.NewGuid(),
             Description = "Test",
             DiscountCode = request.DiscountCode,

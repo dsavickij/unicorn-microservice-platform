@@ -7,7 +7,6 @@ namespace Unicorn.eShop.Discount.gRPC.Services;
 
 public interface IDiscountGrpcService
 {
-
 }
 
 public class DiscountGrpcService : DiscountGrpcServiceProto.DiscountGrpcServiceProtoBase
