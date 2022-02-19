@@ -11,9 +11,7 @@ service SubtractionGrpcService{
     rpc SubtractDecimal(DecimalSubtractionRequest) returns (DecimalSubtractionResponse);
 }
 
-///
 /// Subtract endpoint
-///
  message SubtractionRequest{
 	int32 FirstOperand = 1;
 	int32 SecondOperand = 2;
@@ -23,9 +21,7 @@ message SubtractionResponse{
 	int32 Result = 1;
 };
 
-///
 /// SubtractDecimal endpoint
-///
 message DecimalSubtractionRequest
 {
     Types.DecimalValue FirstOperand = 1;

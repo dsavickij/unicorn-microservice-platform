@@ -142,3 +142,5 @@
 /eShop/cart/Unicorn.eShop.Cart.DataAccess/bin/Debug/net6.0
 /eShop/catalog/Unicorn.eShop.Catalog/bin/Debug/net6.0
 /eShop/catalog/Unicorn.eShop.Catalog.SDK/bin/Debug/net6.0
+/core/services/api-gateway/Unicorn.Core.Services.ApiGateway.Ocelot/obj
+/core/services/api-gateway/Unicorn.Core.Services.ApiGateway.Ocelot/bin/Debug/net6.0
