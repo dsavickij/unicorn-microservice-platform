@@ -557,10 +557,10 @@ public class MyMessageHandler : IUnicornEventHandler<MyMessage>
 Possible plans for further learning/development:
 
 * Implement several microservices with vertical slice architecture in mind. Use MediatR, FluentValidation, FeatureFolders (?), try using EF Core 6 without repository pattern, but direct injection of DBContext into classes
-* Add unit tests: use FluentAssertions, Autofixture, xUnit
+* ~~Add unit tests: use FluentAssertions, Autofixture, xUnit~~ Several unit tests added with utilization of mentioned nugets, code coverage still needs to be improved
 * ~~Add authentication for inter-service communication. Research: Azure AD, Microsoft Identity~~ Done. Used OpenIddict for implicit and client credentials authentication flows
 * Add Authorization? Investigate
-* Ocelot or YARP for APIM/reverse-proxy/API gateway
+* ~~Ocelot or YARP for APIM/reverse-proxy/API gateway~~ Added Api gateway using Ocelot. YARP version can be created and tested in the future, too
 * Something regarding messaging:
 	* ~~MassTransit on top of RabbitMQ message broker to try Saga pattern~~ MassTransit on top of RabbitMQ and Azure ServiceBus was added with no issues. Saga pattern testing if left for the future
 	* Kafka for event sourcing to try what it can be used for
@@ -571,6 +571,7 @@ Possible plans for further learning/development:
 * Blazor for some UI and to have something to call API gateway
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
+* Add CI/CD with SonarCloud static code analysis and code coverage calculation
 
 ## Links
 
