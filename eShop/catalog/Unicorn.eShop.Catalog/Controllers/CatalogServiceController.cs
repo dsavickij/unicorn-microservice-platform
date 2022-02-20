@@ -15,7 +15,7 @@ public class CatalogServiceController : UnicornBaseController<ICatalogService>, 
         _logger = logger;
     }
 
-    [HttpPost]
+    [HttpPost("api/catalog/categories")]
     public Task<OperationResult<CatalogCategory>> CreateCatalogCategoryAsync([FromBody] CatalogCategory catalogCategory)
     {
         throw new NotImplementedException();

@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOcelot();
 
-builder.WebHost.Configure(app => app.UseOcelot().Wait());
+builder.Configuration.AddJsonFile("ocelot.json");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+await app.UseOcelot();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

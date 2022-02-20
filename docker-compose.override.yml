@@ -41,6 +41,7 @@ services:
             - cartdb
             - rabbitmq
             - unicorn.core.services.servicediscovery
+            - unicorn.core.services.apigateway.ocelot
         ports:
             - "8000:80"
             - "8001:443"
@@ -73,6 +74,7 @@ services:
         depends_on:
             - unicorn.core.services.servicediscovery
             - rabbitmq
+            - unicorn.core.services.apigateway.ocelot
         ports:
             - "8004:80"
             - "8005:443"
@@ -90,9 +92,21 @@ services:
         depends_on:
             - unicorn.core.services.servicediscovery
             - rabbitmq
+            - unicorn.core.services.apigateway.ocelot
         ports:
             - "8006:80"
             - "8007:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+    unicorn.core.services.apigateway.ocelot:
+        container_name: unicorn.core.services.apigateway.ocelot
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        ports:
+            - "8008:80"
+            - "8009:443"
         volumes:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

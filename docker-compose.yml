@@ -22,17 +22,23 @@ services:
             context: .
             dockerfile: eShop/discount/Unicorn.eShop.Discount/Dockerfile
 
+    unicorn.eshop.catalog:
+        image: ${DOCKER_REGISTRY-}unicorneshopcatalog
+        build:
+            context: .
+            dockerfile: eShop/catalog/Unicorn.eShop.Catalog/Dockerfile
+
     unicorn.core.services.servicediscovery:
         image: ${DOCKER_REGISTRY-}unicorncoreservicesservicediscovery
         build:
             context: .
             dockerfile: core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/Dockerfile
 
-    unicorn.eshop.catalog:
-        image: ${DOCKER_REGISTRY-}unicorneshopcatalog
+    unicorn.core.services.apigateway.ocelot:
+        image: ${DOCKER_REGISTRY-}unicorn.core.services.apigateway.ocelot
         build:
             context: .
-            dockerfile: eShop/catalog/Unicorn.eShop.Catalog/Dockerfile
+            dockerfile: core/services/api-gateway/Unicorn.Core.Services.ApiGateway.Ocelot/Dockerfile
 
     #unicorn.core.services.authentication.openiddict:
     #    image: ${DOCKER_REGISTRY-}unicorncoreservicesauthenticationopeniddict
