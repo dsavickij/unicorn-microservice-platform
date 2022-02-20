@@ -1,19 +1,19 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/todos/{id}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/carts/my",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "jsonplaceholder.typicode.com",
-          "Port": 443
+          "Host": "unicorn.eshop.cart",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/todos/{id}",
+      "UpstreamPathTemplate": "/eshop/api/carts/my",
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000"
+    "BaseUrl": "http://localhost:8008"
   }
 }

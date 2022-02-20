@@ -41,7 +41,6 @@ public static class HostConfigurationExtensions
         builder.UseSwagger();
         builder.UseSwaggerUI(UnicornSwaggerSettings.UIOptions);
 
-        builder.UseHttpsRedirection();
         builder.UseAuthentication();
         builder.UseAuthorization();
 
