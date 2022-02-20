@@ -11,10 +11,10 @@ namespace Unicorn.eShop.Cart.SDK;
 [UnicornHttpServiceMarker]
 public interface ICartService
 {
-    [UnicornHttpPost("api/carts/{cartId}/items/add")]
+    [UnicornHttpPost("api/carts/{cartId}/items")]
     Task<OperationResult> AddItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromBody] CartItemDTO cartItem);
 
-    [UnicornHttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
+    [UnicornHttpDelete("api/carts/{cartId}/items/{itemId}")]
     Task<OperationResult> RemoveItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] Guid itemId);
 
     [UnicornHttpGet("api/carts/my")]

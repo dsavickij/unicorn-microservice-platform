@@ -19,7 +19,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
         _logger = logger;
     }
 
-    [HttpPost("api/carts/{cartId}/items/add")]
+    [HttpPost("api/carts/{cartId}/items")]
     public async Task<OperationResult> AddItemAsync([FromRoute] Guid cartId, [FromBody] CartItemDTO cartItem)
     {
         return await SendAsync(new AddItemRequest
@@ -46,7 +46,7 @@ public class CartServiceController : UnicornBaseController<ICartService>, ICartS
         return await SendAsync(new GetMyCartRequest());
     }
 
-    [HttpDelete("api/carts/{cartId}/items/{itemId}/remove")]
+    [HttpDelete("api/carts/{cartId}/items/{itemId}")]
     public async Task<OperationResult> RemoveItemAsync([FromRoute] Guid cartId, [FromRoute] Guid itemId)
     {
         return await SendAsync(new RemoveItemRequest
