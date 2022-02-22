@@ -1,7 +1,7 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-microservice-platform
-Unicorn is a platform for development of microservices. The platform consists of shared components for infrastructure and platform-wide common parts, ensuring that no microservice will ever need to 'invent' them again. This separation of concerns allows the software engineer to focues on development of the features in microservice, thus speeding up the overall process.
+Unicorn is a platform for development of microservices. The platform consists of shared components for infrastructure and platform-wide common parts, ensuring that no microservice will ever need to 'invent' them again. This separation of concerns allows the software engineer to focus on development of the features in microservice, thus speeding up the overall process.
 
 Unicorn platform shared components include authentication, input data validation, configuration, inter-service communication and enforcement of vertical slice architectural style.
 
