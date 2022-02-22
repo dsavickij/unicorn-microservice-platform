@@ -12,13 +12,17 @@ The project is based on .NET 6.0 and is in constant development.
 * **Support for one-way (asynchronous) communication**
 	* Inter-service communication using message queues and events (topics) is supported using RabbitMQ or Azure ServiceBus message broker 	
 * **Support for two-way (synchronous) communication**
-	* Inter-service communication is supported over HTTP or high performance gRPC protocols.  	
+	* Inter-service communication is supported over HTTP or high performance gRPC protocols  	
 * **Microservice SDK nuget is all what is needed**
 	* Microservice's SDK contains everything what is required for consuming service to successfully call it
 * **High level of abstraction**
 	* Owner of microservice does not need to write any code to ensure microservice operation as that come "out of the box" from infrastructure packages	
 * **Enforcement of vertical slice architecture pattern**
 	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develop microservice in the spirit of vertical slice architecture
+* **Included API gateway**
+	* All requests to Unicorn microservices can go through included API gateway acting as a reversed proxy with such capabilities like rate limiting
+*  **Included service discovery**
+	* Microservice HTTP ang gRPC configurations are centralized in one place	
 * **Common  types for respones**
 	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
 
