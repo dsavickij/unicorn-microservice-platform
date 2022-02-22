@@ -7,11 +7,11 @@ namespace Unicorn.eShop.Cart.Features.ApplyDiscount;
 
 public class ApplyDiscountRequestHandler : BaseHandler.WithResult<DiscountedCartDTO>.For<ApplyDiscountRequest>
 {
-    private readonly IDiscountGrpcServiceClient? _discountClient;
+    private readonly IDiscountGrpcServiceClient _discountClient;
 
-    public ApplyDiscountRequestHandler(IServiceProvider discountGrpServiceClient)
+    public ApplyDiscountRequestHandler(IDiscountGrpcServiceClient discountGrpServiceClient)
     {
-        _discountClient = discountGrpServiceClient.GetService<IDiscountGrpcServiceClient>();
+        _discountClient = discountGrpServiceClient;
     }
 
     protected override async Task<OperationResult<DiscountedCartDTO>> HandleAsync(
