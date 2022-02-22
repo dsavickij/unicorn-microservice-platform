@@ -3,7 +3,8 @@ using OneOf;
 using OneOf.Types;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
-using Unicorn.eShop.Cart.Entities;
+using Unicorn.eShop.Cart.DataAccess;
+using Unicorn.eShop.Cart.DataAccess.Entities;
 
 namespace Unicorn.eShop.Cart.Features.RemoveItem;
 

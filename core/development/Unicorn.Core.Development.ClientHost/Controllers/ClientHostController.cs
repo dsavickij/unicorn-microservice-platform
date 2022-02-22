@@ -17,7 +17,7 @@ public interface IClientHostService
 {
 }
 
-public class ClientHostController : UnicornBaseController<IClientHostService>, IClientHostService
+public class ClientHostController : UnicornHttpService<IClientHostService>, IClientHostService
 {
     private readonly ILogger<ClientHostController> _logger;
     private readonly IBus _bus;

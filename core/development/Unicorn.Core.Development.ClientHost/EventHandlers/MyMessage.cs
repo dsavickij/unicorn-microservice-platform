@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unicorn.Core.Development.ClientHost.Controllers;
+namespace Unicorn.Core.Development.ClientHost.EventHandlers;
 
 public record MyMessage
 {

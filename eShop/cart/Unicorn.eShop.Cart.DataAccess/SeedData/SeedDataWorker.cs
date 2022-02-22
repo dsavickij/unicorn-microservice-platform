@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Unicorn.eShop.Cart.Entities;
+using Unicorn.eShop.Cart.DataAccess.Entities;
 using static Unicorn.eShop.Cart.DataAccess.SeedData.SeedDataWorkerContstants;
 
 namespace Unicorn.eShop.Cart.DataAccess.SeedData;

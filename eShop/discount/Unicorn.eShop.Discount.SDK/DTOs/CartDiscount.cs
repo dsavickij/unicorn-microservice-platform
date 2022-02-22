@@ -1,4 +1,4 @@
-﻿namespace Unicorn.eShop.Discount.SDK.gRPC.Clients;
+﻿namespace Unicorn.eShop.Discount.SDK.DTOs;
 
 public record CartDiscount
 {

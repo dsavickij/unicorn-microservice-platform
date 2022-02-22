@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Abstractions;
+using Unicorn.eShop.Cart.DataAccess;
 using Unicorn.eShop.Catalog.SDK.Events;
 
 namespace Unicorn.eShop.Cart.EventHandlers;

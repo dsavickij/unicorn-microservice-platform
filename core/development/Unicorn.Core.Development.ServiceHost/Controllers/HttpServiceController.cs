@@ -10,7 +10,7 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
-public class HttpServiceController : UnicornBaseController<IHttpService>, IHttpService
+public class HttpServiceController : UnicornHttpService<IHttpService>, IHttpService
 {
     private readonly ILogger<HttpServiceController> _logger;
 

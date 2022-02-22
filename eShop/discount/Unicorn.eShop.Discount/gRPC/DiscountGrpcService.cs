@@ -3,7 +3,7 @@ using MediatR;
 using Unicorn.eShop.Discount.Features.GetCartDiscount;
 using Unicorn.eShop.Discount.SDK.Protos;
 
-namespace Unicorn.eShop.Discount.gRPC.Services;
+namespace Unicorn.eShop.Discount.gRPC;
 
 public interface IDiscountGrpcService
 {

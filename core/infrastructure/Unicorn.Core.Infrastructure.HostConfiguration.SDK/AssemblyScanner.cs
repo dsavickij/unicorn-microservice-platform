@@ -57,7 +57,7 @@ internal static class AssemblyScanner
         return Assembly.GetEntryAssembly()!.GetExportedTypes().Where(
             x => x.BaseType != null &&
             x.BaseType.IsGenericType &&
-            x.BaseType.GetGenericTypeDefinition() == typeof(UnicornBaseController<>));
+            x.BaseType.GetGenericTypeDefinition() == typeof(UnicornHttpService<>));
     }
 
     public static IEnumerable<OneWayMethodConfiguration> GetOneWayMethodConfigurations()

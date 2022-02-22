@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Abstractions;
 
-namespace Unicorn.Core.Development.ClientHost.Controllers;
+namespace Unicorn.Core.Development.ClientHost.EventHandlers;
 
 public class MyMessageHandler : IUnicornEventHandler<MyMessage>
 {

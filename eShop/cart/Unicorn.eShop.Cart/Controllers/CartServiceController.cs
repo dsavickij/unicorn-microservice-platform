@@ -10,7 +10,7 @@ using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.Controllers;
 
-public class CartServiceController : UnicornBaseController<ICartService>, ICartService
+public class CartServiceController : UnicornHttpService<ICartService>, ICartService
 {
     private readonly ILogger<CartServiceController> _logger;
 

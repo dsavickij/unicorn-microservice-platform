@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Unicorn.eShop.Cart.Entities;
+using Unicorn.eShop.Cart.DataAccess.Entities;
 
-namespace Unicorn.eShop.Cart;
+namespace Unicorn.eShop.Cart.DataAccess;
 
 public class CartDbContext : DbContext
 {

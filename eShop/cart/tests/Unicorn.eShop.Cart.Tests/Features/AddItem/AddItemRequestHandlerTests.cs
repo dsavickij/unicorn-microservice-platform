@@ -5,6 +5,7 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.eShop.Cart.DataAccess;
 using Unicorn.eShop.Cart.Features.AddItem;
 using Xunit;
 
@@ -64,7 +65,7 @@ public class AddItemRequestHandlerTests
 
         using var ctx = InMemoryCartDbContext.GetInstance();
 
-        await ctx.Carts.AddAsync(new Entities.CartEntity { Id = request.CartId });
+        await ctx.Carts.AddAsync(new DataAccess.Entities.CartEntity { Id = request.CartId });
         await ctx.SaveChangesAsync();
 
         var sut = new AddItemRequestHandler(ctx);

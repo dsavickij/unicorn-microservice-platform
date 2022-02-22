@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.Catalog.Features.SoftDeleteItem;
+using Unicorn.eShop.Catalog.SDK.DTOs;
 using Unicorn.eShop.Catalog.SDK.Services.Http;
 
 namespace Unicorn.eShop.Catalog.Controllers;
 
-public class CatalogServiceController : UnicornBaseController<ICatalogService>, ICatalogService
+public class CatalogServiceController : UnicornHttpService<ICatalogService>, ICatalogService
 {
     private readonly ILogger<CatalogServiceController> _logger;
 

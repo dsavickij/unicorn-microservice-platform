@@ -1,6 +1,6 @@
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.Discount;
-using Unicorn.eShop.Discount.gRPC.Services;
+using Unicorn.eShop.Discount.gRPC;
 
 var builder = WebApplication.CreateBuilder(args);
 

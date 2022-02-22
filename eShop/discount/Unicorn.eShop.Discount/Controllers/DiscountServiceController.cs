@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.Discount.Features.GetCartDiscount;
-using Unicorn.eShop.Discount.SDK.gRPC.Clients;
+using Unicorn.eShop.Discount.SDK.DTOs;
 using Unicorn.eShop.Discount.SDK.Services.Http;
 
 namespace Unicorn.eShop.Discount.Controllers;
 
-public class DiscountServiceController : UnicornBaseController<IDiscountService>, IDiscountService
+public class DiscountServiceController : UnicornHttpService<IDiscountService>, IDiscountService
 {
     private readonly ILogger<DiscountServiceController> _logger;
 

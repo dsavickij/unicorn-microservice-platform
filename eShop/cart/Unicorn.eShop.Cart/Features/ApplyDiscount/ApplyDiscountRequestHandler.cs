@@ -1,7 +1,7 @@
 ﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 using Unicorn.eShop.Cart.SDK.DTOs;
-using Unicorn.eShop.Discount.SDK.gRPC.Clients;
+using Unicorn.eShop.Discount.SDK.Services.gRPC.Clients;
 
 namespace Unicorn.eShop.Cart.Features.ApplyDiscount;
 

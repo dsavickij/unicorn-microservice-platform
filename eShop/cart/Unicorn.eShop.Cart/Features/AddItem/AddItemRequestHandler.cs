@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
-using Unicorn.eShop.Cart.Entities;
+using Unicorn.eShop.Cart.DataAccess;
+using Unicorn.eShop.Cart.DataAccess.Entities;
 using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.Features.AddItem;

@@ -3,9 +3,10 @@ using Microsoft.Extensions.Logging;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
+using Unicorn.eShop.Discount.SDK.DTOs;
 using Unicorn.eShop.Discount.SDK.Protos;
 
-namespace Unicorn.eShop.Discount.SDK.gRPC.Clients;
+namespace Unicorn.eShop.Discount.SDK.Services.gRPC.Clients;
 
 [UnicornGrpcClientMarker]
 public interface IDiscountGrpcServiceClient

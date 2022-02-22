@@ -1,4 +1,4 @@
-﻿namespace Unicorn.eShop.Catalog.SDK.Services.Http;
+﻿namespace Unicorn.eShop.Catalog.SDK.DTOs;
 
 public record CatalogCategory
 {

@@ -8,7 +8,7 @@ using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 [ApiController]
-public abstract class UnicornBaseController<TUnicornHttpServiceInterface> : ControllerBase
+public abstract class UnicornHttpService<TUnicornHttpServiceInterface> : ControllerBase
     where TUnicornHttpServiceInterface : class
 {
     private IMediator _mediator;

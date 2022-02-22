@@ -7,7 +7,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Controllers;
 
-public class ServiceDiscoveryController : UnicornBaseController<IServiceDiscoveryService>, IServiceDiscoveryService
+public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoveryService>, IServiceDiscoveryService
 {
     private readonly ILogger<ServiceDiscoveryController> _logger;
 

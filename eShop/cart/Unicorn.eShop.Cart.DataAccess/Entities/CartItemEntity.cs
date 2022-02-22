@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Unicorn.eShop.Cart.Entities;
+namespace Unicorn.eShop.Cart.DataAccess.Entities;
 
 [Table("CartItems")]
 [Index(nameof(CartId), nameof(CatalogItemId), IsUnique = true)]

@@ -3,6 +3,7 @@ using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
 using Unicorn.eShop.Catalog.SDK;
+using Unicorn.eShop.Catalog.SDK.DTOs;
 
 [assembly: UnicornServiceHostName(Constants.ServiceHostName)]
 
