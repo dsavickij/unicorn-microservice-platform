@@ -5,8 +5,8 @@ using Unicorn.eShop.Cart.Features.AddItem;
 using Unicorn.eShop.Cart.Features.ApplyDiscount;
 using Unicorn.eShop.Cart.Features.GetMyCart;
 using Unicorn.eShop.Cart.Features.RemoveItem;
-using Unicorn.eShop.Cart.SDK;
 using Unicorn.eShop.Cart.SDK.DTOs;
+using Unicorn.eShop.Cart.SDK.Services.Http;
 
 namespace Unicorn.eShop.Cart.Controllers;
 

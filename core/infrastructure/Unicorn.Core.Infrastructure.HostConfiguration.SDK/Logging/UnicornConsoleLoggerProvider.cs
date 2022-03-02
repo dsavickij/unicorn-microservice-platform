@@ -5,7 +5,7 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.Logging;
 
 internal sealed class UnicornConsoleLoggerProvider : ILoggerProvider
 {
-    private readonly ConcurrentDictionary<string, UnicornConsoleLogger> _loggers = new();
+    private readonly ConcurrentDictionary<string, UnicornConsoleLogger> _loggers = new ();
 
     public ILogger CreateLogger(string categoryName) =>
         _loggers.GetOrAdd(categoryName, categoryName => new UnicornConsoleLogger(categoryName));

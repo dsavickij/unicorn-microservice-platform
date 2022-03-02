@@ -6,7 +6,7 @@ using Unicorn.eShop.Cart.SDK.DTOs;
 
 [assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
 
-namespace Unicorn.eShop.Cart.SDK;
+namespace Unicorn.eShop.Cart.SDK.Services.Http;
 
 [UnicornHttpServiceMarker]
 public interface ICartService
