@@ -80,7 +80,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Catalog.SDK",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api-gateway", "api-gateway", "{15643F34-DF3A-407D-9C74-7C7574E4F8E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Core.Services.ApiGateway.Ocelot", "core\services\api-gateway\Unicorn.Core.Services.ApiGateway.Ocelot\Unicorn.Core.Services.ApiGateway.Ocelot.csproj", "{110B92DB-084F-4B14-8134-368B1D562371}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ApiGateway.Ocelot", "core\services\api-gateway\Unicorn.Core.Services.ApiGateway.Ocelot\Unicorn.Core.Services.ApiGateway.Ocelot.csproj", "{110B92DB-084F-4B14-8134-368B1D562371}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{82323EB6-3381-4CF2-9A35-DEB7DB36B45F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Templates.Service", "templates\service\Unicorn.Templates.Service.Host\Unicorn.Templates.Service.csproj", "{82FF2690-FAC1-4D43-9288-FAEE63E18107}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Templates.Service.SDK", "templates\service\Unicorn.Templates.Service.SDK\Unicorn.Templates.Service.SDK.csproj", "{0BE59188-E6B8-4EE5-B14C-B3872B4E024C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "service", "service", "{F1E280EE-A9B6-4FF5-9E11-3E2D7E532C18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -180,6 +188,14 @@ Global
 		{110B92DB-084F-4B14-8134-368B1D562371}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{110B92DB-084F-4B14-8134-368B1D562371}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{110B92DB-084F-4B14-8134-368B1D562371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82FF2690-FAC1-4D43-9288-FAEE63E18107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82FF2690-FAC1-4D43-9288-FAEE63E18107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82FF2690-FAC1-4D43-9288-FAEE63E18107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82FF2690-FAC1-4D43-9288-FAEE63E18107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BE59188-E6B8-4EE5-B14C-B3872B4E024C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE59188-E6B8-4EE5-B14C-B3872B4E024C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE59188-E6B8-4EE5-B14C-B3872B4E024C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE59188-E6B8-4EE5-B14C-B3872B4E024C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +235,9 @@ Global
 		{2BC64259-0FD8-4D60-92B6-E2194735E602} = {53A9157E-365B-4831-8A0B-485BEEC1BB82}
 		{15643F34-DF3A-407D-9C74-7C7574E4F8E2} = {3E969805-7B74-4446-A42C-0DE247DFE254}
 		{110B92DB-084F-4B14-8134-368B1D562371} = {15643F34-DF3A-407D-9C74-7C7574E4F8E2}
+		{82FF2690-FAC1-4D43-9288-FAEE63E18107} = {F1E280EE-A9B6-4FF5-9E11-3E2D7E532C18}
+		{0BE59188-E6B8-4EE5-B14C-B3872B4E024C} = {F1E280EE-A9B6-4FF5-9E11-3E2D7E532C18}
+		{F1E280EE-A9B6-4FF5-9E11-3E2D7E532C18} = {82323EB6-3381-4CF2-9A35-DEB7DB36B45F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33F75022-EF87-4855-AFF0-0078123AAE2A}

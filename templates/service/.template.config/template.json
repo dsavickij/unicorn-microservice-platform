@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Dmitrij Savickij",
+  "classifications": [ "Unicorn microservice" ],
+  "identity": "unicorn.templates.service",
+  "name": "Unicorn microservice template",
+  "shortName": "unicorn",
+  "defaultName": "Unicorn-microservice",
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "sourceName": "Unicorn.Templates.Service",
+  "description": "A project template for creation of a microservice on the Unicorn platform",
+  "preferNameDirectory": true,
+  "guids": [
+    "82FF2690-FAC1-4D43-9288-FAEE63E18107",
+    "0BE59188-E6B8-4EE5-B14C-B3872B4E024C"
+  ],
+  "primaryOutputs": [
+    { "path": "Unicorn-microservice.sln" }
+  ],
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(!ReadMe)",
+          "exclude": [
+            "README.md"
+          ]
+        },
+        {
+          "condition": "(!License)",
+          "exclude": [
+            "LICENSE.md"
+          ]
+        },
+        {
+          "condition": "(!GitIgnore)",
+          "exclude": [
+            ".gitignore",
+            ".gitattributes"
+          ]
+        },
+        {
+          "condition": "(!Docker)",
+          "exclude": [
+            "src/Content/src/Dockerfile",
+            "src/Content/src/.dockerignore",
+            "src/Content/src/dockercompose.yml"
+          ]
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "Title": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "Project Title",
+      "description": "The name of the project which determines the assembly product name."
+    },
+    "Description": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "Project Description",
+      "description": "A description of the project which determines the assembly description."
+    },
+    "ReadMe": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "description": "Include a Read Me file (ReadMe.md) in the solution."
+    },
+    "License": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "description": "Include an MIT License file (License.md) in the solution."
+    },
+    "GitIgnore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "description": "Include a Git Ignore files (.gitignore & .gitattributes) in the solution."
+    }
+  }
+}
