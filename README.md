@@ -1,7 +1,7 @@
 ![unicorn](http://image-cdn.neatoshop.com/styleimg/66894/none/sand/default/371163-19;1512063557i.jpg)
 
 # unicorn-microservice-platform
-Unicorn is a platform for development of microservices. The platform consists of shared components for infrastructure and platform-wide common parts, ensuring that no microservice will ever need to 'invent' them again. This separation of concerns allows to focus on development of the features in microservice, thus speeding up the overall process.
+Unicorn is a platform for development of microservices. The platform consists of shared components for infrastructure and platform-wide common parts, ensuring that no microservice will ever need to 'invent' them again. This separation of concerns allows the software engineer to focus on development of the features in microservice, thus speeding up the overall process.
 
 Unicorn platform shared components include authentication, input data validation, configuration, inter-service communication and enforcement of vertical slice architectural style.
 
@@ -12,13 +12,17 @@ The project is based on .NET 6.0 and is in constant development.
 * **Support for one-way (asynchronous) communication**
 	* Inter-service communication using message queues and events (topics) is supported using RabbitMQ or Azure ServiceBus message broker 	
 * **Support for two-way (synchronous) communication**
-	* Inter-service communication is supported over HTTP or high performance gRPC protocols.  	
+	* Inter-service communication is supported over HTTP or high performance gRPC protocols  	
 * **Microservice SDK nuget is all what is needed**
 	* Microservice's SDK contains everything what is required for consuming service to successfully call it
 * **High level of abstraction**
 	* Owner of microservice does not need to write any code to ensure microservice operation as that come "out of the box" from infrastructure packages	
 * **Enforcement of vertical slice architecture pattern**
 	* Base class for HTTP service Web API controller includes MediatR out of the box and pushes software engineer to develop microservice in the spirit of vertical slice architecture
+* **Included API gateway**
+	* All requests to Unicorn microservices can go through included API gateway acting as a reversed proxy with such capabilities like rate limiting
+*  **Included service discovery**
+	* Microservice HTTP ang gRPC configurations are centralized in one place	
 * **Common  types for respones**
 	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
 
@@ -572,6 +576,7 @@ Possible plans for further learning/development:
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
 * Add CI/CD with SonarCloud static code analysis and code coverage calculation
+* Add .NET project templates for creating microservice host and SDK projects
 
 ## Links
 
