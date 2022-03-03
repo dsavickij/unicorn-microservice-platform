@@ -84,7 +84,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ApiGa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{82323EB6-3381-4CF2-9A35-DEB7DB36B45F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Templates.Service", "templates\service\Unicorn.Templates.Service\Unicorn.Templates.Service.csproj", "{82FF2690-FAC1-4D43-9288-FAEE63E18107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Templates.Service", "templates\service\Unicorn.Templates.Service.Host\Unicorn.Templates.Service.csproj", "{82FF2690-FAC1-4D43-9288-FAEE63E18107}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Templates.Service.SDK", "templates\service\Unicorn.Templates.Service.SDK\Unicorn.Templates.Service.SDK.csproj", "{0BE59188-E6B8-4EE5-B14C-B3872B4E024C}"
 EndProject

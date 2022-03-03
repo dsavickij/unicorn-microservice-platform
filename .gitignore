@@ -151,3 +151,5 @@
 /templates/service/Unicorn.Templates.Service.SDK/bin/Debug/net6.0
 /templates/service/.template.config/template.json.bak
 /templates/service/.template.config/ide.host.json.bak
+/templates/service/Unicorn.Templates.Service/bin/Debug/net6.0
+/templates/service/Unicorn.Templates.Service/obj
