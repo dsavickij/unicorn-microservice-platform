@@ -4,7 +4,7 @@ using Unicorn.Core.Infrastructure.Communication.MessageBroker.Abstractions;
 namespace Unicorn.Templates.Service.EventHandlers;
 
 // Change 'object' to the class type this handler will be consuming.
-// Subscription to events will be done automatically on startup
+// Subscription to events will be done automatically on service startup
 
 public class ObjectHandler : IUnicornEventHandler<object>
 {
