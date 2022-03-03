@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "Unicorn.Templates.Service.SDK.Services.gRPC.Protos";
+
+import "Services/gRPC/Protos/Custom/Types.proto";
+
+package YOUR_SERVICE_NAME;
+
+service YOUR_SERVICE_NAMEGrpcService{
+    rpc SubtractDecimal(DecimalSubtractionRequest) returns (DecimalSubtractionResponse);
+}
+
+message DecimalSubtractionRequest
+{
+    Types.DecimalValue FirstOperand = 1;
+    Types.DecimalValue SecondOperand = 2;
+}
+
+message DecimalSubtractionResponse
+{
+    Types.DecimalValue Result = 1;
+}

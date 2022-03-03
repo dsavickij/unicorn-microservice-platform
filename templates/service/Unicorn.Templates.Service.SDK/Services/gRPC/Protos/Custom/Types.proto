@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option csharp_namespace = "Unicorn.Templates.Service.SDK.Services.gRPC.Protos.Custom";
+
+package Types;
+
+message DecimalValue {
+
+    // Whole units part of the amount
+    int64 Units = 1;
+
+    // Nano units of the amount (10^-9)
+    // Must be same sign as units
+    sfixed32 Nanos = 2;
+}

@@ -54,18 +54,14 @@
     }
   ],
   "symbols": {
-    "Title": {
-      "type": "parameter",
+	"Service name": {
+	  "type": "parameter",
       "datatype": "string",
-      "defaultValue": "Project Title",
-      "description": "The name of the project which determines the assembly product name."
-    },
-    "Description": {
-      "type": "parameter",
-      "datatype": "string",
-      "defaultValue": "Project Description",
-      "description": "A description of the project which determines the assembly description."
-    },
+      "defaultValue": "UnicornMicroservice",
+      "description": "The name of your microservice",
+	  "fileRename": "YOUR_SERVICE_NAME",
+	  "replaces": "YOUR_SERVICE_NAME",
+	},
     "ReadMe": {
       "type": "parameter",
       "datatype": "bool",

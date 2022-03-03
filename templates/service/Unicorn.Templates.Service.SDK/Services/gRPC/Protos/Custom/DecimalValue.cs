@@ -1,10 +1,10 @@
-﻿namespace Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos.Custom;
+﻿namespace Unicorn.Templates.Service.SDK.Services.gRPC.Protos.Custom;
 
 public partial class DecimalValue
 {
     private const decimal NanoFactor = 1_000_000_000;
     public DecimalValue(long units, int nanos)
-{
+    {
         Units = units;
         Nanos = nanos;
     }
