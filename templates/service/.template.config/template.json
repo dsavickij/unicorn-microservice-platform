@@ -5,20 +5,20 @@
   "identity": "unicorn.templates.service",
   "name": "Unicorn microservice template",
   "shortName": "unicorn",
-  "defaultName": "Unicorn-microservice",
+  "defaultName": "UnicornMicroservice",
   "tags": {
     "language": "C#",
     "type": "solution"
   },
   "sourceName": "Unicorn.Templates.Service",
-  "description": "A project template for creation of a microservice on the Unicorn platform",
+  "description": "A project template for creation of the Unicorn microservice",
   "preferNameDirectory": true,
   "guids": [
     "82FF2690-FAC1-4D43-9288-FAEE63E18107",
     "0BE59188-E6B8-4EE5-B14C-B3872B4E024C"
   ],
   "primaryOutputs": [
-    { "path": "Unicorn-microservice.sln" }
+    { "path": "Unicorn.Templates.Service.sln" }
   ],
   "sources": [
     {
@@ -57,8 +57,8 @@
 	"Service name": {
 	  "type": "parameter",
       "datatype": "string",
-      "defaultValue": "UnicornMicroservice",
-      "description": "The name of your microservice",
+      "defaultValue": "MyUnicorn",
+      "description": "The name of your service for HTTP and gRPC requests",
 	  "fileRename": "YOUR_SERVICE_NAME",
 	  "replaces": "YOUR_SERVICE_NAME",
 	},
