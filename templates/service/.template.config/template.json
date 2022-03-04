@@ -14,8 +14,10 @@
   "description": "A project template for creation of the Unicorn microservice",
   "preferNameDirectory": true,
   "guids": [
-    "82FF2690-FAC1-4D43-9288-FAEE63E18107",
-    "0BE59188-E6B8-4EE5-B14C-B3872B4E024C"
+    "82FF2690-FAC1-4D43-9288-FAEE63E18107", // service project
+    "0BE59188-E6B8-4EE5-B14C-B3872B4E024C", // service SDK project
+    "A5AA4D33-6A58-49A8-B67A-9B9F45081649", // tests folder
+    "9586E5C2-02BA-4973-9D6E-E51E630FE074" // tests project
   ],
   "primaryOutputs": [
     { "path": "Unicorn.Templates.Service.sln" }
@@ -54,28 +56,28 @@
     }
   ],
   "symbols": {
-	"Service name": {
-	  "type": "parameter",
+    "Service name": {
+      "type": "parameter",
       "datatype": "string",
       "defaultValue": "MyUnicorn",
       "description": "Name of your service for HTTP and gRPC requests",
-	  "fileRename": "YOUR_SERVICE_NAME",
-	  "replaces": "YOUR_SERVICE_NAME",
-	},
-	"Service description": {
-	  "type": "parameter",
+      "fileRename": "YOUR_SERVICE_NAME",
+      "replaces": "YOUR_SERVICE_NAME",
+    },
+    "Service description": {
+      "type": "parameter",
       "datatype": "string",
       "defaultValue": "No description",
       "description": "Description of the service",
-	    "replaces": "YOUR_SERVICE_DESCRIPTION"
-	},
-	"Service owner email": {
-	  "type": "parameter",
+      "replaces": "YOUR_SERVICE_DESCRIPTION"
+    },
+    "Service owner email": {
+      "type": "parameter",
       "datatype": "string",
       "defaultValue": "team_name@email.com",
       "description": "Email",
-	    "replaces": "OWNER_EMAIL"
-	},
+      "replaces": "OWNER_EMAIL"
+    },
     "ReadMe": {
       "type": "parameter",
       "datatype": "bool",
