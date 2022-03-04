@@ -15,6 +15,8 @@ The project is based on .NET 6.0 and is in constant development.
 	* Inter-service communication is supported over HTTP or high performance gRPC protocols  	
 * **Microservice SDK nuget is all what is needed**
 	* Microservice's SDK contains everything what is required for consuming service to successfully call it
+*  **Inlucded Unicorn project template**
+	* New Unicorn microservice can be created from included project template installed in Visual Studio/Rider. Few clicks and all required projects are addedto solution	
 * **High level of abstraction**
 	* Owner of microservice does not need to write any code to ensure microservice operation as that come "out of the box" from infrastructure packages	
 * **Enforcement of vertical slice architecture pattern**
