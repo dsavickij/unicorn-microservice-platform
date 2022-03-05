@@ -155,3 +155,12 @@
 /templates/service/Unicorn.Templates.Service/obj
 /templates/service/tests/Unicorn.Templates.Service.Tests/bin/Debug/net6.0
 /templates/service/tests/Unicorn.Templates.Service.Tests/obj
+/templates/service/template_nuget/obj
+/templates/unicorn-service-template/tests/Unicorn.Templates.Service.Tests/bin/Debug/net6.0
+/templates/unicorn-service-template/tests/Unicorn.Templates.Service.Tests/obj
+/templates/unicorn-service-template/Unicorn.Templates.Service/bin/Debug/net6.0
+/templates/unicorn-service-template/Unicorn.Templates.Service/obj
+/templates/unicorn-service-template/Unicorn.Templates.Service.SDK/bin/Debug/net6.0
+/templates/unicorn-service-template/Unicorn.Templates.Service.SDK/obj
+/templates/.vs/Unicorn.Templates
+/templates/Unicorn.Templates.1.0.0.nupkg

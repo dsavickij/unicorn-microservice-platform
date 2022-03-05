@@ -11,7 +11,7 @@
     "type": "solution"
   },
   "sourceName": "Unicorn.Templates.Service",
-  "description": "A project template for creation of the Unicorn microservice",
+  "description": "Project template for creating Unicorn microservice",
   "preferNameDirectory": true,
   "guids": [
     "82FF2690-FAC1-4D43-9288-FAEE63E18107", // service project
