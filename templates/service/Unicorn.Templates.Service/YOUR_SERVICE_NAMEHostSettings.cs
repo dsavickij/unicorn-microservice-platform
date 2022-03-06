@@ -1,9 +1,8 @@
 ﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
-/// <summary>
-/// The properties of this class are binded from appSettings. 
-/// Changes in this class should be refleced in appSettings for configuration to be binded properly
-/// </summary>
+// Property values of this record are binded from appSettings. 
+// Changes in this class should be reflected in appSettings for configuration to be binded properly
+
 public record YOUR_SERVICE_NAMEHostSettings : BaseHostSettings
 {
     public string DbConnectionString { get; set; } = string.Empty;
