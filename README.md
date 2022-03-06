@@ -25,7 +25,7 @@ The project is based on .NET 6.0 and is in constant development.
 	* All requests to Unicorn microservices can go through included API gateway acting as a reversed proxy with such capabilities like rate limiting
 *  **Included service discovery**
 	* Microservice HTTP ang gRPC configurations are centralized in one place	
-* **Common  types for respones**
+* **Common  types for responses**
 	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
 
 ## (Very) Brief overview of technical implementation
