@@ -164,3 +164,5 @@
 /templates/unicorn-service-template/Unicorn.Templates.Service.SDK/obj
 /templates/.vs/Unicorn.Templates
 /templates/Unicorn.Templates.1.0.0.nupkg
+/templates/.vs/ProjectEvaluation
+/templates/service/.vs

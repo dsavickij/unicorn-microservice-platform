@@ -4,13 +4,13 @@
 	<metadata>
 		<id>Unicorn.Templates</id>
 		<version>1.0.0</version>
-		<description>Project template for creating Unicorn microservice</description>
+		<description>Project templates for creating Unicorn projects</description>
 		<authors>Dmitrij Savickij</authors>
 		<packageTypes>
 			<packageType name="Template" />
 		</packageTypes>
 	</metadata>
 	<files>
-		<file src=".\unicorn-service-template\" exclude=".\unicorn-service-template\**\bin\**;.\unicorn-service-template\**\obj\**" target="src" />
+		<file src=".\" exclude=".\**\**\bin\**;.\**\**\obj\**;.\**\tests\**\bin\**;.\**\tests\**\obj\**;.\.vs\**;.\service\.vs\**" target="src" />
 	</files>
 </package>

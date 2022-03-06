@@ -14,10 +14,10 @@
   "description": "Project template for creating Unicorn microservice",
   "preferNameDirectory": true,
   "guids": [
-    "82FF2690-FAC1-4D43-9288-FAEE63E18107", // service project
-    "0BE59188-E6B8-4EE5-B14C-B3872B4E024C", // service SDK project
-    "A5AA4D33-6A58-49A8-B67A-9B9F45081649", // tests folder
-    "9586E5C2-02BA-4973-9D6E-E51E630FE074" // tests project
+    "E4052B44-132A-4151-96E6-B54BA09C8F18", // service project
+    "1714711C-AD91-4587-993A-D5B26704C9FE", // service SDK project
+    "898FD728-085C-40F8-8F98-3B623EAB3DB7", // tests solution folder
+    "84B515F0-D92E-4BE1-A235-BAC2CFCBB8E5" // tests project
   ],
   "primaryOutputs": [
     { "path": "Unicorn.Templates.Service.sln" }
