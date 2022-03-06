@@ -4,6 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // register services on builder.Services if needed
 
+builder.Services.AddGrpc();
+
 builder.Host.ApplyUnicornConfiguration<YOUR_SERVICE_NAMEHostSettings>();
 
 var app = builder.Build();
