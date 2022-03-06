@@ -20,7 +20,9 @@
     "84B515F0-D92E-4BE1-A235-BAC2CFCBB8E5" // tests project
   ],
   "primaryOutputs": [
-    { "path": "Unicorn.Templates.Service.sln" }
+    {
+      "path": "Unicorn.Templates.Service.sln"
+    }
   ],
   "sources": [
     {
@@ -77,6 +79,14 @@
       "defaultValue": "team_name@email.com",
       "description": "Email",
       "replaces": "OWNER_EMAIL"
+    },
+    "SubscriptionId": {
+      "type": "generated",
+      "generator": "guid",
+      "replaces": "SUBSCRIPTION_ID",
+      "parameters": {
+        "format": "N"
+      }
     },
     "ReadMe": {
       "type": "parameter",

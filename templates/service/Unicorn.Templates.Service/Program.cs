@@ -12,6 +12,8 @@ app.UseUnicornMiddlewares(app.Environment);
 
 // add middlewares if needed
 
+app.MapGrpcService<YOUR_SERVICE_NAMEGrpcService>();
+
 app.MapControllers();
 
 app.Run();
