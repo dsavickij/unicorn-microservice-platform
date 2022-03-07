@@ -53,7 +53,7 @@ This section contains the overview of nuget packages, databases and design desic
 
 ## Table of contents
 - [Repository structure](#repository-structure)
-- [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
+- [Starting Unicorn.eShop microservices](#starting-unicorneshop-microservices)
 	- [Creating local nuget packages](#creating-local-nuget-packages)
 	- [Launching microservices in Docker containers](#launching-microservices-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
@@ -80,7 +80,7 @@ This section contains the overview of nuget packages, databases and design desic
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
 * **eShop** - example e-commerce microservices built on top of Unicorn platform. Right now these projects include only back-end services in early stage of development.
 
-## Getting Unicorn.eShop microservices started
+## Starting Unicorn.eShop microservices
 
 Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn platform. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
