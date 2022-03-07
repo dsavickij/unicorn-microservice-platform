@@ -146,6 +146,8 @@ The fastest and easiest way to create a new Unicorn microservice is by using Uni
 
 ![image](https://user-images.githubusercontent.com/22943668/156999103-515e00ce-c038-4691-a32a-6388388e32db.png)
 
+You can read how to install Unicorn project template [here](templates/README.md).
+
 ### Create manually
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use Unicorn platform nuget packages.
