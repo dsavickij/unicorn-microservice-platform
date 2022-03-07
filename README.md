@@ -57,11 +57,13 @@ This section contains the overview of nuget packages, databases and design desic
 	- [Creating local nuget packages](#creating-local-nuget-packages)
 	- [Launching microservices in Docker containers](#launching-microservices-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
-- [Creation of new Unicorn microservice](#creation-of-new-unicorn-microservice)
-	- [Web API host configuration](#web-api-host-configuration)
-	- [Adding HTTP service](#adding-http-service)
-		- [Adding two-way endpoints](#adding-two-way-endpoints)
-		- [Adding of one-way endpoints](#adding-one-way-endpoints) 
+- [Creating a new Unicorn microservice](creating-a-new-unicorn-microservice)
+	- [Create using project template](create-using-project-template)
+	- [Create manually](#create-manually)
+		- [Web API host configuration](#web-api-host-configuration)
+		- [Adding HTTP service](#adding-http-service)
+			- [Adding two-way endpoints](#adding-two-way-endpoints)
+			- [Adding of one-way endpoints](#adding-one-way-endpoints) 
 	- [Adding gRPC service](#adding-grpc-service)
 	- [Adding events](#adding-events)
 - [Inter-service communication](#inter-service-communication)
@@ -134,14 +136,17 @@ Unicorn.Core.Services:
 
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
+## Creating a new Unicorn microservice
 
-## Creation of new Unicorn microservice
+### Create using project template
+
+### Create manually
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use Unicorn platform nuget packages.
 
 Typical Unicorn microservice consists of at least 1 Web API project and 1 class libarary for SDK.
 
-### Web API host configuration
+#### Web API host configuration
 
 1. Add `Unicorn.Core.Infrastructure.HostConfiguration.SDK` nuget package to created Web API project
 2. Go to `Program.cs`, remove every line of code and paste the following:
