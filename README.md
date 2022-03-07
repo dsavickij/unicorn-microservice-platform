@@ -138,11 +138,13 @@ Unicorn.Core.Services:
 
 ## Creating a new Unicorn microservice
 
-Test 1
+New Unicorn microservice can be created using installed Unicorn service project template or by doing everything manually. Section for manual creation explains what needs to be done and why, thus can help to understand the Unicorn microservice platform on higher level.
 
 ### Create using project template
 
-Test 2
+The fastest and easiest way to create a new Unicorn microservice is by using Unicorn project template. After the template is installed, in can be used in Visual Studio and JetBrains Rider IDEs. Moreover, the template in Visual Studio will be shown just like any other template:
+
+![image](https://user-images.githubusercontent.com/22943668/156999103-515e00ce-c038-4691-a32a-6388388e32db.png)
 
 ### Create manually
 
