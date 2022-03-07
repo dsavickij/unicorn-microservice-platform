@@ -57,8 +57,8 @@ This section contains the overview of nuget packages, databases and design desic
 	- [Creating local nuget packages](#creating-local-nuget-packages)
 	- [Launching microservices in Docker containers](#launching-microservices-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
-- [Creating a new Unicorn microservice](creating-a-new-unicorn-microservice)
-	- [Create using project template](create-using-project-template)
+- [Creating a new Unicorn microservice](#creating-a-new-unicorn-microservice)
+	- [Create using project template](#create-using-project-template)
 	- [Create manually](#create-manually)
 		- [Web API host configuration](#web-api-host-configuration)
 		- [Adding HTTP service](#adding-http-service)
@@ -138,7 +138,11 @@ Unicorn.Core.Services:
 
 ## Creating a new Unicorn microservice
 
+Test 1
+
 ### Create using project template
+
+Test 2
 
 ### Create manually
 
