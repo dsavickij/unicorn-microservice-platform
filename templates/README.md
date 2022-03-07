@@ -2,7 +2,7 @@
 
 Solutions here consists of project template for creating certain type of Unicorn projects.
 
-As of now, there are the following templates for:
+As of now, there are templates for:
 
 * Unicorn microservice
 
