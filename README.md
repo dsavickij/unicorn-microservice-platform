@@ -63,7 +63,7 @@ This section contains the overview of nuget packages, databases and design desic
 		- [Web API host configuration](#web-api-host-configuration)
 		- [Adding HTTP service](#adding-http-service)
 			- [Adding two-way endpoints](#adding-two-way-endpoints)
-			- [Adding of one-way endpoints](#adding-one-way-endpoints) 
+			- [Adding one-way endpoints](#adding-one-way-endpoints) 
 		- [Adding gRPC service](#adding-grpc-service)
 		- [Adding events](#adding-events)
 - [Inter-service communication](#inter-service-communication)
