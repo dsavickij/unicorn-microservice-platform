@@ -80,7 +80,7 @@ This section contains the overview of nuget packages, databases and design desic
 	* **infrastructure** - projects for inter-services communication, data validation, authentication, service registration, etc.
 	* **services** - independent services required to ensure the work of microservices (service-discovery, authentcation, etc.)
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
-	* **templates** - solutions for Unicorn project templates
+* **templates** - Unicorn project templates for creation of new template based projects
 * **eShop** - example e-commerce microservices built on top of Unicorn platform. Right now these projects include only back-end services in early stage of development.
 
 ## Starting Unicorn.eShop microservices
