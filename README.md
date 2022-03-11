@@ -25,7 +25,7 @@ The project is based on .NET 6.0 and is in constant development.
 	* All requests to Unicorn microservices can go through included API gateway acting as a reversed proxy with such capabilities like rate limiting
 *  **Included service discovery**
 	* Microservice HTTP ang gRPC configurations are centralized in one place	
-* **Common  types for respones**
+* **Common  types for responses**
 	* Infrastructure packages includes types `OperationResult` and `OperationResult<T>` to use as common responses across all microservices
 
 ## (Very) Brief overview of technical implementation
@@ -38,13 +38,14 @@ During the request, the caller uses service host name in target service SDK to g
 
 For proper functioning of microservice, certain configuration is required to be provided in microservice configuration. That include Service Discovery service URL for service configuration retrieval, subscription identifier for subscription to message broker topics and message broker connection string.
 
-## Tech-stack
+## Tech-stack and architectrual decisions
 
 This section contains the overview of nuget packages, databases and design desicions used in this repository.
 
 * **Microservice inter-service communication is implemented using orchestration pattern**
 * **Microservices use vertical slice architectural approach**
 * **Docker is used for containerization**
+* **API gateway is implemented using Ocelot**
 * **Main nuget packages used in solution:**
 	*  RestSharp, Castle.Core, GuardClauses, MassTransit, FluentValidation, MediatR, Swashbuckle (Swagger), OneOf, OpendIddict (for authentication), Entity Framework Core 6, Autofixture, xUnit, FluentAssertions.
 * **Databases:**
@@ -53,17 +54,19 @@ This section contains the overview of nuget packages, databases and design desic
 
 ## Table of contents
 - [Repository structure](#repository-structure)
-- [Getting Unicorn.eShop microservices started](#getting-unicorneshop-microservices-started)
+- [Starting Unicorn.eShop microservices](#starting-unicorneshop-microservices)
 	- [Creating local nuget packages](#creating-local-nuget-packages)
 	- [Launching microservices in Docker containers](#launching-microservices-in-docker-containers)
 	- [URLs to Unicorn.eShop microservices](#urls-to-unicorneshop-microservices)
-- [Creation of new Unicorn microservice](#creation-of-new-unicorn-microservice)
-	- [Web API host configuration](#web-api-host-configuration)
-	- [Adding HTTP service](#adding-http-service)
-		- [Adding two-way endpoints](#adding-two-way-endpoints)
-		- [Adding of one-way endpoints](#adding-one-way-endpoints) 
-	- [Adding gRPC service](#adding-grpc-service)
-	- [Adding events](#adding-events)
+- [Creating a new Unicorn microservice](#creating-a-new-unicorn-microservice)
+	- [Create using project template](#create-using-project-template)
+	- [Create manually](#create-manually)
+		- [Web API host configuration](#web-api-host-configuration)
+		- [Adding HTTP service](#adding-http-service)
+			- [Adding two-way endpoints](#adding-two-way-endpoints)
+			- [Adding one-way endpoints](#adding-one-way-endpoints) 
+		- [Adding gRPC service](#adding-grpc-service)
+		- [Adding events](#adding-events)
 - [Inter-service communication](#inter-service-communication)
 	- [Calling HTTP service endpoints](#calling-http-service-endpoints)
 	- [Calling gRPC service endpoints](#calling-grpc-service-endpoints)
@@ -78,9 +81,10 @@ This section contains the overview of nuget packages, databases and design desic
 	* **infrastructure** - projects for inter-services communication, data validation, authentication, service registration, etc.
 	* **services** - independent services required to ensure the work of microservices (service-discovery, authentcation, etc.)
 	* **development** - projects to facilitate development and testing of __core__ projects and services. These projects reference infrastructure projects directly to speed up development and testing by removing the need to create new nugets for even small changes
+* **templates** - Unicorn project templates for creation of new template based projects
 * **eShop** - example e-commerce microservices built on top of Unicorn platform. Right now these projects include only back-end services in early stage of development.
 
-## Getting Unicorn.eShop microservices started
+## Starting Unicorn.eShop microservices
 
 Unicorn.eShop microservices is a collection of e-commerce services serving as an example of what is possible to make using Unicorn platform. At the moment there are several microservices for Unicorn.eShop e-commerce solution. These microservices are containerized and can be started-up without installation of any database or message broker. Yet, several things still needs to be done to launch them.
 
@@ -134,14 +138,25 @@ Unicorn.Core.Services:
 
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
 
+## Creating a new Unicorn microservice
 
-## Creation of new Unicorn microservice
+New Unicorn microservice can be created using installed Unicorn service project template or by doing everything manually. Section for manual creation explains what needs to be done and why, thus can help to understand the Unicorn microservice platform on higher level.
+
+### Create using project template
+
+The fastest and easiest way to create a new Unicorn microservice is by using Unicorn project template. After the template is installed, in can be used in Visual Studio and JetBrains Rider IDEs. Moreover, the template in Visual Studio will be shown just like any other template:
+
+![image](https://user-images.githubusercontent.com/22943668/156999103-515e00ce-c038-4691-a32a-6388388e32db.png)
+
+You can read how to install Unicorn project template [here](templates/README.md).
+
+### Create manually
 
 Every Unicorn microservice should provide SDK in the form of nuget package in order to let other microservices to call it. For microservice to call other microservice\'s HTTP or gRPC service only SDK and service configuration in ServiceDiscovery is needed. Of course, the caller is also required to use Unicorn platform nuget packages.
 
 Typical Unicorn microservice consists of at least 1 Web API project and 1 class libarary for SDK.
 
-### Web API host configuration
+#### Web API host configuration
 
 1. Add `Unicorn.Core.Infrastructure.HostConfiguration.SDK` nuget package to created Web API project
 2. Go to `Program.cs`, remove every line of code and paste the following:
@@ -578,7 +593,8 @@ Possible plans for further learning/development:
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
 * Add CI/CD with SonarCloud static code analysis and code coverage calculation
-* Add .NET project templates for creating microservice host and SDK projects
+* Add distributed lock with Redis cache for lock synchronization (use it for service configuration self-registration in service discovery service on startup)
+* ~~Add .NET project templates for creating microservice host and SDK projects~~ Added project template for creation of new Unicorn microservice
 
 ## Links
 
