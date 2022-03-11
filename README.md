@@ -593,6 +593,7 @@ Possible plans for further learning/development:
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
 * Add CI/CD with SonarCloud static code analysis and code coverage calculation
+* Add distributed lock with Redis cache for lock synchronization (use it for service configuration self-registration in service discovery service on startup)
 * ~~Add .NET project templates for creating microservice host and SDK projects~~ Added project template for creation of new Unicorn microservice
 
 ## Links
