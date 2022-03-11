@@ -11,6 +11,10 @@ internal interface IServiceDiscoveryClient
     Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceHostName);
 
     Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName);
+
+    Task CreateHttpServiceConfiguration(HttpServiceConfiguration configuration);
+
+    Task CreateGrpcServiceConfiguration(GrpcServiceConfiguration configuration);
 }
 
 /// <summary>
@@ -31,6 +35,32 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var baseUrl = Guard.Against.NullOrWhiteSpace(serviceDiscoveryUrl, serviceDiscoveryUrl);
         _client = new RestClient(new Uri(baseUrl));
         _logger = logger;
+    }
+
+    public async Task CreateGrpcServiceConfiguration(GrpcServiceConfiguration configuration)
+    {
+        var req = new RestRequest("api/configurations/grpc", Method.Post);
+        req.AddBody(configuration);
+
+        var response = await _client.PostAsync<OperationResult>(req);
+
+        if (response?.IsSuccess is not true)
+        {
+            // do something
+        }
+    }
+
+    public async Task CreateHttpServiceConfiguration(HttpServiceConfiguration configuration)
+    {
+        var req = new RestRequest("api/configurations/http", Method.Post);
+        req.AddBody(configuration);
+
+        var response = await _client.PostAsync<OperationResult>(req);
+
+        if (response?.IsSuccess is not true)
+        {
+            // do something
+        }
     }
 
     public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName)

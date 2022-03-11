@@ -20,9 +20,11 @@ public interface IServiceDiscoveryService
     [UnicornHttpPut("api/configurations/{serviceHostName}/httpServiceConfiguration")]
     Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(string serviceHostName, HttpServiceConfiguration httpServiceConfiguration);
 
+    // TODO: create configuration method should probably be removed from SDK
     [UnicornHttpPost("api/configurations/{serviceHostName}/httpServiceConfiguration")]
-    Task<OperationResult<HttpServiceConfiguration>> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
+    Task<OperationResult> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
+    // TODO: delete configuration method should probably be removed from SDK
     [UnicornHttpDelete("api/configurations/{serviceHostName}")]
     Task DeleteHttpServiceConfigurationAsync(string serviceHostName);
 }

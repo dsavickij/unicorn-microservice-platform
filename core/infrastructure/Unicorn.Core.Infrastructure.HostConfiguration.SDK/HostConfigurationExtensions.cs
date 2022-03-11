@@ -27,6 +27,7 @@ public static class HostConfigurationExtensions
             .ConfigureServices((ctx, services) => services.ConfigureHostSettings<THostSettings>(ctx))
             .ConfigureServices((_, services) => services.ConfigureAuthentication(HostSettings.AuthenticationSettings))
             .ConfigureServices((_, services) => services.ConfigureServices())
+            .ConfigureServices((_, services) => services.RegisterInServiceDiscoveryService())
             .UseDefaultServiceProvider((ctx, options) => options.ConfigureServiceProvider())
             .ConfigureLogging(cfg => cfg.ConfigureLogging());
     }
@@ -48,6 +49,11 @@ public static class HostConfigurationExtensions
         builder.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
         return builder;
+    }
+
+    private static void RegisterInServiceDiscoveryService(this IServiceCollection services)
+    {
+        services.AddHostedService<HostSelfRegististrationWorker>();
     }
 
     private static void ConfigureHostSettings<THostSettings>(this IServiceCollection services, HostBuilderContext ctx)

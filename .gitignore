@@ -166,3 +166,5 @@
 /templates/Unicorn.Templates.1.0.0.nupkg
 /templates/.vs/ProjectEvaluation
 /templates/service/.vs
+/core/services/system-status/Unicorn.Core.Services.SystemStatus.HealthCheck/bin/Debug/net6.0
+/core/services/system-status/Unicorn.Core.Services.SystemStatus.HealthCheck/obj

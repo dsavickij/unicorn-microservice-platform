@@ -33,7 +33,7 @@ services:
         container_name: unicorn.eshop.cart
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_URLS=https://unicorn.eshop.cart:443;http://unicorn.eshop.cart:80
             - CartHostSettings__DbConnectionString=Server=cartdb;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;
             - CartHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
             - CartHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
@@ -67,7 +67,7 @@ services:
         container_name: unicorn.eshop.discount
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_URLS=https://unicorn.eshop.discount:443;http://unicorn.eshop.discount:80
             - DiscountHostSettings__DbConnectionString=Server=cartdb;Port=5432;Database=CartDb;User Id=admin;Password=admin1234;
             - DiscountHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
             - DiscountHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
@@ -86,7 +86,7 @@ services:
         container_name: unicorn.eshop.catalog
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_URLS=https://unicorn.eshop.catalog:443;http://unicorn.eshop.catalog:80
             - CatalogHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
             - CatalogHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
         depends_on:

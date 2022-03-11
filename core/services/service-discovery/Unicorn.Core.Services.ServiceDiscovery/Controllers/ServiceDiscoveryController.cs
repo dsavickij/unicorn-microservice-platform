@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Services.ServiceDiscovery.Features.CreateGrpcServiceConfiguration;
+using Unicorn.Core.Services.ServiceDiscovery.Features.CreateHttpServiceConfiguration;
 using Unicorn.Core.Services.ServiceDiscovery.Features.GetGrpcServiceConfiguration;
+using Unicorn.Core.Services.ServiceDiscovery.Features.GetHttpServiceConfiguration;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
@@ -40,12 +43,16 @@ public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoverySe
         return Task.FromResult(new OperationResult<HttpServiceConfiguration>(OperationStatusCode.Status200OK, httpServiceConfiguration));
     }
 
-    [HttpPost("api/configurations/{serviceHostName}/httpServiceConfiguration")]
-    public Task<OperationResult<HttpServiceConfiguration>> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
+    [HttpPost("api/configurations/http")]
+    public Task<OperationResult> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
-        _logger.LogInformation($"CreateHttpServiceConfiguration");
+        return SendAsync(new CreateHttpServiceConfigurationRequest { Configuration = httpServiceConfiguration });
+    }
 
-        return Task.FromResult(new OperationResult<HttpServiceConfiguration>(OperationStatusCode.Status200OK, httpServiceConfiguration));
+    [HttpPost("api/configurations/grpc")]
+    public Task<OperationResult> CreateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    {
+        return SendAsync(new CreateGrpcServiceConfigurationRequest { Configuration = grpcServiceConfiguration });
     }
 
     [HttpDelete("api/configurations/{serviceHostName}")]
