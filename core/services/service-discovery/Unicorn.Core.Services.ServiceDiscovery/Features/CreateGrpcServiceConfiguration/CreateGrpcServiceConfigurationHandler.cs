@@ -25,6 +25,8 @@ public class CreateGrpcServiceConfigurationHandler : BaseHandler.WithResult.For<
             BaseUrl = request.Configuration.BaseUrl,
         });
 
+        await _ctx.SaveChangesAsync();
+
         return Ok();
     }
 }

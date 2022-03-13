@@ -67,7 +67,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     {
         _logger?.LogDebug($"Retrieving GRPC service configuration for: {serviceHostName}");
 
-        var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/grpcServiceConfiguration");
+        var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/grpc");
 
         var response = await _client.GetAsync<OperationResult<GrpcServiceConfiguration>>(request);
 
@@ -84,7 +84,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     {
         _logger?.LogDebug($"Retrieving HTTP service configuration for: {serviceHostName}");
 
-        var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/httpServiceConfiguration");
+        var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/http");
         var response = await _client.GetAsync<OperationResult<HttpServiceConfiguration>>(request);
 
         if (response!.IsSuccess)

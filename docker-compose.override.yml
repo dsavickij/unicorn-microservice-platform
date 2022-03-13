@@ -24,7 +24,7 @@ services:
         container_name: servicediscoverydb
         environment:
             - ACCEPT_EULA=Y
-            - SA_PASSWORD=admin1234
+            - SA_PASSWORD=aDmin1234
         restart: always
         ports:
             - "1433:1433"
@@ -53,7 +53,7 @@ services:
         container_name: unicorn.core.services.servicediscovery
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-            - ServiceDiscoveryHostSettings__DbConnectionString=Server=servicediscoverydb;Database=ServiceDiscoveryDb;User Id=sa;Password=admin1234;
+            - ServiceDiscoveryHostSettings__DbConnectionString=Server=servicediscoverydb;Database=ServiceDiscoveryDb;User Id=sa;Password=aDmin1234;
         depends_on:
             - servicediscoverydb
         ports:

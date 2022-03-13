@@ -67,6 +67,7 @@ public static class HostConfigurationExtensions
         if (BaseHostSettingsValidator.DoesNotContainEmptyStrings(settings.Value))
         {
             HostSettings = settings.Value;
+            ctx.Configuration[nameof(BaseHostSettings.ServiceHostName)] = settings.Value.ServiceHostName;
         }
     }
 

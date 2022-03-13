@@ -9,8 +9,18 @@ internal static class BaseHostSettingsValidator
         ValidateAuthenticationSettings(settings.AuthenticationSettings);
         ValidateOneWayCommunicationSettings(settings.OneWayCommunicationSettings);
         ValidateServiceDiscoverySettings(settings.ServiceDiscoverySettings);
+        ValidateServiceHostName(settings.ServiceHostName);
 
         return true;
+    }
+
+    private static void ValidateServiceHostName(string serviceHostName)
+    {
+        if (IsEmptyOrWhiteSpaces(serviceHostName))
+        {
+            throw new ArgumentException($"Host settings value for " +
+                $"'{nameof(serviceHostName)}' is not provided");
+        }
     }
 
     private static void ValidateServiceDiscoverySettings(ServiceDiscoverySettings serviceDiscoverySettings)

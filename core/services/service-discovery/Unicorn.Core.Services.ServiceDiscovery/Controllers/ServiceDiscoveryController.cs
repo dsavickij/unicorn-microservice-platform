@@ -19,7 +19,7 @@ public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoverySe
         _logger = logger;
     }
 
-    [HttpGet("api/configurations/{serviceHostName}/grpcServiceConfiguration")]
+    [HttpGet("api/configurations/{serviceHostName}/grpc")]
     public async Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(string serviceHostName)
     {
         _logger.LogInformation($"Executing GetGrpcServiceConfiguration for {serviceHostName}");
@@ -27,7 +27,7 @@ public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoverySe
         return await SendAsync(new GetGrpcServiceConfigurationRequest { ServiceHostName = serviceHostName });
     }
 
-    [HttpGet("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    [HttpGet("api/configurations/{serviceHostName}/http")]
     public async Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(string serviceHostName)
     {
         _logger.LogDebug($"Executing GetHttpServiceConfiguration/{serviceHostName}");
@@ -35,7 +35,7 @@ public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoverySe
         return await SendAsync(new GetHttpServiceConfigurationRequest { ServiceHostName = serviceHostName });
     }
 
-    [HttpPut("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    [HttpPut("api/configurations/{serviceHostName}/http")]
     public Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(string serviceHostName, HttpServiceConfiguration httpServiceConfiguration)
     {
         _logger.LogInformation($"UpdateHttpServiceConfiguration");

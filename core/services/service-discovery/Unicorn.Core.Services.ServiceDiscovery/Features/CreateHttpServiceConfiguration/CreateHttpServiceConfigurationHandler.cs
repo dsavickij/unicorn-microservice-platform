@@ -21,9 +21,12 @@ public class CreateHttpServiceConfigurationHandler : BaseHandler.WithResult.For<
 
         await _ctx.HttpServiceConfigurations.AddAsync(new HttpServiceConfigurationEntity
         {
+            ServiceHost = new ServiceHostEntity { Name = request.Configuration.ServiceHostName },
             ServiceHostName = request.Configuration.ServiceHostName,
             BaseUrl = request.Configuration.BaseUrl,
         });
+
+        await _ctx.SaveChangesAsync();
 
         return Ok();
     }

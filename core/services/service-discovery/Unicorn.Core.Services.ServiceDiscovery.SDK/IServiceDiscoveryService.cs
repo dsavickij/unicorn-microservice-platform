@@ -11,17 +11,17 @@ namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 [UnicornHttpServiceMarker]
 public interface IServiceDiscoveryService
 {
-    [UnicornHttpGet("api/configurations/{serviceHostName}/grpcServiceConfiguration")]
+    [UnicornHttpGet("api/configurations/{serviceHostName}/grpc")]
     Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(string serviceHostName);
 
-    [UnicornHttpGet("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    [UnicornHttpGet("api/configurations/{serviceHostName}/http")]
     Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(string serviceHostName);
 
-    [UnicornHttpPut("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    [UnicornHttpPut("api/configurations/{serviceHostName}/http")]
     Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(string serviceHostName, HttpServiceConfiguration httpServiceConfiguration);
 
     // TODO: create configuration method should probably be removed from SDK
-    [UnicornHttpPost("api/configurations/{serviceHostName}/httpServiceConfiguration")]
+    [UnicornHttpPost("api/configurations/{serviceHostName}/http")]
     Task<OperationResult> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
     // TODO: delete configuration method should probably be removed from SDK
