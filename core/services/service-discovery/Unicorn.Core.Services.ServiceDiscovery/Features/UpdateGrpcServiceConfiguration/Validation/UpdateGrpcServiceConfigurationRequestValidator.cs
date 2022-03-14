@@ -6,11 +6,11 @@ using Unicorn.Core.Services.ServiceDiscovery.Features.CreateGrpcServiceConfigura
 
 namespace Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration.Validation;
 
-public class CreateGrpcServiceConfigurationRequestValidator : AbstractValidator<CreateGrpcServiceConfigurationRequest>
+public class UpdateGrpcServiceConfigurationRequestValidator : AbstractValidator<UpdateGrpcServiceConfigurationRequest>
 {
     private readonly ServiceDiscoveryDbContext _ctx;
 
-    public CreateGrpcServiceConfigurationRequestValidator(ServiceDiscoveryDbContext context)
+    public UpdateGrpcServiceConfigurationRequestValidator(ServiceDiscoveryDbContext context)
     {
         _ctx = context;
 
@@ -28,10 +28,10 @@ public class CreateGrpcServiceConfigurationRequestValidator : AbstractValidator<
             {
                 var result = await _ctx.GrpcServiceConfigurations.SingleOrDefaultAsync(x => x.ServiceHostName == serviceHostName);
 
-                if (result is not null)
+                if (result is null)
                 {
-                    var failure = new ValidationFailure(nameof(CreateGrpcServiceConfigurationRequest.Configuration.ServiceHostName),
-                        $"gRPC service configuration with service host name '{serviceHostName}' already exists");
+                    var failure = new ValidationFailure(nameof(UpdateGrpcServiceConfigurationRequest.Configuration.ServiceHostName),
+                        $"gRPC service configuration with service host name '{serviceHostName}' does not exist");
 
                     validationCtx.AddFailure(failure);
                 }
@@ -46,7 +46,7 @@ public class CreateGrpcServiceConfigurationRequestValidator : AbstractValidator<
             {
                 if (Uri.TryCreate(serviceBaseUrl, UriKind.Absolute, out var uri) is false)
                 {
-                    var failure = new ValidationFailure(nameof(CreateGrpcServiceConfigurationRequest.Configuration.BaseUrl),
+                    var failure = new ValidationFailure(nameof(UpdateGrpcServiceConfigurationRequest.Configuration.BaseUrl),
                         $"Url '{serviceBaseUrl}' is not valid");
 
                     validationCtx.AddFailure(failure);

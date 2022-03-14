@@ -53,6 +53,7 @@ services:
         container_name: unicorn.core.services.servicediscovery
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://unicorn.core.services.servicediscove:443;http://unicorn.core.services.servicediscove:80
             - ServiceDiscoveryHostSettings__DbConnectionString=Server=servicediscoverydb;Database=ServiceDiscoveryDb;User Id=sa;Password=aDmin1234;
         depends_on:
             - servicediscoverydb
@@ -130,3 +131,39 @@ services:
     #        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     #        - C:/Src/unicorn-project-microservices/certificates:/root/certificates
     #        #- $PWD/app/certificates:/certificates
+
+    # The following services are for development only. These services are launched only when option
+    # 'Development Docker Compose' in launch settings is selected 
+    unicorn.core.development.clienthost:
+        container_name: unicorn.core.development.clienthost
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://unicorn.core.development.clienthost:443;http://unicorn.core.development.clienthost:80
+            - ClientHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
+            - ClientHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
+        depends_on:
+            - unicorn.core.services.servicediscovery
+            - rabbitmq
+        ports:
+            - "7001:80"
+            - "7002:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+    unicorn.core.development.servicehost:
+        container_name: unicorn.core.development.servicehost
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://unicorn.core.development.servicehost:443;http://unicorn.core.development.servicehost:80
+            - ServiceHostSettings__OneWayCommunicationSettings__ConnectionString=amqp://guest:guest@rabbitmq:5672
+            - ServiceHostSettings__ServiceDiscoverySettings__Url=http://unicorn.core.services.servicediscovery
+        depends_on:
+            - unicorn.core.services.servicediscovery
+            - rabbitmq
+        ports:
+            - "7003:80"
+            - "7004:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

@@ -2,15 +2,19 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery.DTOs;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 internal class HostSelfRegististrationWorker : IHostedService
 {
     private const string UrlConfigurationKey = "ASPNETCORE_URLS";
+    private const int TimeToWaitForServiceDiscoveryInMillis = 5000;
 
     private readonly IServiceDiscoveryClient _client;
     private readonly IConfiguration _cfg;
+    private readonly BaseHostSettings _baseHostSettings;
     private readonly ILogger<HostSelfRegististrationWorker> _logger;
 
     public HostSelfRegististrationWorker(
@@ -20,31 +24,94 @@ internal class HostSelfRegististrationWorker : IHostedService
     {
         _client = client;
         _cfg = configuration;
+        _baseHostSettings = configuration
+            .GetRequiredSection(configuration["HostSettingsConfigurationSectionName"])
+            .Get<BaseHostSettings>();
         _logger = logger;
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        var urls = _cfg["ASPNETCORE_URLS"];
+        if (CanSelfRegistrationProceed())
+        {
+            var (httpCfg, grpcCfg) = GetServiceHostConfigurations();
 
-        _logger.LogDebug(urls);
+            // give time for ServiceDiscovery to be ready
+            await Task.Delay(TimeToWaitForServiceDiscoveryInMillis, cancellationToken);
 
-        var (httpUri, httpsUri) = GetServiceHostUrls();
+            var httpCfgResult = UpsertHttpServiceConfigurationAsync(httpCfg);
+            var grpcCfgResult = UpsertGrpcServiceConfigurationAsync(grpcCfg);
 
-        return Task.CompletedTask;
+            await Task.WhenAll(httpCfgResult, grpcCfgResult);
+        }
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
-    private (Uri httpUri, Uri httpsUri) GetServiceHostUrls()
+    private bool CanSelfRegistrationProceed() => _baseHostSettings.ServiceDiscoverySettings.ExecuteSelfRegistration;
+
+    private async Task UpsertHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
+    {
+        var updateResponse = await _client.UpdateHttpServiceConfigurationAsync(httpServiceConfiguration);
+
+        if (updateResponse is { IsSuccess: false })
+        {
+            var createResponse = await _client.CreateHttpServiceConfigurationAsync(httpServiceConfiguration);
+
+            if (createResponse is { IsSuccess: false })
+            {
+                throw new ArgumentException($"Failed to upsert HTTP service configuration for service " +
+                    $"'{httpServiceConfiguration.ServiceHostName}'. " +
+                    $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
+            }
+        }
+    }
+
+    private async Task UpsertGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    {
+        var updateResponse = await _client.UpdateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
+
+        if (updateResponse is { IsSuccess: false })
+        {
+            var createResponse = await _client.CreateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
+
+            if (createResponse is { IsSuccess: false })
+            {
+                throw new ArgumentException($"Failed to upsert gRPC service configuration for service " +
+                    $"'{grpcServiceConfiguration.ServiceHostName}'. " +
+                    $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
+            }
+        }
+    }
+
+    private (HttpServiceConfiguration http, GrpcServiceConfiguration grpc) GetServiceHostConfigurations()
+    {
+        var (httpUri, httpsUri) = GetHttpUris();
+
+        var httpCfg = new HttpServiceConfiguration
+        {
+            ServiceHostName = _baseHostSettings.ServiceHostName,
+            BaseUrl = httpUri.AbsoluteUri
+        };
+
+        var grpcCfg = new GrpcServiceConfiguration
+        {
+            ServiceHostName = _baseHostSettings.ServiceHostName,
+            BaseUrl = httpsUri.AbsoluteUri
+        };
+
+        return (httpCfg, grpcCfg);
+    }
+
+    private (Uri httpUri, Uri httpsUri) GetHttpUris()
     {
         const string urlConfigurationKey = "ASPNETCORE_URLS";
         const int maxMinUrlCount = 2;
 
-        var urls = _cfg[urlConfigurationKey]?.Split(";") ?? throw new Exception();
+        var urls = _cfg[urlConfigurationKey]?.Split(";") ?? throw new Exception(); // TODO: fix exception throwing
 
         if (urls.Length is > maxMinUrlCount or < maxMinUrlCount)
         {
@@ -57,7 +124,7 @@ internal class HostSelfRegististrationWorker : IHostedService
 
     private Uri GetHttpsUri(string[] urls)
     {
-        var httpsUrls = urls.Where(url => url.StartsWith("https", StringComparison.OrdinalIgnoreCase));
+        var httpsUrls = urls.Where(url => url.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
 
         return httpsUrls.Count() is not 1
             ? throw new ArgumentException($"Only one HTTPS URL can be defined in value for configuration key '{UrlConfigurationKey}'")
@@ -66,7 +133,7 @@ internal class HostSelfRegististrationWorker : IHostedService
 
     private Uri GetHttpUri(string[] urls)
     {
-        var httpUrls = urls.Where(url => url.StartsWith("http", StringComparison.OrdinalIgnoreCase));
+        var httpUrls = urls.Where(url => url.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
 
         return httpUrls.Count() is not 1
             ? throw new ArgumentException($"Only one HTTP URL can be defined in value for configuration key '{UrlConfigurationKey}'")

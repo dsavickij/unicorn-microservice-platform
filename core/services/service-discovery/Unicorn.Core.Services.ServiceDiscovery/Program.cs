@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDatabase(builder.Configuration);
 
+builder.Services.AddHostedService<InitialDataBackgroundWorker>();
+
 builder.Host.ApplyUnicornConfiguration<ServiceDiscoveryHostSettings>();
 
 var app = builder.Build();

@@ -46,5 +46,19 @@ services:
     #        context: .
     #        dockerfile: core/services/authentication/Unicorn.Core.Services.Authentication.OpenIddict/Dockerfile
 
+    #services for development only. These services are launched only when option
+    #'Development Docker Compose' in launch settings is selected 
+    unicorn.core.development.clienthost:
+        image: ${DOCKER_REGISTRY-}unicorn.core.development.clienthost
+        build:
+            context: .
+            dockerfile: core/development/Unicorn.Core.Development.ClientHost/Dockerfile
+
+    unicorn.core.development.servicehost:
+        image: ${DOCKER_REGISTRY-}unicorn.core.development.servicehost
+        build:
+            context: .
+            dockerfile: core/development/Unicorn.Core.Development.ServiceHost/Dockerfile
+
 volumes:
     postgres_data:

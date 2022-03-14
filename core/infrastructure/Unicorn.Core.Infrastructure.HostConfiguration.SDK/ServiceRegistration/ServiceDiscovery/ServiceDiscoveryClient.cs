@@ -12,9 +12,12 @@ internal interface IServiceDiscoveryClient
 
     Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName);
 
-    Task CreateHttpServiceConfiguration(HttpServiceConfiguration configuration);
+    Task<OperationResult?> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
-    Task CreateGrpcServiceConfiguration(GrpcServiceConfiguration configuration);
+    Task<OperationResult?> CreateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration);
+    Task<OperationResult?> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
+
+    Task<OperationResult?> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration);
 }
 
 /// <summary>
@@ -37,30 +40,20 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         _logger = logger;
     }
 
-    public async Task CreateGrpcServiceConfiguration(GrpcServiceConfiguration configuration)
+    public async Task<OperationResult?> CreateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
     {
         var req = new RestRequest("api/configurations/grpc", Method.Post);
-        req.AddBody(configuration);
+        req.AddBody(grpcServiceConfiguration);
 
-        var response = await _client.PostAsync<OperationResult>(req);
-
-        if (response?.IsSuccess is not true)
-        {
-            // do something
-        }
+        return await _client.PostAsync<OperationResult>(req);
     }
 
-    public async Task CreateHttpServiceConfiguration(HttpServiceConfiguration configuration)
+    public async Task<OperationResult?> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
         var req = new RestRequest("api/configurations/http", Method.Post);
-        req.AddBody(configuration);
+        req.AddBody(httpServiceConfiguration);
 
-        var response = await _client.PostAsync<OperationResult>(req);
-
-        if (response?.IsSuccess is not true)
-        {
-            // do something
-        }
+        return await _client.PostAsync<OperationResult>(req);
     }
 
     public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName)
@@ -94,6 +87,22 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 
         throw new ArgumentException($"Failed to retrieve Http service configuration for service '{serviceHostName}'. " +
             $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
+    }
+
+    public async Task<OperationResult?> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    {
+        var req = new RestRequest("api/configurations/grpc", Method.Put);
+        req.AddBody(grpcServiceConfiguration);
+
+        return await _client.PutAsync<OperationResult>(req);
+    }
+
+    public async Task<OperationResult?> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
+    {
+        var req = new RestRequest("api/configurations/http", Method.Put);
+        req.AddBody(httpServiceConfiguration);
+
+        return await _client.PutAsync<OperationResult>(req);
     }
 
     private RestRequest GetRequest(string serviceHostName, string path)

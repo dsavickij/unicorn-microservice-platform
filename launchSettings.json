@@ -1,0 +1,52 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "cartdb": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "servicediscoverydb": "StartWithoutDebugging",
+        "unicorn.core.services.apigateway.ocelot": "StartDebugging",
+        "unicorn.core.services.servicediscovery": "StartDebugging",
+        "unicorn.eshop.cart": "StartDebugging",
+        "unicorn.eshop.catalog": "StartDebugging",
+        "unicorn.eshop.discount": "StartDebugging",
+        "unicorn.core.development.clienthost": "StartDebugging",
+        "unicorn.core.development.servicehost": "StartDebugging"
+      }
+    },
+    "Development Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "cartdb": "DoNotStart",
+        "rabbitmq": "StartWithoutDebugging",
+        "servicediscoverydb": "StartWithoutDebugging",
+        "unicorn.core.services.apigateway.ocelot": "DoNotStart",
+        "unicorn.core.services.servicediscovery": "StartDebugging",
+        "unicorn.eshop.cart": "DoNotStart",
+        "unicorn.eshop.catalog": "DoNotStart",
+        "unicorn.eshop.discount": "DoNotStart",
+        "unicorn.core.development.clienthost": "StartDebugging",
+        "unicorn.core.development.servicehost": "StartDebugging"
+      }
+    },
+    "Unicorn.eShop Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "cartdb": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "servicediscoverydb": "StartWithoutDebugging",
+        "unicorn.core.services.apigateway.ocelot": "StartDebugging",
+        "unicorn.core.services.servicediscovery": "StartDebugging",
+        "unicorn.eshop.cart": "StartDebugging",
+        "unicorn.eshop.catalog": "StartDebugging",
+        "unicorn.eshop.discount": "StartDebugging",
+        "unicorn.core.development.clienthost": "DoNotStart",
+        "unicorn.core.development.servicehost": "DoNotStart"
+      }
+    }
+  }
+}

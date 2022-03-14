@@ -35,12 +35,16 @@ public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoverySe
         return await SendAsync(new GetHttpServiceConfigurationRequest { ServiceHostName = serviceHostName });
     }
 
-    [HttpPut("api/configurations/{serviceHostName}/http")]
-    public Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(string serviceHostName, HttpServiceConfiguration httpServiceConfiguration)
+    [HttpPut("api/configurations/http")]
+    public Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
-        _logger.LogInformation($"UpdateHttpServiceConfiguration");
+        return SendAsync(new UpdateHttpServiceConfigurationRequest { Configuration = httpServiceConfiguration });
+    }
 
-        return Task.FromResult(new OperationResult<HttpServiceConfiguration>(OperationStatusCode.Status200OK, httpServiceConfiguration));
+    [HttpPut("api/configurations/grpc")]
+    public Task<OperationResult<GrpcServiceConfiguration>> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    {
+        return SendAsync(new UpdateGrpcServiceConfigurationRequest { Configuration = grpcServiceConfiguration });
     }
 
     [HttpPost("api/configurations/http")]
