@@ -7,6 +7,11 @@ public class YOUR_SERVICE_NAMEGrpcServiceTests
     [Fact]
     public void Test1()
     {
+        // Arrange
 
+        // Act
+
+        // Assert
+        Assert.True(true);
     }
 }

@@ -1,4 +1,6 @@
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Templates.Service;
+using Unicorn.Templates.Service.Services.gRPC;
 
 var builder = WebApplication.CreateBuilder(args);
 

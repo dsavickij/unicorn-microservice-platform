@@ -11,7 +11,7 @@ public partial class DecimalValue
 
     public static implicit operator decimal(DecimalValue grpcDecimal)
     {
-        return grpcDecimal.Units + grpcDecimal.Nanos / NanoFactor;
+        return grpcDecimal.Units + (grpcDecimal.Nanos / NanoFactor);
     }
 
     public static implicit operator DecimalValue(decimal value)

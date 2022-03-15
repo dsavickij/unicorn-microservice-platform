@@ -5,5 +5,5 @@ namespace Unicorn.Templates.Service.Features.CreateItem;
 
 public record CreateItemRequest : BaseRequest.WithResponse<Item>
 {
-    public Item Item { get; set; } = new Item();
+    public Item Item { get; set; } = new ();
 }

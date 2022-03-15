@@ -14,7 +14,8 @@ public class YOUR_SERVICE_NAMEGrpcServiceClient : BaseGrpcClient, IYOUR_SERVICE_
 {
     private readonly IGrpcServiceClientFactory _factory;
 
-    public YOUR_SERVICE_NAMEGrpcServiceClient(IGrpcServiceClientFactory factory) : base(factory)
+    public YOUR_SERVICE_NAMEGrpcServiceClient(IGrpcServiceClientFactory factory)
+        : base(factory)
     {
         _factory = factory;
     }

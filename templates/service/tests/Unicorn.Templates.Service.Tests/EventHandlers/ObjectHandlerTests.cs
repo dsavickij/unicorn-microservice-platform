@@ -12,5 +12,6 @@ public class ObjectHandlerTests
         // Act
 
         // Assert
+        Assert.True(true);
     }
 }
