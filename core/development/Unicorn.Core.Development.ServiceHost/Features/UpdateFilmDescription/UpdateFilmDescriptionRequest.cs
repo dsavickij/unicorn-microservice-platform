@@ -4,7 +4,7 @@ using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 
 namespace Unicorn.Core.Development.ServiceHost.Features.UpdateFilmDescription;
 
-public record UpdateFilmDescriptionRequest : IRequest<OperationResult<FilmDescriptionDTO>>
+public record UpdateFilmDescriptionRequest : IRequest<OperationResult<FilmDescription>>
 {
-    public FilmDescriptionDTO NewDescription { get; set; } = new FilmDescriptionDTO();
+    public FilmDescription NewDescription { get; set; } = new FilmDescription();
 }

@@ -1,8 +1,8 @@
 ﻿using Grpc.Core;
-using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Protos;
 
 // [Authorize]
-public class SubtractionGrpcService : Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos.SubtractionGrpcService.SubtractionGrpcServiceBase
+public class SubtractionGrpcService : Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Protos.SubtractionGrpcService.SubtractionGrpcServiceBase
 {
     public override Task<SubtractionResponse> Subtract(SubtractionRequest request, ServerCallContext context)
     {

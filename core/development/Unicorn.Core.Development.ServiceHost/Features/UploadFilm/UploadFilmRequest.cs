@@ -7,5 +7,5 @@ namespace Unicorn.Core.Development.ServiceHost.Features.UploadFilm;
 public record UploadFilmRequest : IRequest<OperationResult<int>>
 {
     public IFormFile Film { get; set; }
-    public FilmDescriptionDTO Description { get; set; }
+    public FilmDescription Description { get; set; } = new ();
 }

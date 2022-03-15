@@ -4,7 +4,7 @@ using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 
 namespace Unicorn.Core.Development.ServiceHost.Features.GetFilmsDescription;
 
-internal class GetFilmsDescriptionRequest : IRequest<OperationResult<FilmDescriptionDTO>>
+internal class GetFilmsDescriptionRequest : IRequest<OperationResult<FilmDescription>>
 {
     public Guid FilmId { get; set; }
 }

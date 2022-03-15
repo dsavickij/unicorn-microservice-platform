@@ -8,6 +8,7 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Middlewares;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.GrpcServiceClients;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Defaults;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Validation;
@@ -67,8 +68,9 @@ public static class HostConfigurationExtensions
         if (BaseHostSettingsValidator.DoesNotContainEmptyStrings(settings.Value))
         {
             HostSettings = settings.Value;
+
             ctx.Configuration[$"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"] = settings.Value.ServiceHostName;
-            ctx.Configuration["HostSettingsConfigurationSectionName"] = typeof(THostSettings).Name;
+            services.Configure<BaseHostSettings>(ctx.Configuration.GetSection(typeof(THostSettings).Name));
         }
     }
 

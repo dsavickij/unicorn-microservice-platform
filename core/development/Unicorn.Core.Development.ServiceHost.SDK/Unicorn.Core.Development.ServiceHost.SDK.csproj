@@ -7,9 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Grpc\Protos\Custom\Types.proto" />
-		<None Remove="Grpc\Protos\MultiplicationGrpcService.proto" />
-		<None Remove="Grpc\Protos\SubtractionGrpcService.proto" />
+		<None Remove="Services\gRPC\Protos\Custom\Types.proto" />
+		<None Remove="Services\gRPC\Protos\MultiplicationGrpcService.proto" />
+		<None Remove="Services\gRPC\Protos\SubtractionGrpcService.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -27,10 +27,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Grpc\Protos\Custom\Types.proto" GrpcServices="Server, Client" />
-		<Protobuf Include="Grpc\Protos\MultiplicationGrpcService.proto" GrpcServices="Server, Client" />
-		<Protobuf Include="Grpc\Protos\DivisionGrpcService.proto" GrpcServices="Server, Client" />
-		<Protobuf Include="Grpc\Protos\SubtractionGrpcService.proto" GrpcServices="Server, Client" />
+		<Protobuf Include="Services\gRPC\Protos\Custom\Types.proto" GrpcServices="Server, Client" />
+		<Protobuf Include="Services\gRPC\Protos\MultiplicationGrpcService.proto" GrpcServices="Server, Client" />
+		<Protobuf Include="Services\gRPC\Protos\DivisionGrpcService.proto" GrpcServices="Server, Client" />
+		<Protobuf Include="Services\gRPC\Protos\SubtractionGrpcService.proto" GrpcServices="Server, Client" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Events\" />
 	</ItemGroup>
 
 </Project>

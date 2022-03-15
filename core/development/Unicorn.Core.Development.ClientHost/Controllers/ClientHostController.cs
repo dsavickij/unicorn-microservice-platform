@@ -2,8 +2,8 @@ using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 using Unicorn.Core.Development.ClientHost.Features.OneWayTest;
-using Unicorn.Core.Development.ServiceHost.SDK;
-using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.Http;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
@@ -26,7 +26,7 @@ public class ClientHostController : UnicornHttpService<IClientHostService>, ICli
     private readonly IDivisionGrpcServiceClient _divisionGrpcSvcClient;
     private readonly ISubtractionGrpcServiceClient _subtractionGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
-    private readonly IHttpService _developmentServiceHost;
+    private readonly IServiceHostService _developmentServiceHost;
     private readonly IAuthenticationScope _scopeProvider;
 
     public ClientHostController(
@@ -34,7 +34,7 @@ public class ClientHostController : UnicornHttpService<IClientHostService>, ICli
         IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient,
         IDivisionGrpcServiceClient divisionGrpcServiceClient,
         ISubtractionGrpcServiceClient subtractionGrpcServiceClient,
-        IHttpService developmentServiceHost,
+        IServiceHostService developmentServiceHost,
         IAuthenticationScope scopeProvider,
         ILogger<ClientHostController> logger,
         IUnicornEventPublisher publisher)

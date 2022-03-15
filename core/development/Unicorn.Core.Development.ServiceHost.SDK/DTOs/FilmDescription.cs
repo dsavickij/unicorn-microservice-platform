@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 
-public record FilmDescriptionDTO
+public record FilmDescription
 {
     public Guid DescriptionId { get; set; }
     public Guid FilmId { get; set; }

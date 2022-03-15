@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option csharp_namespace = "Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos";
+option csharp_namespace = "Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Protos";
 
-import "Grpc/Protos/Custom/Types.proto";
+import "Services/Grpc/Protos/Custom/Types.proto";
 
 package Subtraction;
 

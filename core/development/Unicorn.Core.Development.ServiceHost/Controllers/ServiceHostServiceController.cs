@@ -3,47 +3,47 @@ using Unicorn.Core.Development.ServiceHost.Features.GetFilmDescriptions;
 using Unicorn.Core.Development.ServiceHost.Features.GetFilmsDescription;
 using Unicorn.Core.Development.ServiceHost.Features.UpdateFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Features.UploadFilm;
-using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.Http;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost.Controllers;
 
-public class HttpServiceController : UnicornHttpService<IHttpService>, IHttpService
+public class ServiceHostServiceController : UnicornHttpService<IServiceHostService>, IServiceHostService
 {
-    private readonly ILogger<HttpServiceController> _logger;
+    private readonly ILogger<ServiceHostServiceController> _logger;
 
-    public HttpServiceController(ILogger<HttpServiceController> logger)
+    public ServiceHostServiceController(ILogger<ServiceHostServiceController> logger)
     {
         _logger = logger;
     }
 
     [HttpGet("api/films/descriptions")]
-    public async Task<OperationResult<IEnumerable<FilmDescriptionDTO>>> GetFilmDescriptionsAsync(int quantity = 3)
+    public async Task<OperationResult<IEnumerable<FilmDescription>>> GetFilmDescriptionsAsync(int quantity = 3)
     {
-        return await Mediator.Send(new GetFilmDescriptionsRequest { Quantity = Math.Clamp(quantity, 0, 100) });
+        return await SendAsync(new GetFilmDescriptionsRequest { Quantity = Math.Clamp(quantity, 0, 100) });
     }
 
     [HttpGet("api/films/{id}/description")]
-    public async Task<OperationResult<FilmDescriptionDTO>> GetFilmsDescriptionAsync(Guid id)
+    public async Task<OperationResult<FilmDescription>> GetFilmDescriptionAsync(Guid id)
     {
-        return await Mediator.Send(new GetFilmsDescriptionRequest { FilmId = id });
+        return await SendAsync(new GetFilmsDescriptionRequest { FilmId = id });
     }
 
     [HttpPost("api/films/upload")]
-    public async Task<OperationResult<int>> UploadFilmAsync(IFormFile file, [FromBody] FilmDescriptionDTO description)
+    public async Task<OperationResult<int>> UploadFilmAsync(IFormFile file, [FromBody] FilmDescription description)
     {
         var ms = new MemoryStream();
         file.CopyTo(ms);
 
-        return await Mediator.Send(new UploadFilmRequest { Film = file, Description = description });
+        return await SendAsync(new UploadFilmRequest { Film = file, Description = description });
     }
 
     [HttpPut("api/films/description")]
-    public async Task<OperationResult<FilmDescriptionDTO>> UpdateFilmDescription([FromBody] FilmDescriptionDTO description)
+    public async Task<OperationResult<FilmDescription>> UpdateFilmDescription([FromBody] FilmDescription description)
     {
-        return await Mediator.Send(new UpdateFilmDescriptionRequest { NewDescription = description });
+        return await SendAsync(new UpdateFilmDescriptionRequest { NewDescription = description });
     }
 
     [HttpGet("api/films/{id}/download")]

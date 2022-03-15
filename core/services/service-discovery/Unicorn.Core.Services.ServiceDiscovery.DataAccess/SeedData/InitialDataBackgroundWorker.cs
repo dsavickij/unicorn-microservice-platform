@@ -22,6 +22,8 @@ public class InitialDataBackgroundWorker : BackgroundService
         using var scope = _provider.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<ServiceDiscoveryDbContext>();
 
+        await ctx.Database.MigrateAsync();
+
         await AddServiceHostNamesAsync(ctx);
         await AddHttpServiceConfigurationsAsync(ctx);
     }

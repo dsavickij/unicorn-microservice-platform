@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
+using Microsoft.Extensions.Options;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery.DTOs;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
-namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
 
 internal class HostSelfRegististrationWorker : IHostedService
 {
@@ -20,13 +20,12 @@ internal class HostSelfRegististrationWorker : IHostedService
     public HostSelfRegististrationWorker(
         IServiceDiscoveryClient client,
         IConfiguration configuration,
+        IOptions<BaseHostSettings> options,
         ILogger<HostSelfRegististrationWorker> logger)
     {
         _client = client;
         _cfg = configuration;
-        _baseHostSettings = configuration
-            .GetRequiredSection(configuration["HostSettingsConfigurationSectionName"])
-            .Get<BaseHostSettings>();
+        _baseHostSettings = options.Value;
         _logger = logger;
     }
 

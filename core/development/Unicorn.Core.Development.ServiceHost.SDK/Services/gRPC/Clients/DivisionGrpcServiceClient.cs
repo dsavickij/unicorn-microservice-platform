@@ -1,8 +1,8 @@
-﻿using Unicorn.Core.Development.ServiceHost.SDK.Grpc.Protos;
+﻿using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Protos;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
 
-namespace Unicorn.Core.Development.ServiceHost.SDK.Grpc.Clients;
+namespace Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
 
 [UnicornGrpcClientMarker]
 public interface IDivisionGrpcServiceClient
