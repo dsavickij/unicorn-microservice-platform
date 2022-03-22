@@ -40,6 +40,12 @@ services:
             context: .
             dockerfile: core/services/api-gateway/Unicorn.Core.Services.ApiGateway.Ocelot/Dockerfile
 
+    unicorn.core.services.systemstatus.healthcheck:
+        image: ${DOCKER_REGISTRY-}unicorn.core.services.systemstatus.healthcheck
+        build:
+            context: .
+            dockerfile: core/services/system-status/Unicorn.Core.Services.SystemStatus.HealthCheck/Dockerfile
+
     #unicorn.core.services.authentication.openiddict:
     #    image: ${DOCKER_REGISTRY-}unicorncoreservicesauthenticationopeniddict
     #    build:

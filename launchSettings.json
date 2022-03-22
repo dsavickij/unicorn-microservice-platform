@@ -13,7 +13,8 @@
         "unicorn.eshop.catalog": "StartDebugging",
         "unicorn.eshop.discount": "StartDebugging",
         "unicorn.core.development.clienthost": "StartDebugging",
-        "unicorn.core.development.servicehost": "StartDebugging"
+        "unicorn.core.development.servicehost": "StartDebugging",
+        "unicorn.core.services.systemstatus.healthcheck": "StartDebugging"
       }
     },
     "Development Docker Compose": {
@@ -29,7 +30,8 @@
         "unicorn.eshop.catalog": "DoNotStart",
         "unicorn.eshop.discount": "DoNotStart",
         "unicorn.core.development.clienthost": "StartDebugging",
-        "unicorn.core.development.servicehost": "StartDebugging"
+        "unicorn.core.development.servicehost": "StartDebugging",
+        "unicorn.core.services.systemstatus.healthcheck": "StartDebugging"
       }
     },
     "Unicorn.eShop Docker Compose": {
@@ -45,7 +47,8 @@
         "unicorn.eshop.catalog": "StartDebugging",
         "unicorn.eshop.discount": "StartDebugging",
         "unicorn.core.development.clienthost": "DoNotStart",
-        "unicorn.core.development.servicehost": "DoNotStart"
+        "unicorn.core.development.servicehost": "DoNotStart",
+        "unicorn.core.services.systemstatus.healthcheck": "StartDebugging"
       }
     }
   }

@@ -20,6 +20,9 @@ public interface IServiceDiscoveryService
     [UnicornHttpPut("api/configurations/http")]
     Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
+    [UnicornHttpGet("api/configurations/http/all")]
+    Task<OperationResult<IEnumerable<HttpServiceConfiguration>>> GetAllHttpServiceConfigurationsAsync();
+
     [UnicornHttpPut("api/configurations/grpc")]
     Task<OperationResult<GrpcServiceConfiguration>> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration);
 

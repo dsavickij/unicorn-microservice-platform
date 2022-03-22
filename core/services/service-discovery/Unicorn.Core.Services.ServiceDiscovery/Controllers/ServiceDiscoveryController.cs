@@ -35,6 +35,12 @@ public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoverySe
         return await SendAsync(new GetHttpServiceConfigurationRequest { ServiceHostName = serviceHostName });
     }
 
+    [HttpGet("api/configurations/http/all")]
+    public async Task<OperationResult<IEnumerable<HttpServiceConfiguration>>> GetAllHttpServiceConfigurationsAsync()
+    {
+        return await SendAsync(new GetAllHttpServiceConfigurationsRequest());
+    }
+
     [HttpPut("api/configurations/http")]
     public Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {

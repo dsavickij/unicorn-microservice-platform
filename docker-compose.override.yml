@@ -112,6 +112,21 @@ services:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
+    unicorn.core.services.systemstatus.healthcheck:
+        container_name: unicorn.core.services.systemstatus.healthcheck
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://unicorn.core.services.systemstatus.healthcheck:443;http://unicorn.core.services.systemstatus.healthcheck:80
+            - ServiceDiscoveryHostSettings__Url=http://unicorn.core.services.servicediscovery;
+        depends_on:
+            - unicorn.core.services.servicediscovery
+        ports:
+            - "8010:80"
+            - "8011:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
     #unicorn.core.services.authentication.openiddict:
     #    container_name: unicorn.core.services.authentication.openiddict
     #    environment:
