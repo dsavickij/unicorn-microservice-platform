@@ -1,6 +1,5 @@
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Defaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +15,7 @@ app.UseUnicornMiddlewares(app.Environment);
 
 // add middlewares if needed
 
-app.MapHealthChecks("/hc", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+app.MapHealthChecks(UnicornSettings.HealthCheck.Pattern, UnicornSettings.HealthCheck.Options);
 
 app.MapControllers();
 

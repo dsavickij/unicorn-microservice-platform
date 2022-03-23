@@ -1,7 +1,6 @@
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Unicorn.Core.Development.ServiceHost;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Defaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +23,7 @@ app.MapGrpcService<MultiplicationGrpcService>();
 app.MapGrpcService<DivisionGrpcService>();
 app.MapGrpcService<SubtractionGrpcService>();
 
-app.MapHealthChecks("/hc", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+app.MapHealthChecks(UnicornSettings.HealthCheck.Pattern, UnicornSettings.HealthCheck.Options);
 
 // app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
