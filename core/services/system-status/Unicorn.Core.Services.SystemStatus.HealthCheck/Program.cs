@@ -1,16 +1,10 @@
+using Unicorn.Core.Services.SystemStatus.HealthCheck;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHealthChecksUI(async setup =>
-{
-    using var provider = builder.Services.BuildServiceProvider();
-    using var scope = provider.CreateScope();
-
-    await Task.Delay(3);
-
-})
-    .AddInMemoryStorage();
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 var app = builder.Build();
 
@@ -23,10 +17,6 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHealthChecksUI();
-
-    // endpoints.MapControllerRoute(
-    //    name: "default",
-    //    pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
 app.Run();

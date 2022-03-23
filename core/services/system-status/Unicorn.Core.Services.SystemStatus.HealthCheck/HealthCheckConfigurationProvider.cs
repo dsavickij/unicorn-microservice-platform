@@ -14,8 +14,8 @@ public class HealthCheckConfigurationProvider
     {
         _client = new RestClient(configuration[ConfigurationKey]);
     }
-    
-    public async Task<IEnumerable<HttpServiceConfiguration>> GetCfgs()
+
+    public async Task<IEnumerable<HttpServiceConfiguration>> GetAllHttpConfigurationsAsync()
     {
         var req = new RestRequest("api/configurations/http/all", Method.Get);
         var response = await _client.GetAsync<OperationResult<IEnumerable<HttpServiceConfiguration>>>(req);

@@ -1,4 +1,5 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+﻿using Microsoft.EntityFrameworkCore;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
@@ -19,8 +20,12 @@ public class CreateGrpcServiceConfigurationHandler : BaseHandler.WithResult.For<
     {
         _logger.LogInformation($"Creating new gRPC service configuration for service '{request.Configuration.ServiceHostName}'");
 
+        var serviceHost = await _ctx.ServiceHosts
+            .FirstOrDefaultAsync(x => x.Name == request.Configuration.ServiceHostName);
+
         await _ctx.GrpcServiceConfigurations.AddAsync(new GrpcServiceConfigurationEntity
         {
+            ServiceHost = serviceHost ?? new ServiceHostEntity { Name = request.Configuration.ServiceHostName },
             ServiceHostName = request.Configuration.ServiceHostName,
             BaseUrl = request.Configuration.BaseUrl,
         });
