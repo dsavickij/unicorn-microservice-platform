@@ -84,7 +84,7 @@ public static class HostConfigurationExtensions
     {
         services.AddApplicationInsightsTelemetry();
         services.AddMediatorComponents();
-        services.AddHttpServices(HostSettings.ServiceDiscoverySettings);
+        services.AddHttpServices();
         services.AddGrpcClients();
         services.ConfigureSwagger();
         services.RegisterControllers();

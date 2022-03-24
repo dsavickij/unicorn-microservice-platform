@@ -89,6 +89,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 
         var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/http");
         var policy = GetRetryPolicy();
+
         var response = await policy.ExecuteAsync(
             () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<HttpServiceConfiguration>>(request));
 

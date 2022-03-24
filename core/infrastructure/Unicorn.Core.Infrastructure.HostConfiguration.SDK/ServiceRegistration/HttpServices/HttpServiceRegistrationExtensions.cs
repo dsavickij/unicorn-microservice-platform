@@ -10,7 +10,7 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.
 
 internal static class HttpServiceRegistrationExtensions
 {
-    internal static void AddHttpServices(this IServiceCollection services, ServiceDiscoverySettings serviceDiscoverySettings)
+    internal static void AddHttpServices(this IServiceCollection services)
     {
         services.AddSingleton<IServiceDiscoveryClient, ServiceDiscoveryClient>();
         services.AddSingleton<IHttpServiceConfigurationProvider, HttpServiceConfigurationProvider>();
