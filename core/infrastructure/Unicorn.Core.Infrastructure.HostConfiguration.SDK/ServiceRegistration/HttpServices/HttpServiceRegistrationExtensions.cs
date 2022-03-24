@@ -4,7 +4,6 @@ using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy.RestComponents;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices;
 
