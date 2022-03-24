@@ -12,8 +12,7 @@ internal static class HttpServiceRegistrationExtensions
 {
     internal static void AddHttpServices(this IServiceCollection services, ServiceDiscoverySettings serviceDiscoverySettings)
     {
-        services.AddSingleton<IServiceDiscoveryClient, ServiceDiscoveryClient>(
-            _ => new ServiceDiscoveryClient(serviceDiscoverySettings.Url, null)); // TODO: change to real logger instead of null
+        services.AddSingleton<IServiceDiscoveryClient, ServiceDiscoveryClient>();
         services.AddSingleton<IHttpServiceConfigurationProvider, HttpServiceConfigurationProvider>();
         services.AddTransient<IRestRequestProvider, RestRequestProvider>();
         services.AddTransient<IRestClientProvider, RestClientProvider>();

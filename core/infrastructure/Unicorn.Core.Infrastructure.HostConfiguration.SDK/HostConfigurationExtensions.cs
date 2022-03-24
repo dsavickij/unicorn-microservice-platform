@@ -54,7 +54,7 @@ public static class HostConfigurationExtensions
 
     private static void RegisterInServiceDiscoveryService(this IServiceCollection services)
     {
-        services.AddHostedService<HostSelfRegististrationWorker>();
+        services.AddHostedService<ServiceHostSelfRegististrationWorker>();
     }
 
     private static void ConfigureHostSettings<THostSettings>(this IServiceCollection services, HostBuilderContext ctx)

@@ -16,7 +16,8 @@ public static class DatabaseExtensions
     {
         services.AddDbContext<ServiceDiscoveryDbContext>(opt =>
         {
-            opt.UseSqlServer(configuration["ServiceDiscoveryHostSettings:DbConnectionString"]);
+            opt.UseSqlServer(configuration["ServiceDiscoveryHostSettings:DbConnectionString"], 
+            opt => opt.EnableRetryOnFailure());
         });
     }
 }

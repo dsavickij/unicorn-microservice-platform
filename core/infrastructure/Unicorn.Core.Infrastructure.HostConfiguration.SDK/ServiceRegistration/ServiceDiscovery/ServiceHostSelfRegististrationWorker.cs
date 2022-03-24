@@ -7,7 +7,7 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
 
-internal class HostSelfRegististrationWorker : IHostedService
+internal class ServiceHostSelfRegististrationWorker : IHostedService
 {
     private const string UrlConfigurationKey = "ASPNETCORE_URLS";
     private const int TimeToWaitForServiceDiscoveryInMillis = 5000;
@@ -15,13 +15,13 @@ internal class HostSelfRegististrationWorker : IHostedService
     private readonly IServiceDiscoveryClient _client;
     private readonly IConfiguration _cfg;
     private readonly BaseHostSettings _baseHostSettings;
-    private readonly ILogger<HostSelfRegististrationWorker> _logger;
+    private readonly ILogger<ServiceHostSelfRegististrationWorker> _logger;
 
-    public HostSelfRegististrationWorker(
+    public ServiceHostSelfRegististrationWorker(
         IServiceDiscoveryClient client,
         IConfiguration configuration,
         IOptions<BaseHostSettings> options,
-        ILogger<HostSelfRegististrationWorker> logger)
+        ILogger<ServiceHostSelfRegististrationWorker> logger)
     {
         _client = client;
         _cfg = configuration;
@@ -35,13 +35,10 @@ internal class HostSelfRegististrationWorker : IHostedService
         {
             var (httpCfg, grpcCfg) = GetServiceHostConfigurations();
 
-            // give time for ServiceDiscovery to be ready
-            await Task.Delay(TimeToWaitForServiceDiscoveryInMillis, cancellationToken);
+            await UpsertHttpServiceConfigurationAsync(httpCfg);
+            await UpsertGrpcServiceConfigurationAsync(grpcCfg);
 
-            var httpCfgResult = UpsertHttpServiceConfigurationAsync(httpCfg);
-            var grpcCfgResult = UpsertGrpcServiceConfigurationAsync(grpcCfg);
-
-            await Task.WhenAll(httpCfgResult, grpcCfgResult);
+            _logger.LogInformation($"ServiceDiscoveryService was successfully called for service host self-registration");
         }
     }
 
