@@ -56,16 +56,16 @@ public class ClientHostController : UnicornHttpService<IClientHostService>, ICli
     [HttpGet("GetWeatherForecast/{name}")]
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
-        var result = await _subtractionGrpcSvcClient.SubtractAsync(2, 1);
+        // var result = await _subtractionGrpcSvcClient.SubtractAsync(2, 1);
                
-        var first = _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
-        var second = _divisionGrpcSvcClient.DivideAsync(10, 5);
+        // var first = _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
+        // var second = _divisionGrpcSvcClient.DivideAsync(10, 5);
 
-        await Task.WhenAll(first, second);
+        // await Task.WhenAll(first, second);
 
         // await _publisher.Publish(new MyMessage { Number = 5 });
 
-        // await _developmentServiceHost.SendMessageOneWay(5);
+         var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
         // await _developmentServiceHost.SendMessageOneWay2();
 
         return new HttpServiceConfiguration();

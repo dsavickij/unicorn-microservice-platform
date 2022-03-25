@@ -22,12 +22,16 @@ internal class RestClientProvider : IRestClientProvider
     {
         var cfg = await _cfgProvider.GetHttpServiceConfigurationAsync(httpServiceInterface);
 
-        var client = new RestClient(new Uri(cfg.BaseUrl))
+        var options = new RestClientOptions
+        {
+            BaseUrl = new Uri(cfg.BaseUrl),
+            ThrowOnAnyError = true,
+        };
+
+        return new RestClient(options)
         {
             Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(
                 UnicornOperationContext.AccessToken, "Bearer")
         };
-
-        return client;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
+using Polly;
 using RestSharp;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
@@ -15,11 +17,16 @@ internal class HttpRequestDispatcher : IHttpRequestDispatcher
 {
     private readonly IRestClientProvider _clientProvider;
     private readonly IRestRequestProvider _requestProvider;
+    private readonly ILogger<HttpRequestDispatcher> _logger;
 
-    public HttpRequestDispatcher(IRestClientProvider restClientProvider, IRestRequestProvider restRequestProvider)
+    public HttpRequestDispatcher(
+        IRestClientProvider restClientProvider,
+        IRestRequestProvider restRequestProvider,
+        ILogger<HttpRequestDispatcher> logger)
     {
         _clientProvider = restClientProvider;
         _requestProvider = restRequestProvider;
+        _logger = logger;
     }
 
     public async Task<object> SendHttpRequestAsync(MethodInfo method, object[] arguments)
@@ -39,11 +46,29 @@ internal class HttpRequestDispatcher : IHttpRequestDispatcher
 
     private async Task<RestResponse> SendAsync(MethodInfo method, object[] arguments)
     {
-        var client = _clientProvider.GetRestClientAsync(method.DeclaringType!);
-        var request = _requestProvider.GetRestRequestAsync(method, arguments);
+        var request = await _requestProvider.GetRestRequestAsync(method, arguments);
+        var policy = GetRetryPolicy(method.DeclaringType?.FullName!);
 
-        await Task.WhenAll(client, request);
+        return await policy.ExecuteAsync(async () =>
+        {
+            var client = await _clientProvider.GetRestClientAsync(method.DeclaringType!);
+            return await client.ExecuteAsync(request);
+        });
+    }
 
-        return await client.Result.ExecuteAsync(request.Result);
+    private AsyncPolicy GetRetryPolicy(string serviceInterfaceFullName)
+    {
+        return Policy.Handle<HttpRequestException>().WaitAndRetryAsync(
+            new[]
+            {
+                TimeSpan.FromSeconds(10),
+                TimeSpan.FromSeconds(20),
+                TimeSpan.FromSeconds(30)
+            },
+            (exception, timespan, context) =>
+            {
+                _logger.LogWarning($"Failed to call '{serviceInterfaceFullName}'. " +
+                    $"Retrying in {timespan.TotalSeconds} seconds");
+            });
     }
 }

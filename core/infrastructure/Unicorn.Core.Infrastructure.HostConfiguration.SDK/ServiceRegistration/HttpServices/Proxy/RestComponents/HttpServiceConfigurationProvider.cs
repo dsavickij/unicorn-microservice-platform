@@ -25,7 +25,7 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
     {
         if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
-            var name = GetHostServiceName(httpServiceInterface);
+            var name = GetServiceHostName(httpServiceInterface);
             var cfg = await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name);
             _cache.TryAdd(httpServiceInterface.FullName!, cfg);
         }
@@ -33,7 +33,7 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
         return _cache[httpServiceInterface.FullName!];
     }
 
-    private string GetHostServiceName(Type httpServiceInterface)
+    private string GetServiceHostName(Type httpServiceInterface)
     {
         var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
 

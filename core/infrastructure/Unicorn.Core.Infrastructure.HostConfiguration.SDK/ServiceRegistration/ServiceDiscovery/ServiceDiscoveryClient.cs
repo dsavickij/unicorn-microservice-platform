@@ -126,12 +126,13 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 
     private AsyncRetryPolicy GetRetryPolicy()
     {
-        const int retryCount = 3;
-        const int waitInSeconds = 60;
-
         return Policy.Handle<HttpRequestException>().WaitAndRetryAsync(
-            retryCount,
-            retryAttempt => TimeSpan.FromSeconds(waitInSeconds * retryAttempt),
+            new[]
+            {
+                TimeSpan.FromSeconds(15),
+                TimeSpan.FromSeconds(30),
+                TimeSpan.FromSeconds(45)
+            },
             (exception, timespan, context) =>
             {
                 _logger.LogWarning($"Failed to call ServiceDiscoveryService. Retrying in {timespan.TotalSeconds} seconds");

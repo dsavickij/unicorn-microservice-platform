@@ -6,7 +6,7 @@ internal static class LogLevelColorConfiguration
 {
     public static int EventId { get; set; }
 
-    public static Dictionary<LogLevel, ConsoleColor> LogLevels { get; } = new()
+    public static Dictionary<LogLevel, ConsoleColor> LogLevels { get; } = new ()
     {
         [LogLevel.Trace] = ConsoleColor.DarkGray,
         [LogLevel.Debug] = ConsoleColor.Gray,

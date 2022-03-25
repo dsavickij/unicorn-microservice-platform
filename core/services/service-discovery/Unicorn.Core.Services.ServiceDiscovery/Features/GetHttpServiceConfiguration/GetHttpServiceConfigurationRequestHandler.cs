@@ -23,7 +23,7 @@ public class GetHttpServiceConfigurationRequestHandler : BaseHandler.WithResult<
 
         if (result is null)
         {
-            return NotFound($"Grpc service configuration for service host '{request.ServiceHostName}' was not found");
+            return NotFound($"Http service configuration for service host '{request.ServiceHostName}' was not found");
         }
 
         return Ok(new HttpServiceConfiguration

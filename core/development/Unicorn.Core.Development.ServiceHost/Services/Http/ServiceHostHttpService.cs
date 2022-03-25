@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Unicorn.Core.Development.ServiceHost.Features.GetFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Features.GetFilmDescriptions;
-using Unicorn.Core.Development.ServiceHost.Features.GetFilmsDescription;
 using Unicorn.Core.Development.ServiceHost.Features.UpdateFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Features.UploadFilm;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
@@ -8,13 +8,13 @@ using Unicorn.Core.Development.ServiceHost.SDK.Services.Http;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
-namespace Unicorn.Core.Development.ServiceHost.Controllers;
+namespace Unicorn.Core.Development.ServiceHost.Services.Http;
 
-public class ServiceHostServiceController : UnicornHttpService<IServiceHostService>, IServiceHostService
+public class ServiceHostHttpService : UnicornHttpService<IServiceHostService>, IServiceHostService
 {
-    private readonly ILogger<ServiceHostServiceController> _logger;
+    private readonly ILogger<ServiceHostHttpService> _logger;
 
-    public ServiceHostServiceController(ILogger<ServiceHostServiceController> logger)
+    public ServiceHostHttpService(ILogger<ServiceHostHttpService> logger)
     {
         _logger = logger;
     }
@@ -28,7 +28,7 @@ public class ServiceHostServiceController : UnicornHttpService<IServiceHostServi
     [HttpGet("api/films/{id}/description")]
     public async Task<OperationResult<FilmDescription>> GetFilmDescriptionAsync(Guid id)
     {
-        return await SendAsync(new GetFilmsDescriptionRequest { FilmId = id });
+        return await SendAsync(new GetFilmDescriptionRequest { FilmId = id });
     }
 
     [HttpPost("api/films/upload")]
