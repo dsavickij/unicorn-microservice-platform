@@ -5,13 +5,13 @@ using Unicorn.eShop.Discount.Features.GetCartDiscount;
 using Unicorn.eShop.Discount.SDK.DTOs;
 using Unicorn.eShop.Discount.SDK.Services.Http;
 
-namespace Unicorn.eShop.Discount.Controllers;
+namespace Unicorn.eShop.Discount.Services.Http;
 
-public class DiscountServiceController : UnicornHttpService<IDiscountService>, IDiscountService
+public class DiscountService : UnicornHttpService<IDiscountService>, IDiscountService
 {
-    private readonly ILogger<DiscountServiceController> _logger;
+    private readonly ILogger<DiscountService> _logger;
 
-    public DiscountServiceController(ILogger<DiscountServiceController> logger)
+    public DiscountService(ILogger<DiscountService> logger)
     {
         _logger = logger;
     }

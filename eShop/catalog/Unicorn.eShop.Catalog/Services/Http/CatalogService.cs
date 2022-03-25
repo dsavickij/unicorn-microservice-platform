@@ -5,13 +5,13 @@ using Unicorn.eShop.Catalog.Features.SoftDeleteItem;
 using Unicorn.eShop.Catalog.SDK.DTOs;
 using Unicorn.eShop.Catalog.SDK.Services.Http;
 
-namespace Unicorn.eShop.Catalog.Controllers;
+namespace Unicorn.eShop.Catalog.Services.Http;
 
-public class CatalogServiceController : UnicornHttpService<ICatalogService>, ICatalogService
+public class CatalogService : UnicornHttpService<ICatalogService>, ICatalogService
 {
-    private readonly ILogger<CatalogServiceController> _logger;
+    private readonly ILogger<CatalogService> _logger;
 
-    public CatalogServiceController(ILogger<CatalogServiceController> logger)
+    public CatalogService(ILogger<CatalogService> logger)
     {
         _logger = logger;
     }

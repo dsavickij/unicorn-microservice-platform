@@ -10,11 +10,11 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost.Services.Http;
 
-public class ServiceHostHttpService : UnicornHttpService<IServiceHostService>, IServiceHostService
+public class ServiceHostService : UnicornHttpService<IServiceHostService>, IServiceHostService
 {
-    private readonly ILogger<ServiceHostHttpService> _logger;
+    private readonly ILogger<ServiceHostService> _logger;
 
-    public ServiceHostHttpService(ILogger<ServiceHostHttpService> logger)
+    public ServiceHostService(ILogger<ServiceHostService> logger)
     {
         _logger = logger;
     }

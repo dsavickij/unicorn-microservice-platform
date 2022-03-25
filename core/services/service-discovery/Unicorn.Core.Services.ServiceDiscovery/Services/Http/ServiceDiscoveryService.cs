@@ -10,11 +10,11 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Controllers;
 
-public class ServiceDiscoveryController : UnicornHttpService<IServiceDiscoveryService>, IServiceDiscoveryService
+public class ServiceDiscoveryService : UnicornHttpService<IServiceDiscoveryService>, IServiceDiscoveryService
 {
-    private readonly ILogger<ServiceDiscoveryController> _logger;
+    private readonly ILogger<ServiceDiscoveryService> _logger;
 
-    public ServiceDiscoveryController(ILogger<ServiceDiscoveryController> logger)
+    public ServiceDiscoveryService(ILogger<ServiceDiscoveryService> logger)
     {
         _logger = logger;
     }

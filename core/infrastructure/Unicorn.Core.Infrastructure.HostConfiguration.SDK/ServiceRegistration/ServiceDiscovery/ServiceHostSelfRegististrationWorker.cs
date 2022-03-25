@@ -10,7 +10,6 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.
 internal class ServiceHostSelfRegististrationWorker : IHostedService
 {
     private const string UrlConfigurationKey = "ASPNETCORE_URLS";
-    private const int TimeToWaitForServiceDiscoveryInMillis = 5000;
 
     private readonly IServiceDiscoveryClient _client;
     private readonly IConfiguration _cfg;

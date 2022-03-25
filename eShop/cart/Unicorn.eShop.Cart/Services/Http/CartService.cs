@@ -8,13 +8,13 @@ using Unicorn.eShop.Cart.Features.RemoveItem;
 using Unicorn.eShop.Cart.SDK.DTOs;
 using Unicorn.eShop.Cart.SDK.Services.Http;
 
-namespace Unicorn.eShop.Cart.Controllers;
+namespace Unicorn.eShop.Cart.Services.Http;
 
-public class CartServiceController : UnicornHttpService<ICartService>, ICartService
+public class CartService : UnicornHttpService<ICartService>, ICartService
 {
-    private readonly ILogger<CartServiceController> _logger;
+    private readonly ILogger<CartService> _logger;
 
-    public CartServiceController(ILogger<CartServiceController> logger)
+    public CartService(ILogger<CartService> logger)
     {
         _logger = logger;
     }
