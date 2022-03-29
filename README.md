@@ -586,7 +586,7 @@ Possible plans for further learning/development:
 		* if decision to move current Unicorn architecture to event-driven will be made, create separate project 'pheonix-project-microservices' 	
 * Elasticsearch just to see it in action
 * Redis for distributed caching
-* Add Polly for request retry logic and exponential back-off
+* ~~Add Polly for request retry logic and exponential back-off.~~ Retry logic using Polly was added for service self-registration on startup as well for inter-service communication over HTTP
 * Blazor for some UI and to have something to call API gateway
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
