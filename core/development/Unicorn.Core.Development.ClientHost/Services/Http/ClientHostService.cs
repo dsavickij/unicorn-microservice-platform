@@ -11,15 +11,15 @@ using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Development.ClientHost.Controllers;
+namespace Unicorn.Core.Development.ClientHost.Services.Http;
 
 public interface IClientHostService
 {
 }
 
-public class ClientHostController : UnicornHttpService<IClientHostService>, IClientHostService
+public class ClientHostService : UnicornHttpService<IClientHostService>, IClientHostService
 {
-    private readonly ILogger<ClientHostController> _logger;
+    private readonly ILogger<ClientHostService> _logger;
     private readonly IBus _bus;
     private readonly IUnicornEventPublisher _publisher;
     private readonly IMultiplicationGrpcServiceClient _multiplicationGrpcSvcClient;
@@ -29,14 +29,14 @@ public class ClientHostController : UnicornHttpService<IClientHostService>, ICli
     private readonly IServiceHostService _developmentServiceHost;
     private readonly IAuthenticationScope _scopeProvider;
 
-    public ClientHostController(
+    public ClientHostService(
         IServiceDiscoveryService serviceDiscoveryService,
         IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient,
         IDivisionGrpcServiceClient divisionGrpcServiceClient,
         ISubtractionGrpcServiceClient subtractionGrpcServiceClient,
         IServiceHostService developmentServiceHost,
         IAuthenticationScope scopeProvider,
-        ILogger<ClientHostController> logger,
+        ILogger<ClientHostService> logger,
         IUnicornEventPublisher publisher)
     {
         _multiplicationGrpcSvcClient = multiplicationGrpcServiceClient;
@@ -57,7 +57,7 @@ public class ClientHostController : UnicornHttpService<IClientHostService>, ICli
     public async Task<HttpServiceConfiguration> GetName(string name)
     {
         // var result = await _subtractionGrpcSvcClient.SubtractAsync(2, 1);
-               
+
         // var first = _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
         // var second = _divisionGrpcSvcClient.DivideAsync(10, 5);
 
@@ -65,7 +65,7 @@ public class ClientHostController : UnicornHttpService<IClientHostService>, ICli
 
         // await _publisher.Publish(new MyMessage { Number = 5 });
 
-         var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
+        var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
         // await _developmentServiceHost.SendMessageOneWay2();
 
         return new HttpServiceConfiguration();
