@@ -65,8 +65,13 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
 
         // await _publisher.Publish(new MyMessage { Number = 5 });
 
-        var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
+        //var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
         // await _developmentServiceHost.SendMessageOneWay2();
+
+        await foreach (var number in _multiplicationGrpcSvcClient.GetSequencePowerOfTwoAsync(new[] { 2, 4, 6, 8 }, CancellationToken.None))
+        {
+            Console.WriteLine(number);
+        }
 
         return new HttpServiceConfiguration();
     }

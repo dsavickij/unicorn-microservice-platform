@@ -11,4 +11,16 @@ public class MultiplicationGrpcService : Unicorn.Core.Development.ServiceHost.SD
 
         return Task.FromResult(response);
     }
+
+    public override async Task SequencePowerOfTwo(
+        SequencePowerOfTwoRequest request,
+        IServerStreamWriter<MultiplicationResponse> responseStream,
+        ServerCallContext context)
+    {
+        foreach (var number in request.Sequence)
+        {
+            var powerOfTwo = (int)Math.Pow(number, 2);
+            await responseStream.WriteAsync(new MultiplicationResponse { Result = powerOfTwo });
+        }
+    }
 }

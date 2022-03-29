@@ -22,6 +22,20 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
         return await grpcServiceMethod(channel);
     }
 
+    public async IAsyncEnumerable<T> GetItemStreamAsync<T>(
+        Func<GrpcChannel, AsyncServerStreamingCall<T>> grpcServiceMethod, CancellationToken token)
+    {
+        var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceMethod.Method);
+        using var channel = GetChannel(cfg.BaseUrl);
+
+        using var stream = grpcServiceMethod.Invoke(channel);
+
+        while (await stream.ResponseStream.MoveNext(token))
+        {
+            yield return stream.ResponseStream.Current;
+        }
+    }
+
     private GrpcChannel GetChannel(string baseUrl)
     {
         if (string.IsNullOrEmpty(UnicornOperationContext.AccessToken))
@@ -30,6 +44,7 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
             var httpHandler = new HttpClientHandler
             {
                 // Return 'true' to allow certificates that are untrusted/invalid
+                // TODO: investigate how to work with SSL while running on Docker
                 ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
             };
 

@@ -8,6 +8,7 @@ namespace Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
 public interface IMultiplicationGrpcServiceClient
 {
     Task<int> MultiplyAsync(int first, int second);
+    IAsyncEnumerable<int> GetSequencePowerOfTwoAsync(IEnumerable<int> sequence, CancellationToken token);
 }
 
 public class MultiplicationGrpcServiceClient : BaseGrpcClient, IMultiplicationGrpcServiceClient
@@ -26,5 +27,19 @@ public class MultiplicationGrpcServiceClient : BaseGrpcClient, IMultiplicationGr
                new MultiplicationRequest { FirstOperand = first, SecondOperand = second }));
 
         return response.Result;
+    }
+
+    public async IAsyncEnumerable<int> GetSequencePowerOfTwoAsync(IEnumerable<int> sequence, CancellationToken token)
+    {
+        var request = new SequencePowerOfTwoRequest();
+        request.Sequence.AddRange(sequence);
+
+        var itemStream = _factory.GetItemStreamAsync(
+            c => new MultiplicationGrpcService.MultiplicationGrpcServiceClient(c).SequencePowerOfTwo(request, cancellationToken: token), token);
+
+        await foreach (var item in itemStream)
+        {
+            yield return item.Result;
+        }
     }
 }

@@ -20,15 +20,18 @@ internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvi
 
     public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(MethodInfo grpcServiceMethod)
     {
-        if (grpcServiceMethod.DeclaringType is not null && !_cache.ContainsKey(grpcServiceMethod.Name))
+        if (grpcServiceMethod.DeclaringType is not null)
         {
-            var attribute = grpcServiceMethod.DeclaringType.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
-
-            if (attribute is UnicornServiceHostNameAttribute nameAttribute)
+            if (!_cache.ContainsKey(grpcServiceMethod.Name))
             {
-                // TODO: if cfg is null throw exception
-                var cfg = await _client.GetGrpcServiceConfigurationAsync(nameAttribute.ServiceHostName);
-                _cache.TryAdd(grpcServiceMethod.Name, cfg);
+                var attribute = grpcServiceMethod.DeclaringType.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
+
+                if (attribute is UnicornServiceHostNameAttribute nameAttribute)
+                {
+                    // TODO: if cfg is null throw exception
+                    var cfg = await _client.GetGrpcServiceConfigurationAsync(nameAttribute.ServiceHostName);
+                    _cache.TryAdd(grpcServiceMethod.Name, cfg);
+                }
             }
 
             return _cache[grpcServiceMethod.Name];

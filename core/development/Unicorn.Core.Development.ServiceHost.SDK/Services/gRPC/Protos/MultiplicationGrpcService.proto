@@ -6,6 +6,7 @@ package Multiplication;
 
 service MultiplicationGrpcService{
 	rpc Multiply(MultiplicationRequest) returns (MultiplicationResponse);
+	rpc SequencePowerOfTwo(SequencePowerOfTwoRequest) returns (stream MultiplicationResponse);
 }
 
  message MultiplicationRequest{
@@ -15,4 +16,8 @@ service MultiplicationGrpcService{
 
 message MultiplicationResponse{
 	int32 Result = 1;
+};
+
+message SequencePowerOfTwoRequest{
+	repeated int32 Sequence = 1;
 };
