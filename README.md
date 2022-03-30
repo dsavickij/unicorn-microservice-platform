@@ -135,6 +135,7 @@ Unicorn.eShop microservice HTTP APIs can be accessed by the following URLs:
 Unicorn.Core.Services:
 
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
+* **Unicorn.Core.Service.SystemStatus.HealthCheck** - http://localhost:8010/healthchecks-ui
 
 ## Creating a new Unicorn microservice
 
