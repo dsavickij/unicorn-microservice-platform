@@ -45,7 +45,7 @@ This section contains the overview of nuget packages, databases and design desic
 * **Docker is used for containerization**
 * **API gateway is implemented using Ocelot**
 * **Main nuget packages used in solution:**
-	*  RestSharp, Castle.Core, GuardClauses, MassTransit, FluentValidation, MediatR, Swashbuckle (Swagger), OneOf, OpendIddict (for authentication), Entity Framework Core 6, Autofixture, xUnit, FluentAssertions.
+	*  RestSharp, Castle.Core, GuardClauses, MassTransit, FluentValidation, MediatR, Swashbuckle (Swagger), OneOf, OpendIddict (for authentication), Entity Framework Core 6, Autofixture, xUnit, FluentAssertions, Polly, HealthChecks.UI.
 * **Databases:**
 	* PostgreSQL (Unicorn.eShop.Cart microservice)
 	* Microsoft SQL 2019 (Unicorn.Core.Services.ServiceDiscovery microservice)   
@@ -135,6 +135,7 @@ Unicorn.eShop microservice HTTP APIs can be accessed by the following URLs:
 Unicorn.Core.Services:
 
 * **Unicorn.Core.Service.ServiceDiscovery** - https://localhost:8003/swagger/index.html
+* **Unicorn.Core.Service.SystemStatus.HealthCheck** - http://localhost:8010/healthchecks-ui
 
 ## Creating a new Unicorn microservice
 
