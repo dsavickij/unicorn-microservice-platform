@@ -9,6 +9,7 @@ public interface IMultiplicationGrpcServiceClient
 {
     Task<int> MultiplyAsync(int first, int second);
     IAsyncEnumerable<int> GetSequencePowerOfTwoAsync(IEnumerable<int> sequence, CancellationToken token);
+    Task<int> GetMultiplicationSequnceSumAsync(IAsyncEnumerable<(int, int)> producer, CancellationToken token);
 }
 
 public class MultiplicationGrpcServiceClient : BaseGrpcClient, IMultiplicationGrpcServiceClient
@@ -34,12 +35,33 @@ public class MultiplicationGrpcServiceClient : BaseGrpcClient, IMultiplicationGr
         var request = new SequencePowerOfTwoRequest();
         request.Sequence.AddRange(sequence);
 
-        var itemStream = _factory.GetItemStreamAsync(
-            c => new MultiplicationGrpcService.MultiplicationGrpcServiceClient(c).SequencePowerOfTwo(request, cancellationToken: token), token);
+        var responseStream = _factory.GetResponseStreamAsync(
+            c => new MultiplicationGrpcService.MultiplicationGrpcServiceClient(c).SequencePowerOfTwo(
+                request, cancellationToken: token),
+            token);
 
-        await foreach (var item in itemStream)
+        await foreach (var response in responseStream) yield return response.Result;
+    }
+
+    public async Task<int> GetMultiplicationSequnceSumAsync(IAsyncEnumerable<(int, int)> provider, CancellationToken token)
+    {
+        var response = await _factory.GetRequestStreamAsync<MultiplicationSequenceSumRequest, MultiplicationSequenceSumResponse>(
+            c => new MultiplicationGrpcService.MultiplicationGrpcServiceClient(c).GetMultiplicationSequenceSum(),
+            GetWrappedInRequests(),
+            token);
+
+        return response.Result;
+
+        async IAsyncEnumerable<MultiplicationSequenceSumRequest> GetWrappedInRequests()
         {
-            yield return item.Result;
+            await foreach (var (firstOperand, secondOperand) in provider)
+            {
+                yield return new MultiplicationSequenceSumRequest
+                {
+                    FirstOperand = firstOperand,
+                    SecondOperand = secondOperand
+                };
+            }
         }
     }
 }

@@ -68,12 +68,24 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
         //var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
         // await _developmentServiceHost.SendMessageOneWay2();
 
+        var result = await _multiplicationGrpcSvcClient.GetMultiplicationSequnceSumAsync(GetItems(), CancellationToken.None);
+
         await foreach (var number in _multiplicationGrpcSvcClient.GetSequencePowerOfTwoAsync(new[] { 2, 4, 6, 8 }, CancellationToken.None))
         {
             Console.WriteLine(number);
         }
 
         return new HttpServiceConfiguration();
+    }
+
+    private async IAsyncEnumerable<(int, int)> GetItems()
+    {
+        var items = new[] { (1, 1), (2, 2), (3, 3), (4, 4) };
+
+        foreach (var item in items)
+        {
+            yield return item;
+        }
     }
 
     [HttpPut("UploadFile2")]

@@ -23,4 +23,25 @@ public class MultiplicationGrpcService : Unicorn.Core.Development.ServiceHost.SD
             await responseStream.WriteAsync(new MultiplicationResponse { Result = powerOfTwo });
         }
     }
+
+    public override async Task<MultiplicationSequenceSumResponse> GetMultiplicationSequenceSum(
+        IAsyncStreamReader<MultiplicationSequenceSumRequest> requestStream, ServerCallContext context)
+    {
+        var sum = 0;
+
+        while (await requestStream.MoveNext())
+        {
+            var message = requestStream.Current;
+            var request = new MultiplicationRequest
+            {
+                FirstOperand = message.FirstOperand,
+                SecondOperand = message.SecondOperand
+            };
+
+            var response = await Multiply(request, context);
+            sum += response.Result;
+        }
+
+        return new MultiplicationSequenceSumResponse { Result = sum };
+    }
 }

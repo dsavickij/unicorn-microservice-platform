@@ -2,9 +2,10 @@
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
+using Unicorn.eShop.Cart.SDK;
 using Unicorn.eShop.Cart.SDK.DTOs;
 
-[assembly: UnicornServiceHostName("Unicorn.eShop.Cart")]
+[assembly: UnicornServiceHostName(Constants.ServiceHostName)]
 
 namespace Unicorn.eShop.Cart.SDK.Services.Http;
 

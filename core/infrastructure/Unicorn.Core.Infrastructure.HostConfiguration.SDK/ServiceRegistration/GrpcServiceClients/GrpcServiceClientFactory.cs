@@ -22,7 +22,7 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
         return await grpcServiceMethod(channel);
     }
 
-    public async IAsyncEnumerable<T> GetItemStreamAsync<T>(
+    public async IAsyncEnumerable<T> GetResponseStreamAsync<T>(
         Func<GrpcChannel, AsyncServerStreamingCall<T>> grpcServiceMethod, CancellationToken token)
     {
         var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceMethod.Method);
@@ -34,6 +34,26 @@ internal class GrpcServiceClientFactory : IGrpcServiceClientFactory
         {
             yield return stream.ResponseStream.Current;
         }
+    }
+
+    public async Task<TResponse> GetRequestStreamAsync<TRequest, TResponse>(
+        Func<GrpcChannel, AsyncClientStreamingCall<TRequest, TResponse>> grpcServiceMethod,
+        IAsyncEnumerable<TRequest> requests,
+        CancellationToken token)
+    {
+        var cfg = await _cfgProvider.GetGrpcServiceConfigurationAsync(grpcServiceMethod.Method);
+        using var channel = GetChannel(cfg.BaseUrl);
+
+        using var stream = grpcServiceMethod.Invoke(channel);
+
+        await foreach (var req in requests)
+        {
+            await stream.RequestStream.WriteAsync(req);
+        }
+
+        await stream.RequestStream.CompleteAsync();
+
+        return await stream;
     }
 
     private GrpcChannel GetChannel(string baseUrl)
