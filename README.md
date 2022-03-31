@@ -10,7 +10,7 @@ The project is based on .NET 6.0 and is in constant development.
 * **Support for one-way (asynchronous) communication**
 	* Inter-service communication using message queues and events (topics) is supported using RabbitMQ or Azure ServiceBus message broker 	
 * **Support for two-way (synchronous) communication**
-	* Inter-service communication is supported over HTTP or high performance gRPC protocols  	
+	* Inter-service communication is supported over HTTP or high performance gRPC protocols (full support of gRPC: unary, client and server streaming)  	
 * **Microservice SDK nuget is all what is needed**
 	* Microservice's SDK contains everything what is required for consuming service to successfully call it
 *  **Included Unicorn project template**
