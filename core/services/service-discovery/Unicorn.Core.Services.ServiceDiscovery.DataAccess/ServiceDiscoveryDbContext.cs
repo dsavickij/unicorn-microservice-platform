@@ -12,7 +12,7 @@ public class ServiceDiscoveryDbContext : DbContext
     public DbSet<GrpcServiceConfigurationEntity> GrpcServiceConfigurations { get; set; }
 
     public ServiceDiscoveryDbContext(DbContextOptions<ServiceDiscoveryDbContext> options) : base(options)
-    {
+    {      
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

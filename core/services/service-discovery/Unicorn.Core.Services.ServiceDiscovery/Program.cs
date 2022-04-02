@@ -1,6 +1,7 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Defaults;
 using Unicorn.Core.Services.ServiceDiscovery;
 using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // register services on builder.Services if needed
 
-builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddDatabase(
+    builder.Configuration[$"{nameof(ServiceDiscoveryHostSettings)}:{nameof(ServiceDiscoveryHostSettings.DbConnectionString)}"]);
 
 builder.Services.AddHostedService<InitialDataBackgroundWorker>();
 
@@ -18,11 +20,7 @@ builder.Host.ApplyUnicornConfiguration<ServiceDiscoveryHostSettings>();
 
 var app = builder.Build();
 
-app.MapHealthChecks("/hc", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+app.MapHealthChecks(UnicornSettings.HealthCheck.Pattern, UnicornSettings.HealthCheck.Options);
 
 app.UseUnicorn(app.Environment);
 

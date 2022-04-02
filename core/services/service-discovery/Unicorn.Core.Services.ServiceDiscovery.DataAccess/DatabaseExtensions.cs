@@ -6,18 +6,17 @@ namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
 public static class DatabaseExtensions
 {
-    public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    public static void AddDatabase(this IServiceCollection services, string connectionString)
     {
-        ConfigureDb(services, configuration);
+        ConfigureDb(services, connectionString);
       //  SeedDataHelper.AddSeedData(services);
     }
 
-    private static void ConfigureDb(IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureDb(IServiceCollection services, string connectionString)
     {
         services.AddDbContext<ServiceDiscoveryDbContext>(opt =>
         {
-            opt.UseSqlServer(configuration["ServiceDiscoveryHostSettings:DbConnectionString"], 
-            opt => opt.EnableRetryOnFailure());
+            opt.UseSqlServer(connectionString, builder => builder.EnableRetryOnFailure());
         });
     }
 }

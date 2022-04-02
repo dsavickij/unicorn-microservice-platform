@@ -70,6 +70,7 @@ public static class HostConfigurationExtensions
         {
             HostSettings = settings.Value;
 
+            // serviceHostName is registered in service collection to register service in Service Discovery service
             ctx.Configuration[$"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"] = settings.Value.ServiceHostName;
             services.Configure<BaseHostSettings>(ctx.Configuration.GetSection(typeof(THostSettings).Name));
         }

@@ -17,6 +17,7 @@
 		<PackageReference Include="OneOf" Version="3.0.205" />
 		<PackageReference Include="Unicorn.eShop.Catalog.SDK" Version="1.0.0" />
 		<PackageReference Include="Unicorn.eShop.Discount.SDK" Version="1.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,8 +1,11 @@
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Defaults;
 using Unicorn.eShop.Discount;
 using Unicorn.eShop.Discount.Services.gRPC;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHealthChecks();
 
 // register services on builder.Services if needed
 
@@ -16,11 +19,11 @@ var app = builder.Build();
 
 app.UseUnicorn(app.Environment);
 
+app.MapHealthChecks(UnicornSettings.HealthCheck.Pattern, UnicornSettings.HealthCheck.Options);
+
 // add middlewares here if needed
 
 app.MapGrpcService<DiscountGrpcService>();
-
-// app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 app.MapControllers();
 app.Run();
