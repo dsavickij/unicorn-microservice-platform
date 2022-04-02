@@ -24,7 +24,7 @@ app.MapHealthChecks("/hc", new HealthCheckOptions()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-app.UseUnicornMiddlewares(app.Environment);
+app.UseUnicorn(app.Environment);
 
 // add middlewares here if needed
 

@@ -14,7 +14,7 @@ builder.Host.ApplyUnicornConfiguration<DiscountHostSettings>();
 
 var app = builder.Build();
 
-app.UseUnicornMiddlewares(app.Environment);
+app.UseUnicorn(app.Environment);
 
 // add middlewares here if needed
 

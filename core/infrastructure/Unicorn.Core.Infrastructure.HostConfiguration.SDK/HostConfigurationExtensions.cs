@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -33,7 +34,7 @@ public static class HostConfigurationExtensions
             .ConfigureLogging(cfg => cfg.ConfigureLogging());
     }
 
-    public static IApplicationBuilder UseUnicornMiddlewares(this IApplicationBuilder builder, IHostEnvironment environment)
+    public static WebApplication UseUnicorn(this WebApplication builder, IHostEnvironment environment)
     {
         if (environment.IsDevelopment())
         {

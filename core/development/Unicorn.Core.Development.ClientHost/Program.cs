@@ -11,7 +11,7 @@ builder.Host.ApplyUnicornConfiguration<ClientHostSettings>();
 
 var app = builder.Build();
 
-app.UseUnicornMiddlewares(app.Environment);
+app.UseUnicorn(app.Environment);
 
 // add middlewares if needed
 
