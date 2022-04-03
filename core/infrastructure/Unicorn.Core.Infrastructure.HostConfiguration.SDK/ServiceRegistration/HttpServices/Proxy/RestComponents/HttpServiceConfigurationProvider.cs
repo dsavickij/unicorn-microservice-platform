@@ -13,7 +13,7 @@ internal interface IHttpServiceConfigurationProvider
 
 internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvider
 {
-    private readonly ConcurrentDictionary<string, HttpServiceConfiguration> _cache = new();
+    private readonly ConcurrentDictionary<string, HttpServiceConfiguration> _cache = new (); // TODO: check MemoryCache
     private readonly IServiceDiscoveryClient _svcDiscoveryClient;
 
     public HttpServiceConfigurationProvider(IServiceDiscoveryClient serviceDiscoveryClient)
