@@ -588,6 +588,7 @@ Possible plans for further learning/development:
 * Elasticsearch just to see it in action
 * Redis for distributed caching
 * ~~Add Polly for request retry logic and exponential back-off.~~ Retry logic using Polly was added for service self-registration on startup as well for inter-service communication over HTTP
+* Add service mesh with LinderD to improve service resiliency
 * Blazor for some UI and to have something to call API gateway
 * ~~Docker support in the form of single command to launch all microservices in containers~~ Docker-compose project is added and used with great success
 * Add system monitoring? Prometheus, Grafana, checkout HealthChecks, etc.
