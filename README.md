@@ -595,6 +595,7 @@ Possible plans for further learning/development:
 * Add distributed lock with Redis cache for lock synchronization (use it for service configuration self-registration in service discovery service on startup)
 * Investigate Microsoft Project Tye for configuration management for different environments
 * ~~Add .NET project templates for creating microservice host and SDK projects~~ Added project template for creation of new Unicorn microservice
+* Add distributed tracing/logging with Zipkin
 
 ## Links
 
