@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.HostConfiguration.SDK", "core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj", "{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.HostConfiguration.SDK", "src\core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj", "{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery", "core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery\Unicorn.Core.Services.ServiceDiscovery.csproj", "{2A18985A-D1F9-4137-B28C-9C6E802F55B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery", "src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery\Unicorn.Core.Services.ServiceDiscovery.csproj", "{2A18985A-D1F9-4137-B28C-9C6E802F55B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.Http.SDK", "core\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj", "{949CB4CC-535C-4D1D-AA26-01790630D3E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.Http.SDK", "src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj", "{949CB4CC-535C-4D1D-AA26-01790630D3E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.SDK", "core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.SDK", "src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ClientHost", "core\development\Unicorn.Core.Development.ClientHost\Unicorn.Core.Development.ClientHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ClientHost", "src\core\development\Unicorn.Core.Development.ClientHost\Unicorn.Core.Development.ClientHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.Grpc.SDK", "core\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj", "{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.Grpc.SDK", "src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj", "{96E246B9-42CE-47A0-AAFF-94679DA5CD3E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{A82D8891-2318-496F-8864-3B58CCCCF2EE}"
 EndProject
@@ -28,45 +28,46 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C849736-8523-4ADD-A528-2E361F79B9E7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost.SDK", "core\development\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj", "{F55EF461-4A94-4EC1-85F7-02B926DD1736}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost.SDK", "src\core\development\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj", "{F55EF461-4A94-4EC1-85F7-02B926DD1736}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost", "core\development\Unicorn.Core.Development.ServiceHost\Unicorn.Core.Development.ServiceHost.csproj", "{A332A17E-63D6-4D20-9D17-FCCC94096E52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost", "src\core\development\Unicorn.Core.Development.ServiceHost\Unicorn.Core.Development.ServiceHost.csproj", "{A332A17E-63D6-4D20-9D17-FCCC94096E52}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.Common", "core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj", "{46B3C464-9A37-48F2-A4F5-DAC48DA02391}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.Common", "src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj", "{46B3C464-9A37-48F2-A4F5-DAC48DA02391}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "authentication", "authentication", "{4C3CCC0F-6946-4E7D-8033-A42F246A5E0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Security.IAM", "core\infrastructure\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj", "{AAFDE17C-7001-4067-8AC2-05597047525E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Security.IAM", "src\core\infrastructure\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj", "{AAFDE17C-7001-4067-8AC2-05597047525E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.Authentication.OpenIddict", "core\services\authentication\Unicorn.Core.Services.Authentication.OpenIddict\Unicorn.Core.Services.Authentication.OpenIddict.csproj", "{8B0FF5AB-E85D-4B28-B820-28F945B87993}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.Authentication.OpenIddict", "src\core\services\authentication\Unicorn.Core.Services.Authentication.OpenIddict\Unicorn.Core.Services.Authentication.OpenIddict.csproj", "{8B0FF5AB-E85D-4B28-B820-28F945B87993}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.MessageBroker", "core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj", "{1EC72C3B-6732-4DEA-9627-9BE84040D243}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Communication.MessageBroker", "src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj", "{1EC72C3B-6732-4DEA-9627-9BE84040D243}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{267D9621-E43F-477B-8BCC-0CC8CE00C1A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eShop", "eShop", "{8D8F1BB1-98E7-423A-A830-D01987A4AAC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart", "eShop\cart\Unicorn.eShop.Cart\Unicorn.eShop.Cart.csproj", "{536A3903-5B76-4E15-8983-60E3E38EF4A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart", "src\eShop\cart\Unicorn.eShop.Cart\Unicorn.eShop.Cart.csproj", "{536A3903-5B76-4E15-8983-60E3E38EF4A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.SDK", "eShop\cart\Unicorn.eShop.Cart.SDK\Unicorn.eShop.Cart.SDK.csproj", "{6E3FB6F1-510C-4C65-B479-50907504BEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.SDK", "src\eShop\cart\Unicorn.eShop.Cart.SDK\Unicorn.eShop.Cart.SDK.csproj", "{6E3FB6F1-510C-4C65-B479-50907504BEBF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.Tests", "eShop\cart\tests\Unicorn.eShop.Cart.Tests\Unicorn.eShop.Cart.Tests.csproj", "{864F4863-8844-47D3-92B1-2BBF3873CCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.Tests", "src\eShop\cart\tests\Unicorn.eShop.Cart.Tests\Unicorn.eShop.Cart.Tests.csproj", "{864F4863-8844-47D3-92B1-2BBF3873CCDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cart", "cart", "{3738D291-0597-445F-8F84-59EFE12FFDB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discount", "discount", "{A0FEEBC7-8F51-45ED-8AD5-002813F15AD9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Discount", "eShop\discount\Unicorn.eShop.Discount\Unicorn.eShop.Discount.csproj", "{9E8DD55D-7CE1-48EE-969F-AAADDA84966F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Discount", "src\eShop\discount\Unicorn.eShop.Discount\Unicorn.eShop.Discount.csproj", "{9E8DD55D-7CE1-48EE-969F-AAADDA84966F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Discount.SDK", "eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj", "{364BFE05-9445-433B-80B1-E145AE6AEBFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Discount.SDK", "src\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj", "{364BFE05-9445-433B-80B1-E145AE6AEBFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.DataAccess", "core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.DataAccess\Unicorn.Core.Services.ServiceDiscovery.DataAccess.csproj", "{AA26A288-4146-4F6E-A6A0-0DBC1BA172DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.DataAccess", "src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.DataAccess\Unicorn.Core.Services.ServiceDiscovery.DataAccess.csproj", "{AA26A288-4146-4F6E-A6A0-0DBC1BA172DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog", "catalog", "{53A9157E-365B-4831-8A0B-485BEEC1BB82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Catalog", "eShop\catalog\Unicorn.eShop.Catalog\Unicorn.eShop.Catalog.csproj", "{8C21E023-CB19-42FE-B795-A37D3FA6FA53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Catalog", "src\eShop\catalog\Unicorn.eShop.Catalog\Unicorn.eShop.Catalog.csproj", "{8C21E023-CB19-42FE-B795-A37D3FA6FA53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{98A927C9-CDEB-4B8A-AA07-95C866DFC97F}"
 EndProject
@@ -74,17 +75,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EADA7126
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E8624E3B-4811-4318-8BCE-415953F057A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.DataAccess", "eShop\cart\Unicorn.eShop.Cart.DataAccess\Unicorn.eShop.Cart.DataAccess.csproj", "{0ED507F4-46BB-4D72-ADB1-61D1A92B66AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Cart.DataAccess", "src\eShop\cart\Unicorn.eShop.Cart.DataAccess\Unicorn.eShop.Cart.DataAccess.csproj", "{0ED507F4-46BB-4D72-ADB1-61D1A92B66AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Catalog.SDK", "eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj", "{2BC64259-0FD8-4D60-92B6-E2194735E602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.eShop.Catalog.SDK", "src\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj", "{2BC64259-0FD8-4D60-92B6-E2194735E602}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api-gateway", "api-gateway", "{15643F34-DF3A-407D-9C74-7C7574E4F8E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ApiGateway.Ocelot", "core\services\api-gateway\Unicorn.Core.Services.ApiGateway.Ocelot\Unicorn.Core.Services.ApiGateway.Ocelot.csproj", "{110B92DB-084F-4B14-8134-368B1D562371}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ApiGateway.Ocelot", "src\core\services\api-gateway\Unicorn.Core.Services.ApiGateway.Ocelot\Unicorn.Core.Services.ApiGateway.Ocelot.csproj", "{110B92DB-084F-4B14-8134-368B1D562371}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "system-status", "system-status", "{B64DEDEA-237A-4675-ABC9-E06D373E228C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Core.Services.SystemStatus.HealthCheck", "core\services\system-status\Unicorn.Core.Services.SystemStatus.HealthCheck\Unicorn.Core.Services.SystemStatus.HealthCheck.csproj", "{1503237D-FD04-4F9D-AE7D-53E14D012844}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.SystemStatus.HealthCheck", "src\core\services\system-status\Unicorn.Core.Services.SystemStatus.HealthCheck\Unicorn.Core.Services.SystemStatus.HealthCheck.csproj", "{1503237D-FD04-4F9D-AE7D-53E14D012844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
