@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
@@ -21,7 +22,7 @@ internal static class AssemblyScanner
         {
             var assembly = ctx.LoadFromAssemblyPath(file);
 
-            if (IsUnicornAssembly(assembly))
+            if (IsUnicornAssembly(assembly!))
             {
                 var names = assembly
                     .GetExportedTypes()
@@ -98,13 +99,16 @@ internal static class AssemblyScanner
     private static IEnumerable<string> GetAssemblyFilesFromCurrentDirectory()
     {
         var path = Path.GetDirectoryName(typeof(AssemblyScanner).Assembly.Location) ?? string.Empty;
-        return Directory.GetFiles(path).Where(fileName => fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase));
+        var f = Directory.GetFiles(path).Where(fileName => fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase));
+
+        return f;
     }
 
     private static MetadataLoadContext GetMedataLoadContext()
     {
-        // Important: all assemblies (besides current and core assemblies) of referenced projects must be added or exception
-        // will be thrown about not loaded assembly. Right now only 2 projects are referenced:
+        // Important: all assemblies (besides current and core assemblies) of referenced projects whose types
+        // will be used in reflection must be added or exception will be thrown about not loaded assembly.
+        // Right now only 2 projects are used in reflection:
         // Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Grpc and
         // Unicorn.Core.Infrastructure.SDK.ServiceCommunication.Http
 
@@ -118,9 +122,15 @@ internal static class AssemblyScanner
             currentAssembly.Location,
             coreAssembly.Location,
             httpServiceMarkerAssembly.Location,
-            grpcClientMarkerAssembly.Location
+            grpcClientMarkerAssembly.Location,
         };
 
-        return new MetadataLoadContext(new PathAssemblyResolver(filePathes), coreAssembly.GetName().Name);
+        var runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
+
+        // Create the list of assembly paths consisting of runtime assemblies and the inspected assembly.
+        var paths = new List<string>(runtimeAssemblies.Union(filePathes));
+
+        return new MetadataLoadContext(new PathAssemblyResolver(paths));
+
     }
 }

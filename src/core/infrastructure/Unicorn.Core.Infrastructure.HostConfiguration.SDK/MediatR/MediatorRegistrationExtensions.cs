@@ -26,6 +26,7 @@ internal static class MediatorRegistrationExtensions
 
     private static void AddMediatorRequestsAndHandlers(IServiceCollection services)
     {
-        AssemblyScanner.UseHostUnicornAssemblies(assemblies => services.AddMediatR(assemblies));
+        AssemblyScanner.UseHostUnicornAssemblies(
+            assemblies => services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies)));
     }
 }

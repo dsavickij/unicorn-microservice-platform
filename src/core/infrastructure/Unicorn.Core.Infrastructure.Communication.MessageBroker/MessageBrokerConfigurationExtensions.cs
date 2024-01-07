@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using MassTransit.Azure.ServiceBus.Core.Configurators;
+using MassTransit.AzureServiceBusTransport.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
 
@@ -89,7 +89,6 @@ public static class MessageBrokerConfigurationExtensions
             configuratorHandler(busConfigurator);
         });
 
-        services.AddMassTransitHostedService();
         services.AddTransient<IQueueMessageDispatcher, QueueMessageDispatcher>();
 
         services.AddSingleton<IControllerMethodProvider>(

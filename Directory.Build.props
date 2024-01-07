@@ -4,5 +4,6 @@
 		<LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
 </Project>

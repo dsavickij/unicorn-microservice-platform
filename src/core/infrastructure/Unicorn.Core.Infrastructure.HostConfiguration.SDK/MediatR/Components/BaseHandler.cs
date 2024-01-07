@@ -47,13 +47,12 @@ public static class BaseHandler
         /// <summary>
         /// Handler with no result to return after request execution
         /// </summary>
-        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest, Unit>
+        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest>
             where TRequest : IRequest
         {
-            public async Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)
+            public async Task Handle(TRequest request, CancellationToken cancellationToken)
             {
                 await HandleAsync(request, cancellationToken);
-                return Unit.Value;
             }
 
             protected abstract Task HandleAsync(TRequest request, CancellationToken cancellationToken);

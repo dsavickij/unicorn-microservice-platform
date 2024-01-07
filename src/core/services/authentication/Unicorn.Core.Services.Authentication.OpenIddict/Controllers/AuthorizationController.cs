@@ -158,11 +158,7 @@ public class AuthorizationController : Controller
             // Note: the client credentials are automatically validated by OpenIddict:
             // if client_id or client_secret are invalid, this action won't be invoked.
 
-            var application = await _applicationManager.FindByClientIdAsync(request.ClientId);
-            if (application == null)
-            {
-                throw new InvalidOperationException("The application details cannot be found in the database.");
-            }
+            var application = await _applicationManager.FindByClientIdAsync(request.ClientId) ?? throw new InvalidOperationException("The application details cannot be found in the database.");
 
             // Create a new ClaimsIdentity containing the claims that
             // will be used to create an id_token, a token or a code.
@@ -170,11 +166,12 @@ public class AuthorizationController : Controller
                 TokenValidationParameters.DefaultAuthenticationType,
                 Claims.Name, Claims.Role);
 
+            // TODO: 172 amd 175 lines were changed during package upgrade so something may have broken
             // Use the client_id as the subject identifier.
-            identity.AddClaim(Claims.Subject, await _applicationManager.GetClientIdAsync(application),
+            identity.AddClaim(Claims.Subject,
                 Destinations.AccessToken, Destinations.IdentityToken);
 
-            identity.AddClaim(Claims.Name, await _applicationManager.GetDisplayNameAsync(application),
+            identity.AddClaim(Claims.Name,
                 Destinations.AccessToken, Destinations.IdentityToken);
 
             // Note: In the original OAuth 2.0 specification, the client credentials grant

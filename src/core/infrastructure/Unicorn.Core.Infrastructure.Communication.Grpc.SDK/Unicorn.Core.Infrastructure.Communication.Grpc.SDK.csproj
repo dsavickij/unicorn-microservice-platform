@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Grpc.Net.Client" Version="2.41.0" />
-	  <PackageReference Include="Google.Protobuf" Version="3.19.2" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.60.0" />
+	  <PackageReference Include="Google.Protobuf" Version="3.25.1" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -10,7 +10,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.33.0.40503">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

@@ -26,12 +26,10 @@ internal class RestClientProvider : IRestClientProvider
         {
             BaseUrl = new Uri(cfg.BaseUrl),
             ThrowOnAnyError = true,
+            Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(
+                UnicornOperationContext.AccessToken, "Bearer"),
         };
 
-        return new RestClient(options)
-        {
-            Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(
-                UnicornOperationContext.AccessToken, "Bearer")
-        };
+        return new RestClient(options);
     }
 }

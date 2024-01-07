@@ -51,19 +51,19 @@ internal static class BaseHostSettingsValidator
     {
         if (IsEmptyOrWhiteSpaces(authenticationSettings.AuthorityUrl))
         {
-            throw new ArgumentException($"Host settings balue for " +
+            throw new ArgumentException($"Host settings value for " +
                 $"'{nameof(authenticationSettings.AuthorityUrl)}' is not provided");
         }
 
         if (IsEmptyOrWhiteSpaces(authenticationSettings.ClientCredentials.ClientId))
         {
-            throw new ArgumentException($"Host settings balue for " +
+            throw new ArgumentException($"Host settings value for " +
                 $"'{nameof(authenticationSettings.ClientCredentials.ClientId)}' is not provided");
         }
 
         if (IsEmptyOrWhiteSpaces(authenticationSettings.ClientCredentials.ClientSecret))
         {
-            throw new ArgumentException($"Host settings balue for " +
+            throw new ArgumentException($"Host settings value for " +
                 $"'{nameof(authenticationSettings.ClientCredentials.ClientSecret)}' is not provided");
         }
     }
