@@ -93,19 +93,19 @@ Unicorn.eShop miroservices use Unicorn platform nuget packages to configure the 
 To create local nuget packages, after changing pathes to projects and `--output` to your own, in Visual Studio's Developer Powershell (or just standalone Powershell) run the following commands:
 
 ```c#
-dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
 After finishing, Powershell will create project nuget packages in `--output` folder. This folder needs to be added as a local nuget store in Visual Studio. [Here](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources) you can find how to do that.
@@ -113,9 +113,9 @@ After finishing, Powershell will create project nuget packages in `--output` fol
 Inter-service communication between Unicorn microservices is done utilising data provided in SDKs. Thus, Unicorn.eShop service nugets are also required to be created. Once again, change the pathes and run the following commands:
 
 ```c#
-dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
 ### Launching microservices in Docker containers
