@@ -221,3 +221,5 @@
 /src/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Common/bin/Release/net8.0
 /src/core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery.SDK/bin/Release/net8.0
 /Unicorn-platform-microservices.slnLaunch
+/src/eShop/catalog/Unicorn.eShop.Catalog.SDK/bin/Release/net8.0
+/src/eShop/discount/Unicorn.eShop.Discount.SDK/bin/Release/net8.0

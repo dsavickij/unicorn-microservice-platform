@@ -9,7 +9,7 @@ using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.SDK.Services.Http;
 
-[UnicornHttpServiceMarker]
+[UnicornRestServiceMarker]
 public interface ICartService
 {
     [UnicornHttpPost("api/carts/{cartId}/items")]

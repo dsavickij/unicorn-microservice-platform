@@ -20,7 +20,7 @@ internal static class UnicornSwaggerSettings
         {
             Urls = new List<UrlDescriptor>
             {
-                new UrlDescriptor { Name = "JWTAuthDemo v1", Url = "/swagger/v1/swagger.json" }
+                new() { Name = "JWTAuthDemo v1", Url = "/swagger/v1/swagger.json" }
             }
         }
     };

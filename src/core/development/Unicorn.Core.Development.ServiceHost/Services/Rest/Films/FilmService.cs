@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Unicorn.Core.Development.ServiceHost.Features.GetFilmDescription;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
-using Unicorn.Core.Development.ServiceHost.SDK.Services.Http;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.GetFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.UpdateFilmDescription;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
@@ -9,7 +9,7 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
 
-public class FilmService : VerticallySlicedService, IServiceHostServiceRefit
+public class FilmService : VerticallySlicedService, IServiceHostService
 {
     public FilmService(IServiceProvider serviceProvider) : base(serviceProvider)
     {

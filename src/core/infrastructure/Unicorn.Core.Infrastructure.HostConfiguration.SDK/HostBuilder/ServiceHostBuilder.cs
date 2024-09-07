@@ -15,7 +15,7 @@ public static class ServiceHostBuilder
 
         var builder = WebApplication.CreateBuilder(args);
 
-        unicornBuilder.ServiceCollectionConfiguration?.Invoke(builder.Services);
+        unicornBuilder.ServiceCollectionConfiguration?.Invoke(builder.Services, builder.Configuration, builder.Environment);
 
         builder.Services.AddGrpc();
         builder.Services.AddHealthChecks();
@@ -28,6 +28,7 @@ public static class ServiceHostBuilder
         unicornBuilder.EndpointConfiguration?.Invoke(app);
 
         app.UseUnicorn(app.Environment);
+        app.MapControllers();
 
         return app;
     }

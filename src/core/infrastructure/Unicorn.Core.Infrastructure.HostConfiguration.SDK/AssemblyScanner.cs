@@ -114,7 +114,7 @@ internal static class AssemblyScanner
 
         var currentAssembly = typeof(AssemblyScanner).Assembly;
         var coreAssembly = typeof(object).Assembly;
-        var httpServiceMarkerAssembly = typeof(UnicornHttpServiceMarkerAttribute).Assembly;
+        var httpServiceMarkerAssembly = typeof(UnicornRestServiceMarkerAttribute).Assembly;
         var grpcClientMarkerAssembly = typeof(UnicornGrpcClientMarkerAttribute).Assembly;
 
         var filePaths = new[]

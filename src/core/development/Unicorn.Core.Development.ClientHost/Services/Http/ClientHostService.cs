@@ -1,13 +1,10 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
-using Unicorn.Core.Development.ClientHost.Features.OneWayTest;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
-using Unicorn.Core.Development.ServiceHost.SDK.Services.Http;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
-using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationScope;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
@@ -26,18 +23,16 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
     private readonly IDivisionGrpcServiceClient _divisionGrpcSvcClient;
     private readonly ISubtractionGrpcServiceClient _subtractionGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
-    private readonly IServiceHostService _developmentServiceHost;
-    private readonly IServiceHostServiceRefit _refitService;
-//    private readonly IAuthenticationScope _scopeProvider;
+    private readonly IServiceHostService _serviceHostService;
+    //    private readonly IAuthenticationScope _scopeProvider;
 
     public ClientHostService(
         IServiceDiscoveryService serviceDiscoveryService,
         IMultiplicationGrpcServiceClient multiplicationGrpcServiceClient,
         IDivisionGrpcServiceClient divisionGrpcServiceClient,
         ISubtractionGrpcServiceClient subtractionGrpcServiceClient,
-        IServiceHostService developmentServiceHost,
-        IServiceHostServiceRefit refitService,
-     //   IAuthenticationScope scopeProvider,
+        IServiceHostService serviceHostService,
+        //   IAuthenticationScope scopeProvider,
         ILogger<ClientHostService> logger
         //IUnicornEventPublisher publisher
         )
@@ -46,9 +41,8 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
         _divisionGrpcSvcClient = divisionGrpcServiceClient;
         _subtractionGrpcSvcClient = subtractionGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
-        _developmentServiceHost = developmentServiceHost;
-        _refitService = refitService;
-   //     _scopeProvider = scopeProvider;
+        _serviceHostService = serviceHostService;
+        //     _scopeProvider = scopeProvider;
         _logger = logger;
         //_publisher = publisher;
     }
@@ -57,54 +51,24 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
     public async Task<OperationResult<HttpServiceConfiguration>> Get() =>
         await SendAsync(new GetHttpServiceConfigurationRequest { ServiceName = "test" });
 
-    [HttpGet("GetWeatherForecast/{name}")]
-    public async Task<HttpServiceConfiguration> GetName(string name)
+    [HttpGet("call-all-service-host-endpoints")]
+    public async Task GetName(string name)
     {
-        // var result = await _subtractionGrpcSvcClient.SubtractAsync(2, 1);
+        var result = await _serviceHostService.GetFilmDescriptionAsync(Guid.NewGuid());
 
-        // var first = _multiplicationGrpcSvcClient.MultiplyAsync(5, 4);
-        // var second = _divisionGrpcSvcClient.DivideAsync(10, 5);
+        var result2 = await _serviceHostService.DeleteFilmDescriptionAsync(Guid.NewGuid());
 
-        // await Task.WhenAll(first, second);
+        var result3 = await _serviceHostService.UploadFilmAsync(new FormFile(new MemoryStream(), 0, 0, "file", "file.txt")); ;
 
-        // await _publisher.Publish(new MyMessage { Number = 5 });
-
-        var result = await _refitService.GetFilmDescriptionAsync(Guid.NewGuid());
-
-        //await _developmentServiceHost.SendMessageOneWay2();
-
-        //var result = await _multiplicationGrpcSvcClient.GetMultiplicationSequnceSumAsync(GetItems(), CancellationToken.None);
-
-        //await foreach (var number in _multiplicationGrpcSvcClient.GetSequencePowerOfTwoAsync(new[] { 2, 4, 6, 8 }, CancellationToken.None))
-        //{
-        //    Console.WriteLine(number);
-        //}
-
-        return new HttpServiceConfiguration();
+        var result4 = await _serviceHostService.UpdateFilmDescription(
+            new ServiceHost.SDK.DTOs.FilmDescription
+            {
+                FilmId = Guid.NewGuid(),
+                Description = "Description",
+                DescriptionId = Guid.NewGuid(),
+                Title = "Title",
+                ReleaseDate = DateTime.Now,
+                LastUpdatedOn = DateTime.Now,
+            });
     }
-
-    private async IAsyncEnumerable<(int, int)> GetItems()
-    {
-        var items = new[] { (1, 1), (2, 2), (3, 3), (4, 4) };
-
-        foreach (var item in items)
-        {
-            yield return item;
-        }
-    }
-
-    [HttpPut("UploadFile2")]
-    public async Task<string> UploadFileAsync2(int file)
-    {
-        return "fff";
-    }
-
-    [HttpPut("UploadFile")]
-    public async Task UploadFileAsync(IFormFile file)
-    {
-        return;
-    }
-
-    [HttpGet("OneWayTest")]
-    public async Task GetOneWay(int number) => await SendAsync(new OneWayRequest { MyProperty = number });
 }

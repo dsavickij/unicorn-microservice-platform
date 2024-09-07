@@ -2,7 +2,6 @@
 using Castle.DynamicProxy;
 using Microsoft.Extensions.Logging;
 using Refit;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue.Message;
 
@@ -20,7 +19,7 @@ internal class HttpServiceInvocationInterceptor2 : IInterceptor
         IHttpClientFactory httpClientFactory,
         IHttpRequestDispatcher httpRequestDispatcher,
         //IQueueMessageDispatcher queueMessageDispatcher,
-        ILogger<HttpServiceInvocationInterceptor> logger)
+        ILogger<HttpServiceInvocationInterceptor2> logger)
     {
         this.httpClientFactory = httpClientFactory;
         _httpRequestDispatcher = httpRequestDispatcher;
@@ -38,8 +37,8 @@ internal class HttpServiceInvocationInterceptor2 : IInterceptor
         {
             invocation.ReturnValue = invocation.ReturnValue switch
             {
-                _ when invocation.Method.ReturnType == _taskType && IsOneWayMethod(invocation.Method) =>
-                    ExecuteOneWayMessageDisptachAsync(invocation),
+                //_ when invocation.Method.ReturnType == _taskType && IsOneWayMethod(invocation.Method) =>
+                //    ExecuteOneWayMessageDisptachAsync(invocation),
                 _ when invocation.Method.ReturnType == _taskType =>
                     ExecuteNoResultHttpRequestDispatchAsync(invocation)
             };
@@ -88,6 +87,7 @@ internal class HttpServiceInvocationInterceptor2 : IInterceptor
         await _httpRequestDispatcher.SendNoResultHttpRequestAsync(invocation.Method, invocation.Arguments);
     }
 
-    private bool IsOneWayMethod(MethodInfo method) =>
-        method.GetCustomAttributes(true).FirstOrDefault(x => x is UnicornOneWayAttribute) is not null;
+    // TODO: fix one way method
+    //private bool IsOneWayMethod(MethodInfo method) =>
+    //    method.GetCustomAttributes(true).FirstOrDefault(x => x is UnicornOneWayAttribute) is not null;
 }

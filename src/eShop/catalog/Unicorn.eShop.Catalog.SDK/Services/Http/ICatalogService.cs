@@ -9,7 +9,7 @@ using Unicorn.eShop.Catalog.SDK.DTOs;
 
 namespace Unicorn.eShop.Catalog.SDK.Services.Http;
 
-[UnicornHttpServiceMarker]
+[UnicornRestServiceMarker]
 public interface ICatalogService
 {
     [UnicornHttpDelete("api/catalog/items/{id}/soft")]

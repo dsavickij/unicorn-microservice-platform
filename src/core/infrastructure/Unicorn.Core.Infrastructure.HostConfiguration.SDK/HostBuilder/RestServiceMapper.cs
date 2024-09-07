@@ -17,10 +17,10 @@ public static class RestServiceEndpointMapper
             throw new ArgumentException($"Generic parameter {typeof(TService).Name} is not interface");
         }
 
-        if (typeof(TService).GetCustomAttribute<UnicornHttpServiceMarkerAttribute>() is null)
+        if (typeof(TService).GetCustomAttribute<UnicornRestServiceMarkerAttribute>() is null)
         {
             throw new ArgumentException($"Generic parameter {typeof(TService).Name} must be decorated with " +
-                $"{nameof(UnicornHttpServiceMarkerAttribute)} attribute");
+                $"{nameof(UnicornRestServiceMarkerAttribute)} attribute");
         }
 
         var restServiceInterfaceMethods = typeof(TService).GetMethods();
@@ -115,10 +115,12 @@ public static class RestServiceEndpointMapper
         var serviceType = resolvedService.GetType();
         var serviceMethods = serviceType.GetMethods().Where(x => x.Name == serviceInterfaceMethod.Name);
 
+#pragma warning disable S2583 // Conditionally executed code should be reachable
         if (serviceMethods is null)
         {
             throw new ArgumentNullException($"No method by name ${serviceInterfaceMethod.Name} was found in service implementation ${serviceType.Name}");
         }
+#pragma warning restore S2583 // Conditionally executed code should be reachable
 
         MethodInfo serviceMethod;
 

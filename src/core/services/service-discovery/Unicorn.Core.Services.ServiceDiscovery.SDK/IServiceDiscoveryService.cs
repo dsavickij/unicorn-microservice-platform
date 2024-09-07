@@ -8,7 +8,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 
-[UnicornHttpServiceMarker]
+[UnicornRestServiceMarker]
 public interface IServiceDiscoveryService
 {
     [UnicornHttpGet("api/configurations/{serviceHostName}/grpc")]

@@ -9,7 +9,7 @@ using Unicorn.eShop.Discount.SDK.DTOs;
 
 namespace Unicorn.eShop.Discount.SDK.Services.Http;
 
-[UnicornHttpServiceMarker]
+[UnicornRestServiceMarker]
 public interface IDiscountService
 {
     [UnicornHttpGet("api/discounts/{discountCode}")]

@@ -1,9 +1,9 @@
 using Unicorn.Core.Development.ServiceHost;
-using Unicorn.Core.Development.ServiceHost.SDK.Services.Http;
 using MinimalHelpers.OpenApi;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
+using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 
 internal class Program
 {
@@ -11,16 +11,16 @@ internal class Program
     {
         ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>
         {
-            builder.WithServiceConfiguration(serviceCollection =>
+            builder.WithServiceConfiguration((services, _, _) =>
             {
-                serviceCollection.AddTransient<IServiceHostServiceRefit, FilmService>();
-                serviceCollection.AddSwaggerGen(options => options.AddFormFile());
-                serviceCollection.AddEndpointsApiExplorer();
-                serviceCollection.AddAntiforgery();
+                services.AddTransient<IServiceHostService, FilmService>();
+                services.AddSwaggerGen(options => options.AddFormFile());
+                services.AddEndpointsApiExplorer();
+                services.AddAntiforgery();
             })
             .WithEndpointConfiguration(endpointBuilder =>
             {
-                endpointBuilder.MapUnicornRestService<IServiceHostServiceRefit>();
+                endpointBuilder.MapUnicornRestService<IServiceHostService>();
                 endpointBuilder.MapSwagger();
             })
             .WithApplicationConfiguration(applicationBuilder =>
