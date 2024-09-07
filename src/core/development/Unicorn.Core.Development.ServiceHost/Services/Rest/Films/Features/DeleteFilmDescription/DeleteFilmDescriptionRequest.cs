@@ -3,7 +3,7 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 namespace Unicorn.Core.Development.ServiceHost.Features.GetFilmDescription;
 
-public record GetFilmDescriptionRequest : BaseRequest.WithResponse<FilmDescription>
+public record DeleteFilmDescriptionRequest : BaseRequest.RequiringResult
 {
     public Guid FilmId { get; set; }
 }

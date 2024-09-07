@@ -16,7 +16,7 @@ internal static class AssemblyScanner
         var attributeName = typeof(TAttribute).AssemblyQualifiedName;
         var interfaceNames = new List<string>();
 
-        using var ctx = GetMedataLoadContext();
+        using var ctx = GetMetadataLoadContext();
 
         foreach (var file in GetAssemblyFilesFromCurrentDirectory())
         {
@@ -104,7 +104,7 @@ internal static class AssemblyScanner
         return f;
     }
 
-    private static MetadataLoadContext GetMedataLoadContext()
+    private static MetadataLoadContext GetMetadataLoadContext()
     {
         // Important: all assemblies (besides current and core assemblies) of referenced projects whose types
         // will be used in reflection must be added or exception will be thrown about not loaded assembly.
@@ -117,7 +117,7 @@ internal static class AssemblyScanner
         var httpServiceMarkerAssembly = typeof(UnicornHttpServiceMarkerAttribute).Assembly;
         var grpcClientMarkerAssembly = typeof(UnicornGrpcClientMarkerAttribute).Assembly;
 
-        var filePathes = new[]
+        var filePaths = new[]
         {
             currentAssembly.Location,
             coreAssembly.Location,
@@ -128,7 +128,7 @@ internal static class AssemblyScanner
         var runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
 
         // Create the list of assembly paths consisting of runtime assemblies and the inspected assembly.
-        var paths = new List<string>(runtimeAssemblies.Union(filePathes));
+        var paths = new List<string>(runtimeAssemblies.Union(filePaths));
 
         return new MetadataLoadContext(new PathAssemblyResolver(paths));
 

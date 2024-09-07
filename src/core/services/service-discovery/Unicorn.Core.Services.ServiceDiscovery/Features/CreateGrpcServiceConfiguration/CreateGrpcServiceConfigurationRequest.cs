@@ -3,7 +3,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.CreateGrpcServiceConfiguration;
 
-public record CreateGrpcServiceConfigurationRequest : BaseRequest.WithResponse
+public record CreateGrpcServiceConfigurationRequest : BaseRequest.RequiringResult
 {
     public GrpcServiceConfiguration Configuration { get; set; } = new GrpcServiceConfiguration();
 }

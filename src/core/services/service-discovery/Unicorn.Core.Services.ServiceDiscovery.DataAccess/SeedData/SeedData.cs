@@ -22,7 +22,7 @@ internal static class SeedData
         public static HttpServiceConfigurationEntity ServiceHost => new()
         {
             ServiceHostName = ServiceHosts.ServiceHost.Name,
-            BaseUrl = "https://localhost:7287",
+            BaseUrl = "https://localhost:7004",
             Id = new Guid("d1ff1c8e-6da2-4fba-ba77-eafe550e69ff"),
         };
     }

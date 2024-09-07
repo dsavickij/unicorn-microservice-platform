@@ -6,7 +6,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.GetGrpcServiceConfiguration;
 
-public class GetGrpcServiceConfigurationRequestHandler : BaseHandler.WithResult<GrpcServiceConfiguration>.For<GetGrpcServiceConfigurationRequest>
+public class GetGrpcServiceConfigurationRequestHandler : BaseHandler.WithResult<GrpcServiceConfiguration>.ForRequest<GetGrpcServiceConfigurationRequest>
 {
     private readonly ServiceDiscoveryDbContext _ctx;
 

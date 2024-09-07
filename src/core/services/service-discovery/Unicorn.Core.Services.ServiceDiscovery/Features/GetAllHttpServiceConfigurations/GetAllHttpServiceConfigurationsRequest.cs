@@ -3,6 +3,6 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.GetHttpServiceConfiguration;
 
-public record GetAllHttpServiceConfigurationsRequest : BaseRequest.WithResponse<IEnumerable<HttpServiceConfiguration>>
+public record GetAllHttpServiceConfigurationsRequest : BaseRequest.RequiringResult<IEnumerable<HttpServiceConfiguration>>
 {
 }

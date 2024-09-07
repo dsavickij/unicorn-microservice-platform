@@ -3,7 +3,7 @@ using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
 
 namespace Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
 
-public abstract class BaseGrpcClient : OperationResults
+public abstract class BaseGrpcClient : BaseOperationResults
 {
     protected BaseGrpcClient(IGrpcServiceClientFactory factory) => Factory = factory;
 

@@ -31,7 +31,7 @@
         "unicorn.eshop.discount": "DoNotStart",
         "unicorn.core.development.clienthost": "StartDebugging",
         "unicorn.core.development.servicehost": "StartDebugging",
-        "unicorn.core.services.systemstatus.healthcheck": "StartDebugging"
+        "unicorn.core.services.systemstatus.healthcheck": "DoNotStart"
       }
     },
     "Unicorn.eShop Docker Compose": {

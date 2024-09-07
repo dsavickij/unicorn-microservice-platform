@@ -5,16 +5,16 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 public static class BaseRequest
 {
-    public abstract record WithResponse<TResponse> : IRequest<OperationResult<TResponse>>
-        where TResponse : class
+    public abstract record RequiringResult<TResponse> : IRequest<OperationResult<TResponse>>
+        where TResponse : notnull
     {
     }
 
-    public abstract record WithResponse : IRequest<OperationResult>
+    public abstract record RequiringResult : IRequest<OperationResult>
     {
     }
 
-    public abstract record WithoutResponse : IRequest
+    public abstract record RequiringNoResult : IRequest
     {
     }
 }

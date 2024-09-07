@@ -6,7 +6,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.CreateGrpcServiceConfiguration;
 
-public class UpdateHttpServiceConfigurationHandler : BaseHandler.WithResult<HttpServiceConfiguration>.For<UpdateHttpServiceConfigurationRequest>
+public class UpdateHttpServiceConfigurationHandler : BaseHandler.WithResult<HttpServiceConfiguration>.ForRequest<UpdateHttpServiceConfigurationRequest>
 {
     private readonly ServiceDiscoveryDbContext _ctx;
     private readonly ILogger<CreateGrpcServiceConfigurationHandler> _logger;

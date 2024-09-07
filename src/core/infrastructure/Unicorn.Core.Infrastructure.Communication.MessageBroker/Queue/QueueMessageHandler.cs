@@ -18,13 +18,13 @@ internal class QueueMessageHandler : IConsumer<UnicornQueueMessage>
     public async Task Consume(ConsumeContext<UnicornQueueMessage> context)
     {
         var method = _methodProvider.GetOneWayMethod(context.Message.MethodName, context.Message.Arguments.Count());
-        var controlller = _serviceProvider.GetRequiredService(method.DeclaringType!);
+        var controller = _serviceProvider.GetRequiredService(method.DeclaringType!);
 
         var arguments = context.Message.Arguments
             .Select(x => Convert.ChangeType(x.Value, Type.GetType(x.TypeName)!))
             .ToArray();
 
-        await (method.Invoke(controlller, arguments) as Task)!;
+        await (method.Invoke(controller, arguments) as Task)!;
 
         await context.ConsumeCompleted;
     }

@@ -9,7 +9,7 @@ public static class DatabaseExtensions
     public static void AddDatabase(this IServiceCollection services, string connectionString)
     {
         ConfigureDb(services, connectionString);
-      //  SeedDataHelper.AddSeedData(services);
+  //      SeedDataHelper.AddSeedData(services);
     }
 
     private static void ConfigureDb(IServiceCollection services, string connectionString)

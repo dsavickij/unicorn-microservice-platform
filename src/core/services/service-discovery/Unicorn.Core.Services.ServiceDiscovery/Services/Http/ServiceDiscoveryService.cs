@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
@@ -10,6 +11,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Controllers;
 
+[AllowAnonymous]
 public class ServiceDiscoveryService : UnicornHttpService<IServiceDiscoveryService>, IServiceDiscoveryService
 {
     private readonly ILogger<ServiceDiscoveryService> _logger;

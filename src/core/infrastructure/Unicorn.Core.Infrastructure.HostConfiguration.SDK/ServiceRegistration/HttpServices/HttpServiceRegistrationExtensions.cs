@@ -13,16 +13,15 @@ internal static class HttpServiceRegistrationExtensions
     {
         services.AddSingleton<IServiceDiscoveryClient, ServiceDiscoveryClient>();
         services.AddSingleton<IHttpServiceConfigurationProvider, HttpServiceConfigurationProvider>();
-        services.AddTransient<IRestRequestProvider, RestRequestProvider>();
         services.AddTransient<IRestClientProvider, RestClientProvider>();
         services.AddTransient<IHttpRequestDispatcher, HttpRequestDispatcher>();
-        services.AddTransient<HttpServiceInvocationInterceptor>();
+        services.AddTransient<HttpServiceInvocationInterceptor2>();
 
         foreach (var type in GetHttpServiceInterfaceTypes())
         {
             services.AddTransient(type, serviceProvider =>
             {
-                var interceptor = serviceProvider.GetRequiredService<HttpServiceInvocationInterceptor>();
+                var interceptor = serviceProvider.GetRequiredService<HttpServiceInvocationInterceptor2>();
                 return new ProxyGenerator().CreateInterfaceProxyWithoutTarget(type, interceptor);
             });
         }

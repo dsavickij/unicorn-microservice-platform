@@ -3,6 +3,6 @@ using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.Features.GetMyCart;
 
-public record GetMyCartRequest : BaseRequest.WithResponse<CartDTO>
+public record GetMyCartRequest : BaseRequest.RequiringResult<CartDTO>
 {
 }

@@ -6,7 +6,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.GetHttpServiceConfiguration;
 
-public class GetHttpServiceConfigurationRequestHandler : BaseHandler.WithResult<HttpServiceConfiguration>.For<GetHttpServiceConfigurationRequest>
+public class GetHttpServiceConfigurationRequestHandler : BaseHandler.WithResult<HttpServiceConfiguration>.ForRequest<GetHttpServiceConfigurationRequest>
 {
     private readonly ServiceDiscoveryDbContext _ctx;
 

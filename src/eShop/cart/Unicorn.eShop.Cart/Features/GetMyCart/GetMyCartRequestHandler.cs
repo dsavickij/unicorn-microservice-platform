@@ -8,7 +8,7 @@ using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.Features.GetMyCart;
 
-public class GetMyCartRequestHandler : BaseHandler.WithResult<CartDTO>.For<GetMyCartRequest>
+public class GetMyCartRequestHandler : BaseHandler.WithResult<CartDTO>.ForRequest<GetMyCartRequest>
 {
     private readonly CartDbContext _ctx;
 

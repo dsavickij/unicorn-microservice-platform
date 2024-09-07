@@ -13,13 +13,13 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
 
     private readonly IServiceDiscoveryClient _client;
     private readonly IConfiguration _cfg;
-    private readonly BaseHostSettings _baseHostSettings;
+    private readonly ServiceDiscoverySettings _baseHostSettings;
     private readonly ILogger<ServiceHostSelfRegististrationWorker> _logger;
 
     public ServiceHostSelfRegististrationWorker(
         IServiceDiscoveryClient client,
         IConfiguration configuration,
-        IOptions<BaseHostSettings> options,
+        IOptions<ServiceDiscoverySettings> options,
         ILogger<ServiceHostSelfRegististrationWorker> logger)
     {
         _client = client;
@@ -46,7 +46,7 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
         return Task.CompletedTask;
     }
 
-    private bool CanSelfRegistrationProceed() => _baseHostSettings.ServiceDiscoverySettings.ExecuteSelfRegistration;
+    private bool CanSelfRegistrationProceed() => false; //_baseHostSettings.ExecuteSelfRegistration;
 
     private async Task UpsertHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
@@ -88,13 +88,13 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
 
         var httpCfg = new HttpServiceConfiguration
         {
-            ServiceHostName = _baseHostSettings.ServiceHostName,
+            ServiceHostName = InternalBaseHostSettings.ServiceHostName,
             BaseUrl = httpUri.AbsoluteUri
         };
 
         var grpcCfg = new GrpcServiceConfiguration
         {
-            ServiceHostName = _baseHostSettings.ServiceHostName,
+            ServiceHostName = InternalBaseHostSettings.ServiceHostName,
             BaseUrl = httpsUri.AbsoluteUri
         };
 

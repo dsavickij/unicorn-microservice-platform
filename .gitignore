@@ -217,3 +217,7 @@
 /src/eShop/discount/Unicorn.eShop.Discount.SDK/bin/Debug
 /src/eShop/discount/Unicorn.eShop.Discount.SDK/obj
 *.bak
+/src/core/infrastructure/Unicorn.Core.Infrastructure.Communication.MessageBroker/bin/Release/net8.0
+/src/core/infrastructure/Unicorn.Core.Infrastructure.Communication.Common/bin/Release/net8.0
+/src/core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery.SDK/bin/Release/net8.0
+/Unicorn-platform-microservices.slnLaunch

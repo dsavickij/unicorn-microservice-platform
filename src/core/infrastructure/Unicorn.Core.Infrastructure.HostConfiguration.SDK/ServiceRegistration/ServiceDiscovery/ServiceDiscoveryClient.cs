@@ -34,9 +34,9 @@ internal interface IServiceDiscoveryClient
 internal class ServiceDiscoveryClient : IServiceDiscoveryClient
 {
     private readonly ILogger<ServiceDiscoveryClient> _logger;
-    private readonly BaseHostSettings _settings;
+    private readonly ServiceDiscoverySettings _settings;
 
-    public ServiceDiscoveryClient(IOptions<BaseHostSettings> baseSettings, ILogger<ServiceDiscoveryClient> logger)
+    public ServiceDiscoveryClient(IOptions<ServiceDiscoverySettings> baseSettings, ILogger<ServiceDiscoveryClient> logger)
     {
         _settings = baseSettings.Value;
         _logger = logger;
@@ -50,7 +50,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var policy = GetRetryPolicy();
 
         return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).PostAsync<OperationResult>(req));
+            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PostAsync<OperationResult>(req));
     }
 
     public async Task<OperationResult?> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
@@ -61,7 +61,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var policy = GetRetryPolicy();
 
         return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).PostAsync<OperationResult>(req));
+            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PostAsync<OperationResult>(req));
     }
 
     public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName)
@@ -72,7 +72,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var policy = GetRetryPolicy();
 
         var response = await policy.ExecuteAsync(
-            () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<GrpcServiceConfiguration>>(request));
+            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<GrpcServiceConfiguration>>(request));
 
         if (response!.IsSuccess)
         {
@@ -91,7 +91,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var policy = GetRetryPolicy();
 
         var response = await policy.ExecuteAsync(
-            () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<HttpServiceConfiguration>>(request));
+            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<HttpServiceConfiguration>>(request));
 
         if (response!.IsSuccess)
         {
@@ -110,7 +110,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var policy = GetRetryPolicy();
 
         return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).PutAsync<OperationResult>(req));
+            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PutAsync<OperationResult>(req));
     }
 
     public async Task<OperationResult?> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
@@ -121,7 +121,7 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var policy = GetRetryPolicy();
 
         return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(_settings.ServiceDiscoverySettings.Url)).PutAsync<OperationResult>(req));
+            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PutAsync<OperationResult>(req));
     }
 
     private AsyncRetryPolicy GetRetryPolicy()

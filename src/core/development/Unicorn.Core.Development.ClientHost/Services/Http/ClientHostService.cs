@@ -21,13 +21,14 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
 {
     private readonly ILogger<ClientHostService> _logger;
     private readonly IBus _bus;
-    private readonly IUnicornEventPublisher _publisher;
+    //private readonly IUnicornEventPublisher _publisher;
     private readonly IMultiplicationGrpcServiceClient _multiplicationGrpcSvcClient;
     private readonly IDivisionGrpcServiceClient _divisionGrpcSvcClient;
     private readonly ISubtractionGrpcServiceClient _subtractionGrpcSvcClient;
     private readonly IServiceDiscoveryService _svcDiscoveryService;
     private readonly IServiceHostService _developmentServiceHost;
-    private readonly IAuthenticationScope _scopeProvider;
+    private readonly IServiceHostServiceRefit _refitService;
+//    private readonly IAuthenticationScope _scopeProvider;
 
     public ClientHostService(
         IServiceDiscoveryService serviceDiscoveryService,
@@ -35,18 +36,21 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
         IDivisionGrpcServiceClient divisionGrpcServiceClient,
         ISubtractionGrpcServiceClient subtractionGrpcServiceClient,
         IServiceHostService developmentServiceHost,
-        IAuthenticationScope scopeProvider,
-        ILogger<ClientHostService> logger,
-        IUnicornEventPublisher publisher)
+        IServiceHostServiceRefit refitService,
+     //   IAuthenticationScope scopeProvider,
+        ILogger<ClientHostService> logger
+        //IUnicornEventPublisher publisher
+        )
     {
         _multiplicationGrpcSvcClient = multiplicationGrpcServiceClient;
         _divisionGrpcSvcClient = divisionGrpcServiceClient;
         _subtractionGrpcSvcClient = subtractionGrpcServiceClient;
         _svcDiscoveryService = serviceDiscoveryService;
         _developmentServiceHost = developmentServiceHost;
-        _scopeProvider = scopeProvider;
+        _refitService = refitService;
+   //     _scopeProvider = scopeProvider;
         _logger = logger;
-        _publisher = publisher;
+        //_publisher = publisher;
     }
 
     [HttpGet("GetHttpServiceConfiguration")]
@@ -65,15 +69,16 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
 
         // await _publisher.Publish(new MyMessage { Number = 5 });
 
-        //var result = await _developmentServiceHost.GetFilmDescriptionAsync(Guid.NewGuid());
-        // await _developmentServiceHost.SendMessageOneWay2();
+        var result = await _refitService.GetFilmDescriptionAsync(Guid.NewGuid());
 
-        var result = await _multiplicationGrpcSvcClient.GetMultiplicationSequnceSumAsync(GetItems(), CancellationToken.None);
+        //await _developmentServiceHost.SendMessageOneWay2();
 
-        await foreach (var number in _multiplicationGrpcSvcClient.GetSequencePowerOfTwoAsync(new[] { 2, 4, 6, 8 }, CancellationToken.None))
-        {
-            Console.WriteLine(number);
-        }
+        //var result = await _multiplicationGrpcSvcClient.GetMultiplicationSequnceSumAsync(GetItems(), CancellationToken.None);
+
+        //await foreach (var number in _multiplicationGrpcSvcClient.GetSequencePowerOfTwoAsync(new[] { 2, 4, 6, 8 }, CancellationToken.None))
+        //{
+        //    Console.WriteLine(number);
+        //}
 
         return new HttpServiceConfiguration();
     }

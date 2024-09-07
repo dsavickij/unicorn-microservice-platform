@@ -5,7 +5,7 @@ using Unicorn.eShop.Catalog.SDK.Events;
 
 namespace Unicorn.eShop.Catalog.Features.SoftDeleteItem;
 
-public class SoftDeleteItemRequestHandler : BaseHandler.WithResult.For<SoftDeleteItemRequest>
+public class SoftDeleteItemRequestHandler : BaseHandler.WithResult.ForRequest<SoftDeleteItemRequest>
 {
     private readonly IUnicornEventPublisher _publisher;
 

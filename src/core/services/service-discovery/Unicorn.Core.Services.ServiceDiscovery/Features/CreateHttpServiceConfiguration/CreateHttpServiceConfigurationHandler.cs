@@ -4,7 +4,7 @@ using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.CreateHttpServiceConfiguration;
 
-public class CreateHttpServiceConfigurationHandler : BaseHandler.WithResult.For<CreateHttpServiceConfigurationRequest>
+public class CreateHttpServiceConfigurationHandler : BaseHandler.WithResult.ForRequest<CreateHttpServiceConfigurationRequest>
 {
     private readonly ServiceDiscoveryDbContext _ctx;
     private readonly ILogger<CreateHttpServiceConfigurationHandler> _logger;

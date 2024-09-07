@@ -4,7 +4,7 @@ using Unicorn.eShop.Discount.SDK.DTOs;
 
 namespace Unicorn.eShop.Discount.Features.GetCartDiscount;
 
-public class GetCartDiscountRequestHandler : BaseHandler.WithResult<CartDiscount>.For<GetCartDiscountRequest>
+public class GetCartDiscountRequestHandler : BaseHandler.WithResult<CartDiscount>.ForRequest<GetCartDiscountRequest>
 {
     protected override Task<OperationResult<CartDiscount>> HandleAsync(GetCartDiscountRequest request, CancellationToken cancellationToken)
     {

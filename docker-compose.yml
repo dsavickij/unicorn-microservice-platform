@@ -8,43 +8,43 @@ services:
         image: postgres
 
     servicediscoverydb:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: mcr.microsoft.com/mssql/server:2022-latest
 
     unicorn.eshop.cart:
         image: ${DOCKER_REGISTRY-}unicorneshopcart
         build:
             context: .
-            dockerfile: eShop/cart/Unicorn.eShop.Cart/Dockerfile
+            dockerfile: src/eShop/cart/Unicorn.eShop.Cart/Dockerfile
 
     unicorn.eshop.discount:
         image: ${DOCKER_REGISTRY-}unicorneshopdiscount
         build:
             context: .
-            dockerfile: eShop/discount/Unicorn.eShop.Discount/Dockerfile
+            dockerfile: src/eShop/discount/Unicorn.eShop.Discount/Dockerfile
 
     unicorn.eshop.catalog:
         image: ${DOCKER_REGISTRY-}unicorneshopcatalog
         build:
             context: .
-            dockerfile: eShop/catalog/Unicorn.eShop.Catalog/Dockerfile
+            dockerfile: src/eShop/catalog/Unicorn.eShop.Catalog/Dockerfile
 
     unicorn.core.services.servicediscovery:
         image: ${DOCKER_REGISTRY-}unicorncoreservicesservicediscovery
         build:
             context: .
-            dockerfile: core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/Dockerfile
+            dockerfile: src/core/services/service-discovery/Unicorn.Core.Services.ServiceDiscovery/Dockerfile
 
     unicorn.core.services.apigateway.ocelot:
         image: ${DOCKER_REGISTRY-}unicorn.core.services.apigateway.ocelot
         build:
             context: .
-            dockerfile: core/services/api-gateway/Unicorn.Core.Services.ApiGateway.Ocelot/Dockerfile
+            dockerfile: src/core/services/api-gateway/Unicorn.Core.Services.ApiGateway.Ocelot/Dockerfile
 
     unicorn.core.services.systemstatus.healthcheck:
         image: ${DOCKER_REGISTRY-}unicorn.core.services.systemstatus.healthcheck
         build:
             context: .
-            dockerfile: core/services/system-status/Unicorn.Core.Services.SystemStatus.HealthCheck/Dockerfile
+            dockerfile: src/core/services/system-status/Unicorn.Core.Services.SystemStatus.HealthCheck/Dockerfile
 
     #unicorn.core.services.authentication.openiddict:
     #    image: ${DOCKER_REGISTRY-}unicorncoreservicesauthenticationopeniddict
@@ -58,13 +58,13 @@ services:
         image: ${DOCKER_REGISTRY-}unicorn.core.development.clienthost
         build:
             context: .
-            dockerfile: core/development/Unicorn.Core.Development.ClientHost/Dockerfile
+            dockerfile: src/core/development/Unicorn.Core.Development.ClientHost/Dockerfile
 
     unicorn.core.development.servicehost:
         image: ${DOCKER_REGISTRY-}unicorn.core.development.servicehost
         build:
             context: .
-            dockerfile: core/development/Unicorn.Core.Development.ServiceHost/Dockerfile
+            dockerfile: src/core/development/Unicorn.Core.Development.ServiceHost/Dockerfile
 
 volumes:
     postgres_data:

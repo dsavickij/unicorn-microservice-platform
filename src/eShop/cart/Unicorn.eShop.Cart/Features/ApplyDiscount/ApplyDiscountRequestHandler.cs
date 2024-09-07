@@ -5,7 +5,7 @@ using Unicorn.eShop.Discount.SDK.Services.gRPC.Clients;
 
 namespace Unicorn.eShop.Cart.Features.ApplyDiscount;
 
-public class ApplyDiscountRequestHandler : BaseHandler.WithResult<DiscountedCartDTO>.For<ApplyDiscountRequest>
+public class ApplyDiscountRequestHandler : BaseHandler.WithResult<DiscountedCartDTO>.ForRequest<ApplyDiscountRequest>
 {
     private readonly IDiscountGrpcServiceClient _discountClient;
 

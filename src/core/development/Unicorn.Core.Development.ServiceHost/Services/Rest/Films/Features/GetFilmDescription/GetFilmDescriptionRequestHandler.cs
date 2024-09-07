@@ -2,9 +2,9 @@
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
-namespace Unicorn.Core.Development.ServiceHost.Features.GetFilmDescription;
+namespace Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.GetFilmDescription;
 
-public class GetFilmDescriptionRequestHandler : BaseHandler.WithResult<FilmDescription>.For<GetFilmDescriptionRequest>
+public class GetFilmDescriptionRequestHandler : BaseHandler.WithResult<FilmDescription>.ForRequest<GetFilmDescriptionRequest>
 {
     protected override async Task<OperationResult<FilmDescription>> HandleAsync(
         GetFilmDescriptionRequest request, CancellationToken cancellationToken)

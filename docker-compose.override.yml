@@ -54,7 +54,7 @@ services:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=https://unicorn.core.services.servicediscovery:443;http://unicorn.core.services.servicediscovery:80
-            - ServiceDiscoveryHostSettings__DbConnectionString=Server=servicediscoverydb;Database=ServiceDiscoveryDb;User Id=sa;Password=aDmin1234;
+            - ServiceDiscoveryHostSettings__DbConnectionString=Server=servicediscoverydb;Database=ServiceDiscoveryDb;User Id=sa;Password=aDmin1234; TrustServerCertificate=True;
         depends_on:
             - servicediscoverydb
         ports:

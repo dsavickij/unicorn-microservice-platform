@@ -2,17 +2,16 @@
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
-namespace Unicorn.Core.Development.ServiceHost.Features.GetFilmDescriptions;
+namespace Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.GetFilmDescriptions;
 
-public class GetFilmDescriptionsRequestHandler : BaseHandler.WithResult<IEnumerable<FilmDescription>>.For<GetFilmDescriptionsRequest>
+public class GetFilmDescriptionsRequestHandler : BaseHandler.WithResult<IEnumerable<FilmDescription>>.ForRequest<GetFilmDescriptionsRequest>
 {
     protected override async Task<OperationResult<IEnumerable<FilmDescription>>> HandleAsync(
         GetFilmDescriptionsRequest request, CancellationToken cancellationToken)
     {
         var descriptions = new FilmDescription[]
         {
-            new FilmDescription
-            {
+            new() {
                 Description = "Nice film",
                 DescriptionId = Guid.NewGuid(),
                 FilmId = Guid.NewGuid(),

@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Polly;
-using RestSharp;
+using Refit;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy;
@@ -16,59 +14,45 @@ internal interface IHttpRequestDispatcher
 internal class HttpRequestDispatcher : IHttpRequestDispatcher
 {
     private readonly IRestClientProvider _clientProvider;
-    private readonly IRestRequestProvider _requestProvider;
+    private readonly IHttpServiceConfigurationProvider _httpServiceConfigurationProvider;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<HttpRequestDispatcher> _logger;
 
     public HttpRequestDispatcher(
+        IHttpClientFactory httpClientFactory,
         IRestClientProvider restClientProvider,
-        IRestRequestProvider restRequestProvider,
+        IHttpServiceConfigurationProvider httpServiceConfigurationProvider,
         ILogger<HttpRequestDispatcher> logger)
     {
         _clientProvider = restClientProvider;
-        _requestProvider = restRequestProvider;
+        _httpServiceConfigurationProvider = httpServiceConfigurationProvider;
+        _httpClientFactory = httpClientFactory;
         _logger = logger;
     }
 
     public async Task<object> SendHttpRequestAsync(MethodInfo method, object[] arguments)
     {
-        var response = await SendAsync(method, arguments);
+        var reqBuilder = RequestBuilder.ForType(method.DeclaringType!);
 
-        // TODO: add response validation, if statusCode 404, 503 etc.
+        var func = reqBuilder.BuildRestResultFuncForMethod(method.Name, method.GetParameters()
+            .Select(x => x.ParameterType)
+            .ToArray());
 
-        return JsonSerializer.Deserialize(
-            response.Content!,
-            method.ReturnType.GenericTypeArguments.First(),
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        var cfg = await _httpServiceConfigurationProvider.GetHttpServiceConfigurationAsync(method.DeclaringType!);
+
+        var task = (Task)func(RestService.CreateHttpClient(cfg.BaseUrl, null), arguments);
+
+        await task;
+
+        return task.GetType().GetProperty("Result")?.GetValue(task) ?? throw new Exception("");
     }
 
-    public async Task SendNoResultHttpRequestAsync(MethodInfo method, object[] arguments) =>
-         await SendHttpRequestAsync(method, arguments);
-
-    private async Task<RestResponse> SendAsync(MethodInfo method, object[] arguments)
+    public async Task SendNoResultHttpRequestAsync(MethodInfo method, object[] arguments)
     {
-        var request = await _requestProvider.GetRestRequestAsync(method, arguments);
-        var policy = GetRetryPolicy(method.DeclaringType?.FullName!);
+        var client = await _clientProvider.GetRestService(method.DeclaringType!);
 
-        return await policy.ExecuteAsync(async () =>
-        {
-            var client = await _clientProvider.GetRestClientAsync(method.DeclaringType!);
-            return await client.ExecuteAsync(request);
-        });
-    }
+        var task = (Task)method.Invoke(client, arguments) ?? throw new Exception("error");
 
-    private AsyncPolicy GetRetryPolicy(string serviceInterfaceFullName)
-    {
-        return Policy.Handle<HttpRequestException>().WaitAndRetryAsync(
-            new[]
-            {
-                TimeSpan.FromSeconds(10),
-                TimeSpan.FromSeconds(20),
-                TimeSpan.FromSeconds(30)
-            },
-            (exception, timespan, context) =>
-            {
-                _logger.LogWarning($"Failed to call '{serviceInterfaceFullName}'. " +
-                    $"Retrying in {timespan.TotalSeconds} seconds");
-            });
+        await task;
     }
 }

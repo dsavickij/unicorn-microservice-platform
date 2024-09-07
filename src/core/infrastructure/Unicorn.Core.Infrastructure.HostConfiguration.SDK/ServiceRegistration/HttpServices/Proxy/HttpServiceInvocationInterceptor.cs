@@ -35,14 +35,14 @@ internal class HttpServiceInvocationInterceptor : IInterceptor
             invocation.ReturnValue = invocation.ReturnValue switch
             {
                 _ when invocation.Method.ReturnType == _taskType && IsOneWayMethod(invocation.Method) =>
-                    ExecuteOneWayMessageDisptachAsync(invocation),
+                    ExecuteOneWayMessageDispatchAsync(invocation),
                 _ when invocation.Method.ReturnType == _taskType =>
                     ExecuteNoResultHttpRequestDispatchAsync(invocation)
             };
         }
     }
 
-    private async Task ExecuteOneWayMessageDisptachAsync(IInvocation invocation)
+    private async Task ExecuteOneWayMessageDispatchAsync(IInvocation invocation)
     {
         var msg = new UnicornQueueMessage
         {

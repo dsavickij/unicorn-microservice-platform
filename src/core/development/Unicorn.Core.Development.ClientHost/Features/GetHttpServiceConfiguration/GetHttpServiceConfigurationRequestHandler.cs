@@ -6,8 +6,7 @@ using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
 namespace Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 
-public class GetHttpServiceConfigurationRequestHandler : 
-    BaseHandler.WithResult<HttpServiceConfiguration>.For<GetHttpServiceConfigurationRequest>
+public class GetHttpServiceConfigurationRequestHandler : BaseHandler.WithResult<HttpServiceConfiguration>.ForRequest<GetHttpServiceConfigurationRequest>
 {
     private readonly ILogger<GetHttpServiceConfigurationRequestHandler> _logger;
 
@@ -48,3 +47,20 @@ public class GetHttpServiceConfigurationRequestHandler :
 
 public record struct NoAuthorization { }
 public record struct DependencyFailure(OperationResult OperationResult) { }
+
+//public class GetHttpServiceConfigurationRequestHandler2 : BaseHandler.WithoutResult.ForRequest<GetHttpServiceConfigurationRequest>
+//{
+//    protected override Task HandleAsync(GetHttpServiceConfigurationRequest request, CancellationToken cancellationToken)
+//    {
+//        throw new NotImplementedException();
+//    }
+//}
+
+//public class GetHttpServiceConfigurationRequestHandler3 : BaseHandler.WithResult.ForRequest<GetHttpServiceConfigurationRequest>
+//{
+//    protected override Task<OperationResult> HandleAsync(GetHttpServiceConfigurationRequest request, CancellationToken cancellationToken)
+//    {
+//        throw new NotImplementedException();
+//    }
+//}
+

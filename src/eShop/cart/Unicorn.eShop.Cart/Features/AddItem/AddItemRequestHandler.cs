@@ -7,7 +7,7 @@ using Unicorn.eShop.Cart.SDK.DTOs;
 
 namespace Unicorn.eShop.Cart.Features.AddItem;
 
-public class AddItemRequestHandler : BaseHandler.WithResult.For<AddItemRequest>
+public class AddItemRequestHandler : BaseHandler.WithResult.ForRequest<AddItemRequest>
 {
     private readonly CartDbContext _ctx;
 

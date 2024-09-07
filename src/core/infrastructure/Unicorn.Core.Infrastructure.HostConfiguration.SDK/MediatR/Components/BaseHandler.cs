@@ -6,14 +6,14 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 public static class BaseHandler
 {
     public static class WithResult<TResponse>
-        where TResponse : class
+        where TResponse : notnull
     {
         /// <summary>
         /// Handler returning result of type TResponse after request execution
         /// </summary>
-        /// <typeparam name="TResponse"></typeparam>
-        public abstract class For<TRequest> : OperationResults<TResponse>, IRequestHandler<TRequest, OperationResult<TResponse>>
-            where TRequest : IRequest<OperationResult<TResponse>>
+        /// <typeparam name="TResponse">.</typeparam>
+        public abstract class ForRequest<TRequest> : BaseOperationResults<TResponse>, IRequestHandler<TRequest, OperationResult<TResponse>>
+            where TRequest : notnull, IRequest<OperationResult<TResponse>>
         {
             public async Task<OperationResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken)
             {
@@ -29,9 +29,9 @@ public static class BaseHandler
         /// <summary>
         /// Handler returning result of type TResponse after request execution
         /// </summary>
-        /// <typeparam name="TResponse"></typeparam>
-        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest, OperationResult>
-            where TRequest : IRequest<OperationResult>
+        /// <typeparam name="TResponse">.</typeparam>
+        public abstract class ForRequest<TRequest> : BaseOperationResults, IRequestHandler<TRequest, OperationResult>
+            where TRequest : notnull, IRequest<OperationResult>
         {
             public async Task<OperationResult> Handle(TRequest request, CancellationToken cancellationToken)
             {
@@ -47,8 +47,8 @@ public static class BaseHandler
         /// <summary>
         /// Handler with no result to return after request execution
         /// </summary>
-        public abstract class For<TRequest> : OperationResults, IRequestHandler<TRequest>
-            where TRequest : IRequest
+        public abstract class ForRequest<TRequest> : BaseOperationResults, IRequestHandler<TRequest>
+            where TRequest : notnull, IRequest
         {
             public async Task Handle(TRequest request, CancellationToken cancellationToken)
             {

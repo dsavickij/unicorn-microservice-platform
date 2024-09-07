@@ -8,7 +8,7 @@ using Unicorn.eShop.Cart.DataAccess.Entities;
 
 namespace Unicorn.eShop.Cart.Features.RemoveItem;
 
-public class RemoveItemRequestHandler : BaseHandler.WithResult.For<RemoveItemRequest>
+public class RemoveItemRequestHandler : BaseHandler.WithResult.ForRequest<RemoveItemRequest>
 {
     private readonly CartDbContext _ctx;
 

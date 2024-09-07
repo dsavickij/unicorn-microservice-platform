@@ -3,7 +3,7 @@
 		<PackageReference Include="Ardalis.GuardClauses" Version="4.3.0" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Net.Http.Headers" Version="8.0.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.2" />
 		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="5.0.1" />
 		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="5.0.1" />
 	</ItemGroup>

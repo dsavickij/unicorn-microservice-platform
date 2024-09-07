@@ -1,35 +1,31 @@
-﻿using RestSharp;
-using RestSharp.Authenticators.OAuth2;
-using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationContext;
+﻿using Refit;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy.RestComponents;
 
 public interface IRestClientProvider
 {
-    Task<RestClient> GetRestClientAsync(Type httpServiceInterface);
+    Task<object> GetRestService(Type httpServiceInterface);
 }
 
 internal class RestClientProvider : IRestClientProvider
 {
     private readonly IHttpServiceConfigurationProvider _cfgProvider;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public RestClientProvider(IHttpServiceConfigurationProvider httpServiceConfigurationProvider)
+    public RestClientProvider(
+        IHttpServiceConfigurationProvider httpServiceConfigurationProvider,
+        IHttpClientFactory httpClientFactory)
     {
         _cfgProvider = httpServiceConfigurationProvider;
+        _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<RestClient> GetRestClientAsync(Type httpServiceInterface)
+    public async Task<object> GetRestService(Type httpServiceInterface)
     {
         var cfg = await _cfgProvider.GetHttpServiceConfigurationAsync(httpServiceInterface);
+        var httpClient = _httpClientFactory.CreateClient(httpServiceInterface.Name);
+        httpClient.BaseAddress = new Uri(cfg.BaseUrl);
 
-        var options = new RestClientOptions
-        {
-            BaseUrl = new Uri(cfg.BaseUrl),
-            ThrowOnAnyError = true,
-            Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(
-                UnicornOperationContext.AccessToken, "Bearer"),
-        };
-
-        return new RestClient(options);
+        return RestService.For(httpServiceInterface, httpClient);
     }
 }

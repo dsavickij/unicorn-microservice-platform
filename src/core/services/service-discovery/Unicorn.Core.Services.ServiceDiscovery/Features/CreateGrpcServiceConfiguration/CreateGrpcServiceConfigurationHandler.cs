@@ -5,7 +5,7 @@ using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
 namespace Unicorn.Core.Services.ServiceDiscovery.Features.CreateGrpcServiceConfiguration;
 
-public class CreateGrpcServiceConfigurationHandler : BaseHandler.WithResult.For<CreateGrpcServiceConfigurationRequest>
+public class CreateGrpcServiceConfigurationHandler : BaseHandler.WithResult.ForRequest<CreateGrpcServiceConfigurationRequest>
 {
     private readonly ServiceDiscoveryDbContext _ctx;
     private readonly ILogger<CreateGrpcServiceConfigurationHandler> _logger;

@@ -2,7 +2,7 @@
 
 namespace Unicorn.eShop.Catalog.Features.SoftDeleteItem;
 
-public record SoftDeleteItemRequest : BaseRequest.WithResponse
+public record SoftDeleteItemRequest : BaseRequest.RequiringResult
 {
     public Guid Id { get; set; }
 }

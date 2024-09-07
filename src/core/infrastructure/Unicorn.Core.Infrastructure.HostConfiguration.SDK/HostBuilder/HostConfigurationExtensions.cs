@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MassTransit.AzureServiceBusTransport.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,11 +17,12 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Validation;
 using Unicorn.Core.Infrastructure.Security.IAM;
 using Unicorn.Core.Infrastructure.Security.IAM.Middlewares;
 
-namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
 
 public static class HostConfigurationExtensions
 {
-    private static BaseHostSettings HostSettings { get; set; } = new BaseHostSettings();
+
+    private static BaseHostSettings HostSettings { get; set; }
 
     public static void ApplyUnicornConfiguration<THostSettings>(this IHostBuilder builder)
         where THostSettings : BaseHostSettings
@@ -44,8 +46,8 @@ public static class HostConfigurationExtensions
         builder.UseSwagger();
         builder.UseSwaggerUI(UnicornSwaggerSettings.UIOptions);
 
-        builder.UseAuthentication();
-        builder.UseAuthorization();
+        //builder.UseAuthentication();
+        //builder.UseAuthorization();
 
         builder.UseUnicornOperationContext();
         builder.UseMiddleware<ValidationExceptionHandlingMiddleware>();
@@ -68,11 +70,16 @@ public static class HostConfigurationExtensions
 
         if (BaseHostSettingsValidator.DoesNotContainEmptyStrings(settings.Value))
         {
+            InternalBaseHostSettings.ServiceHostName = settings.Value.ServiceHostName;
+            InternalBaseHostSettings.ServiceDiscoverySettings = settings.Value.ServiceDiscoverySettings;
+            InternalBaseHostSettings.AuthenticationSettings = settings.Value.AuthenticationSettings;
+            InternalBaseHostSettings.OneWayCommunicationSettings = settings.Value.OneWayCommunicationSettings;
+
             HostSettings = settings.Value;
 
             // serviceHostName is registered in service collection to register service in Service Discovery service
             ctx.Configuration[$"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"] = settings.Value.ServiceHostName;
-            services.Configure<BaseHostSettings>(ctx.Configuration.GetSection(typeof(THostSettings).Name));
+            services.Configure<ServiceDiscoverySettings>(ctx.Configuration.GetSection($"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"));
         }
     }
 
@@ -84,6 +91,8 @@ public static class HostConfigurationExtensions
 
     private static void ConfigureServices(this IServiceCollection services)
     {
+        services.AddHttpClient();
+
         services.AddApplicationInsightsTelemetry();
         services.AddMediatorComponents();
         services.AddHttpServices();
@@ -91,13 +100,14 @@ public static class HostConfigurationExtensions
         services.ConfigureSwagger();
         services.RegisterControllers();
 
-        services.AddMessageBroker(cfg =>
-        {
-            cfg.Type = MessageBrokerType.RabbitMq;
-            cfg.ConnectionString = HostSettings.OneWayCommunicationSettings.ConnectionString;
-            cfg.SubscriptionId = HostSettings.OneWayCommunicationSettings.SubscriptionId;
-            cfg.OneWayMethods = AssemblyScanner.GetOneWayMethodConfigurations();
-        });
+        // TODO: bring back support for message broker
+        //services.AddMessageBroker(cfg =>
+        //{
+        //    cfg.Type = MessageBrokerType.RabbitMq;
+        //    cfg.ConnectionString = HostSettings.OneWayCommunicationSettings.ConnectionString;
+        //    cfg.SubscriptionId = HostSettings.OneWayCommunicationSettings.SubscriptionId;
+        //    cfg.OneWayMethods = AssemblyScanner.GetOneWayMethodConfigurations();
+        //});
     }
 
     private static void ConfigureSwagger(this IServiceCollection services)
