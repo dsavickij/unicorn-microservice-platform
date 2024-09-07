@@ -113,9 +113,9 @@ After finishing, Powershell will create project nuget packages in `--output` fol
 Inter-service communication between Unicorn microservices is done utilising data provided in SDKs. Thus, Unicorn.eShop service nugets are also required to be created. Once again, change the pathes and run the following commands:
 
 ```c#
-dotnet pack 'C:\Src\unicorn-project-microservices\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\eShop\discount\Unicorn.eShop.Discount.SDK\Unicorn.eShop.Discount.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\eShop\catalog\Unicorn.eShop.Catalog.SDK\Unicorn.eShop.Catalog.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
 ### Launching microservices in Docker containers
