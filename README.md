@@ -3,7 +3,7 @@
 # unicorn-microservice-platform
 Unicorn is a platform for development of microservices on top of it. The platform consists of shared infrastructure components and platform-wide common parts like certain microservices. The platform allows separation of concerns and focus software engineer's efforts on development of microservice itself.
 
-The project is based on .NET 6.0 and is in constant development.
+The project is based on .NET 8.0 and is in constant development.
 
 ## Features
 
