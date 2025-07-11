@@ -113,14 +113,9 @@ public static class RestServiceEndpointMapper
     private static MethodInfo GetUnicornRestServiceMethod<TService>(TService resolvedService, MethodInfo serviceInterfaceMethod) where TService : class
     {
         var serviceType = resolvedService.GetType();
-        var serviceMethods = serviceType.GetMethods().Where(x => x.Name == serviceInterfaceMethod.Name);
-
-#pragma warning disable S2583 // Conditionally executed code should be reachable
-        if (serviceMethods is null)
-        {
-            throw new ArgumentNullException($"No method by name ${serviceInterfaceMethod.Name} was found in service implementation ${serviceType.Name}");
-        }
-#pragma warning restore S2583 // Conditionally executed code should be reachable
+        var serviceMethods = serviceType.GetMethods().Where(x => x.Name == serviceInterfaceMethod.Name)
+            ?? throw new ArgumentNullException($"No method by name ${serviceInterfaceMethod.Name} " +
+            $"was found in service implementation ${serviceType.Name}");
 
         MethodInfo serviceMethod;
 
@@ -143,12 +138,9 @@ public static class RestServiceEndpointMapper
 
         var service = services.FirstOrDefault(x => x.GetType() != typeof(IInterceptor));
 
-        if (service is null)
-        {
-            throw new ArgumentNullException($"Could not resolve a service of type {typeof(TService).Name}. " +
-                $"Make sure it is registered in dependency injection container");
-        }
-
-        return service;
+        return service is null
+            ? throw new ArgumentNullException($"Could not resolve a service of type {typeof(TService).Name}. " +
+                $"Make sure it is registered in dependency injection container")
+            : service;
     }
 }

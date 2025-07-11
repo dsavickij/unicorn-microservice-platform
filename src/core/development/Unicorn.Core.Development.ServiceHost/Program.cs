@@ -1,5 +1,4 @@
 using Unicorn.Core.Development.ServiceHost;
-using MinimalHelpers.OpenApi;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
@@ -14,7 +13,8 @@ internal class Program
             builder.WithServiceConfiguration((services, _, _) =>
             {
                 services.AddTransient<IServiceHostService, FilmService>();
-                services.AddSwaggerGen(options => options.AddFormFile());
+                // services.AddSwaggerGen(options => options.AddFormFile());
+                services.AddSwaggerGen();
                 services.AddEndpointsApiExplorer();
                 services.AddAntiforgery();
             })

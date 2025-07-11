@@ -91,9 +91,9 @@ public class Startup
                 options.DisableAccessTokenEncryption();
                 // Enable the authorization, logout, userinfo, and introspection endpoints.
                 options.SetAuthorizationEndpointUris("/connect/authorize")
-                   .SetLogoutEndpointUris("/connect/logout")
+                   .SetEndSessionEndpointUris("/connect/logout")
                    .SetIntrospectionEndpointUris("/connect/introspect")
-                   .SetUserinfoEndpointUris("/connect/userinfo")
+                   .SetUserInfoEndpointUris("/connect/userinfo")
                    .SetTokenEndpointUris("/connect/token");
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
@@ -120,8 +120,8 @@ public class Startup
                 // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                 options.UseAspNetCore()
                    .EnableAuthorizationEndpointPassthrough()
-                   .EnableLogoutEndpointPassthrough()
-                   .EnableUserinfoEndpointPassthrough()
+                   .EnableEndSessionEndpointPassthrough()
+                   .EnableUserInfoEndpointPassthrough()
                    .EnableStatusCodePagesIntegration()
                    .EnableTokenEndpointPassthrough();
 
