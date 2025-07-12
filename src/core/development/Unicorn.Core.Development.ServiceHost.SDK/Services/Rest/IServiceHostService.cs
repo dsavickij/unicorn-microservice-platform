@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Refit;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
@@ -17,6 +18,9 @@ public interface IServiceHostService
 
     [Post("/api/films/upload")]
     Task<OperationResult<int>> UploadFilmAsync(IFormFile File);
+    
+    [Post("/api/films/upload-new")]
+    Task<OperationResult<FileUploadResult>> UploadFilmAsyncNew([FromForm] UploadDto dto, IFormFile File);
 
     [Put("/api/films/description")]
     Task<OperationResult<FilmDescription>> UpdateFilmDescription(FilmDescription description);
@@ -27,3 +31,7 @@ public interface IServiceHostService
     //[UnicornOneWay]
     //Task SendMessageOneWay2();
 }
+
+public record UploadDto(string Name, string Email);
+
+public record FileUploadResult(Guid Id);

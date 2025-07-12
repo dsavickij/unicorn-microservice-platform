@@ -26,7 +26,7 @@ public abstract record BaseOperationResult : IOperationResult
         IsSuccess = code is >= OperationStatusCode.Status200OK and < OperationStatusCode.Status300MultipleChoices;
     }
 
-    public IEnumerable<OperationError> Errors { get; } = Enumerable.Empty<OperationError>();
+    public IEnumerable<OperationError> Errors { get; } = [];
 
     public bool IsSuccess { get; }
 

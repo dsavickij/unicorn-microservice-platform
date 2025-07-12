@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.ServiceHost;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
@@ -16,7 +17,7 @@ internal class Program
                 // services.AddSwaggerGen(options => options.AddFormFile());
                 services.AddSwaggerGen();
                 services.AddEndpointsApiExplorer();
-                services.AddAntiforgery();
+                // services.AddAntiforgery();
             })
             .WithEndpointConfiguration(endpointBuilder =>
             {
@@ -27,8 +28,19 @@ internal class Program
             {
                 applicationBuilder.UseSwaggerUI(x => x.DocumentTitle = Constants.ServiceHostName);
                 applicationBuilder.UseSwagger();
-                applicationBuilder.UseAntiforgery();
+                // applicationBuilder.UseAntiforgery();
             });
         }).Run();
+    }
+}
+
+public record UploadDto(string Name, string Email);
+
+public class AntiForgeryFilter : IEndpointFilter
+{
+    public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    {
+        // Skip anti-forgery validation
+        return await next(context);
     }
 }

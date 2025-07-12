@@ -22,7 +22,7 @@ public static class OperationResults
 {
     public static OperationResult Ok() => new(OperationStatusCode.Status200OK);
     public static OperationResult<TResponse> Ok<TResponse>(TResponse response) => new(OperationStatusCode.Status200OK, response);
-    public static OperationResult BadRequest(OperationError error) => BadRequest(new[] { error });
+    public static OperationResult BadRequest(OperationError error) => BadRequest([error]);
     public static OperationResult BadRequest(IEnumerable<OperationError> errors) => new(OperationStatusCode.Status400BadRequest, errors);
     public static OperationResult Forbidden() => new(OperationStatusCode.Status403Forbidden);
     public static OperationResult NotFound() => new(OperationStatusCode.Status404NotFound);
