@@ -4,31 +4,25 @@ using Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 
-internal class Program
+ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>
 {
-    private static void Main(string[] args)
-    {
-        ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>
+    builder.WithServiceConfiguration((services, _, _) =>
         {
-            builder.WithServiceConfiguration((services, _, _) =>
-            {
-                services.AddTransient<IServiceHostService, FilmService>();
-                // services.AddSwaggerGen(options => options.AddFormFile());
-                services.AddSwaggerGen();
-                services.AddEndpointsApiExplorer();
-                // services.AddAntiforgery();
-            })
-            .WithEndpointConfiguration(endpointBuilder =>
-            {
-                endpointBuilder.MapUnicornRestService<IServiceHostService>();
-                endpointBuilder.MapSwagger();
-            })
-            .WithApplicationConfiguration(applicationBuilder =>
-            {
-                applicationBuilder.UseSwaggerUI(x => x.DocumentTitle = Constants.ServiceHostName);
-                applicationBuilder.UseSwagger();
-                // applicationBuilder.UseAntiforgery();
-            });
-        }).Run();
-    }
-}
+            services.AddTransient<IServiceHostService, FilmService>();
+            // services.AddSwaggerGen(options => options.AddFormFile());
+            services.AddSwaggerGen();
+            services.AddEndpointsApiExplorer();
+            // services.AddAntiforgery();
+        })
+        .WithEndpointConfiguration(endpointBuilder =>
+        {
+            endpointBuilder.MapUnicornRestService<IServiceHostService>();
+            endpointBuilder.MapSwagger();
+        })
+        .WithApplicationConfiguration(applicationBuilder =>
+        {
+            applicationBuilder.UseSwaggerUI(x => x.DocumentTitle = Constants.ServiceHostName);
+            applicationBuilder.UseSwagger();
+            // applicationBuilder.UseAntiforgery();
+        });
+}).Run();
