@@ -5,6 +5,7 @@ using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.GetFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.UpdateFilmDescription;
+using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.UploadFilm;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
@@ -30,42 +31,11 @@ public class FilmService : VerticallySlicedService, IServiceHostService
     }
 
     [EndpointSummary("UpdateFilmDescription-new")]
-    public async Task<OperationResult<FileUploadResult>> UploadFilmAsyncNew([FromForm] UploadDto dto,
+    public async Task<OperationResult<Guid>> UploadFilm(
+        [FromForm] FilmDescription filmDescription,
         IFormFile file)
     {
-        // Validate DTO
-        if (string.IsNullOrEmpty(dto.Name) || string.IsNullOrEmpty(dto.Email))
-        {
-            return OperationResults.BadRequest(new OperationError(OperationStatusCode.Status400BadRequest,
-                "DTO contains invalid or missing fields."));
-        }
-
-        // Process files (e.g., save to disk)
-        var allowedExtensions = new[] { ".txt", ".pdf", ".jpg", ".png" };
-        var maxFileSize = 10 * 1024 * 1024; // 10MB
-
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (!allowedExtensions.Contains(extension))
-        {
-            return OperationResults.BadRequest(new OperationError(OperationStatusCode.Status400BadRequest,
-                $"Invalid file extension: {file.FileName}"));
-        }
-
-        if (file.Length > maxFileSize)
-        {
-            return OperationResults.BadRequest(new OperationError(OperationStatusCode.Status400BadRequest,
-                $"File {file.FileName} exceeds size limit."));
-        }
-
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads",
-            Path.GetFileName(file.FileName));
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-        await using var stream = new FileStream(filePath, FileMode.Create);
-        await file.CopyToAsync(stream);
-
-        // Return response
-
-        return OperationResults.Ok(new FileUploadResult(Guid.NewGuid()));
+        return await SendAsync(new UploadFilmRequest { Description = filmDescription, Film = file });
     }
 
     [EndpointSummary("UpdateFilmDescription")]

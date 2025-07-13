@@ -17,10 +17,10 @@ public interface IServiceHostService
     Task<OperationResult<FilmDescription>> GetFilmDescriptionAsync(Guid id);
 
     [Post("/api/films/upload")]
-    Task<OperationResult<int>> UploadFilmAsync(IFormFile File);
+    Task<OperationResult<int>> UploadFilmAsync(IFormFile file);
     
     [Post("/api/films/upload-new")]
-    Task<OperationResult<FileUploadResult>> UploadFilmAsyncNew([FromForm] UploadDto dto, IFormFile File);
+    Task<OperationResult<Guid>> UploadFilm([FromForm] FilmDescription filmDescription, IFormFile file);
 
     [Put("/api/films/description")]
     Task<OperationResult<FilmDescription>> UpdateFilmDescription(FilmDescription description);
@@ -31,7 +31,3 @@ public interface IServiceHostService
     //[UnicornOneWay]
     //Task SendMessageOneWay2();
 }
-
-public record UploadDto(string Name, string Email);
-
-public record FileUploadResult(Guid Id);

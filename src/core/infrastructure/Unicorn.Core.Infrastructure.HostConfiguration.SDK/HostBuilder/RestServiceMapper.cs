@@ -118,6 +118,7 @@ public static class RestServiceEndpointMapper
         var tArgs = new List<System.Type>();
         var serviceMethodPars = serviceMethod.GetParameters();
 
+        // TODO: I probably need to exclude file upload over Refit service with some attribute. Some testing need to be done
         if (serviceMethodPars.Any(x => x.ParameterType == typeof(IFormFile)) && serviceMethodPars.Length > 1)
         {
             var nonFormFilePars = serviceMethodPars.Where(x => x.ParameterType != typeof(IFormFile));
