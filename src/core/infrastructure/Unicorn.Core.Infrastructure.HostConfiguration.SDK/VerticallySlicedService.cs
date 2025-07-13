@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
@@ -9,10 +8,8 @@ public abstract class VerticallySlicedService
 {
     private readonly IMediator _mediator;
 
-    protected VerticallySlicedService(IServiceProvider serviceProvider)
-    {
+    protected VerticallySlicedService(IServiceProvider serviceProvider) =>
         _mediator = serviceProvider.GetRequiredService<IMediator>();
-    }
 
     protected async Task<OperationResult<TResponse>> SendAsync<TResponse>(IRequest<OperationResult<TResponse>> request)
         => await _mediator.Send(request);

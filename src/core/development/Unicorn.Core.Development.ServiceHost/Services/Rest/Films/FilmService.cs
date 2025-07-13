@@ -30,7 +30,7 @@ public class FilmService : VerticallySlicedService, IServiceHostService
     }
 
     [EndpointSummary("UpdateFilmDescription-new")]
-    public async Task<OperationResult<FileUploadResult>> UploadFilmAsyncNew([FromForm] SDK.Services.Rest.UploadDto dto,
+    public async Task<OperationResult<FileUploadResult>> UploadFilmAsyncNew([FromForm] UploadDto dto,
         IFormFile file)
     {
         // Validate DTO

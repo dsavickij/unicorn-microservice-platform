@@ -3,6 +3,7 @@ using System.Reflection;
 using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
@@ -10,7 +11,8 @@ using Unicorn.Core.Infrastructure.Communication.Http.SDK;
 
 public static class RestServiceEndpointMapper
 {
-    public static void MapUnicornRestService<TService>(this IEndpointRouteBuilder builder) where TService : class
+    public static void MapUnicornRestService<TService>(this IEndpointRouteBuilder builder)
+        where TService : class
     {
         if (!typeof(TService).IsInterface)
         {
@@ -25,7 +27,7 @@ public static class RestServiceEndpointMapper
 
         var restServiceInterfaceMethods = typeof(TService).GetMethods();
 
-        if (restServiceInterfaceMethods is null || restServiceInterfaceMethods.Length == 0)
+        if (restServiceInterfaceMethods.Length == 0)
         {
             return;
         }
@@ -52,24 +54,33 @@ public static class RestServiceEndpointMapper
         }
     }
 
-    private static int MapDelete<TService>(IEndpointRouteBuilder builder, MethodInfo serviceInterfaceMethod,
-        DeleteAttribute deleteAttribute) where TService : class
+    private static int MapDelete<TService>(
+        IEndpointRouteBuilder builder,
+        MethodInfo serviceInterfaceMethod,
+        DeleteAttribute deleteAttribute)
+        where TService : class
     {
         builder.MapDelete(deleteAttribute.Path, GetDelegate<TService>(builder, serviceInterfaceMethod)).WithOpenApi();
 
         return 1;
     }
 
-    private static int MapPut<TService>(IEndpointRouteBuilder builder, MethodInfo serviceInterfaceMethod,
-        PutAttribute putAttribute) where TService : class
+    private static int MapPut<TService>(
+        IEndpointRouteBuilder builder,
+        MethodInfo serviceInterfaceMethod,
+        PutAttribute putAttribute)
+        where TService : class
     {
         builder.MapPut(putAttribute.Path, GetDelegate<TService>(builder, serviceInterfaceMethod)).WithOpenApi();
 
         return 1;
     }
 
-    private static int MapPost<TService>(IEndpointRouteBuilder builder, MethodInfo serviceInterfaceMethod,
-        PostAttribute postAttribute) where TService : class
+    private static int MapPost<TService>(
+        IEndpointRouteBuilder builder,
+        MethodInfo serviceInterfaceMethod,
+        PostAttribute postAttribute)
+        where TService : class
     {
         var endpointBuilder = builder
             .MapPost(postAttribute.Path, GetDelegate<TService>(builder, serviceInterfaceMethod))
@@ -105,15 +116,25 @@ public static class RestServiceEndpointMapper
     private static Delegate GetRestEndpointDelegate<TService>(TService service, MethodInfo serviceMethod)
     {
         var tArgs = new List<System.Type>();
+        var serviceMethodPars = serviceMethod.GetParameters();
+
+        if (serviceMethodPars.Any(x => x.ParameterType == typeof(IFormFile)) && serviceMethodPars.Length > 1)
+        {
+            var nonFormFilePars = serviceMethodPars.Where(x => x.ParameterType != typeof(IFormFile));
+
+            foreach (ParameterInfo nonFormFilePar in nonFormFilePars)
+            {
+                if (nonFormFilePar.CustomAttributes.All(x => x.AttributeType != typeof(FromFormAttribute)))
+                {
+                    throw new InvalidOperationException(
+                        $"Method with parameter type of {nameof(IFormFile)} must have parameter {nonFormFilePar.Name} " +
+                        $"decorated with {nameof(FromFormAttribute)} attribute");
+                }
+            }
+        }
 
         foreach (var parameter in serviceMethod.GetParameters())
         {
-            // if (serviceMethod.GetParameters().Any(x => x.ParameterType == typeof(IFormFile)) &&
-            //     serviceMethod.GetParameters().Length > 1)
-            // {
-            //     typeof(ParameterInfo). parameter
-            // }
-            //
             tArgs.Add(parameter.ParameterType);
         }
 
@@ -127,7 +148,9 @@ public static class RestServiceEndpointMapper
         MethodInfo serviceInterfaceMethod) where TService : class
     {
         var serviceType = resolvedService.GetType();
-        var serviceMethods = serviceType.GetMethods().Where(x => x.Name == serviceInterfaceMethod.Name)
+        var serviceMethods = serviceType.GetMethods()
+                                 .Where(x => x.Name == serviceInterfaceMethod.Name)
+                                 .ToList()
                              ?? throw new ArgumentNullException($"No method by name ${serviceInterfaceMethod.Name} " +
                                                                 $"was found in service implementation ${serviceType.Name}");
 
@@ -136,7 +159,8 @@ public static class RestServiceEndpointMapper
         if (serviceMethods.Count() > 1)
         {
             var serviceInterfaceMethodParams = serviceInterfaceMethod.GetParameters();
-            serviceMethod = serviceMethods.Single(x => x.GetParameters().All(p => serviceInterfaceMethodParams.Contains(p)));
+            serviceMethod =
+                serviceMethods.Single(x => x.GetParameters().All(p => serviceInterfaceMethodParams.Contains(p)));
         }
         else
         {
