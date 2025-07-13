@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
@@ -8,10 +7,11 @@ public static class ServiceHostBuilder
 {
     public static WebApplication Build<TServiceHostSettings>(
         string[] args,
-        Action<IUnicornHostConfigurator> serviceCollectionConfiguration) where TServiceHostSettings : BaseHostSettings
+        Action<IUnicornHostConfigurator> serviceCollectionConfiguration)
+        where TServiceHostSettings : BaseHostSettings
     {
         var unicornBuilder = new UnicornHostConfigurator();
-        serviceCollectionConfiguration?.Invoke(unicornBuilder);
+        serviceCollectionConfiguration.Invoke(unicornBuilder);
 
         var builder = WebApplication.CreateBuilder(args);
 

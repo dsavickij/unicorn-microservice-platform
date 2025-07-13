@@ -1,10 +1,7 @@
-﻿using MassTransit.AzureServiceBusTransport.Configuration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Logging;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Middlewares;
@@ -21,7 +18,6 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
 
 public static class HostConfigurationExtensions
 {
-
     private static BaseHostSettings HostSettings { get; set; }
 
     public static void ApplyUnicornConfiguration<THostSettings>(this IHostBuilder builder)
@@ -43,12 +39,9 @@ public static class HostConfigurationExtensions
             builder.UseDeveloperExceptionPage();
         }
 
+        builder.UseSwaggerUI(UnicornSwaggerSettings.GetSwaggerUIOptions(HostSettings.ServiceHostName));
         builder.UseSwagger();
-        builder.UseSwaggerUI(UnicornSwaggerSettings.UIOptions);
-
-        //builder.UseAuthentication();
-        //builder.UseAuthorization();
-
+        builder.MapSwagger();
         builder.UseUnicornOperationContext();
         builder.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
@@ -70,6 +63,7 @@ public static class HostConfigurationExtensions
 
         if (BaseHostSettingsValidator.DoesNotContainEmptyStrings(settings.Value))
         {
+            // TODO: investigate we can get rid of internal setting static class
             InternalBaseHostSettings.ServiceHostName = settings.Value.ServiceHostName;
             InternalBaseHostSettings.ServiceDiscoverySettings = settings.Value.ServiceDiscoverySettings;
             InternalBaseHostSettings.AuthenticationSettings = settings.Value.AuthenticationSettings;
@@ -78,8 +72,11 @@ public static class HostConfigurationExtensions
             HostSettings = settings.Value;
 
             // serviceHostName is registered in service collection to register service in Service Discovery service
-            ctx.Configuration[$"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"] = settings.Value.ServiceHostName;
-            services.Configure<ServiceDiscoverySettings>(ctx.Configuration.GetSection($"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"));
+            ctx.Configuration[$"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"] =
+                settings.Value.ServiceHostName;
+            services.Configure<ServiceDiscoverySettings>(
+                ctx.Configuration.GetSection(
+                    $"{typeof(THostSettings).Name}:{nameof(BaseHostSettings.ServiceHostName)}"));
         }
     }
 
@@ -116,7 +113,8 @@ public static class HostConfigurationExtensions
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(UnicornSwaggerSettings.GetSwaggerGenOptions(HostSettings.AuthenticationSettings.AuthorityUrl));
+        services.AddSwaggerGen(
+            UnicornSwaggerSettings.GetSwaggerGenOptions(HostSettings.AuthenticationSettings.AuthorityUrl));
     }
 
     // By default, controllers are not registered in dependency conainer, but we need them to here to be able

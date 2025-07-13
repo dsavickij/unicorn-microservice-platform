@@ -7,22 +7,24 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings.Defaults;
 
 internal static class UnicornSwaggerSettings
 {
-    internal static SwaggerUIOptions UIOptions => new()
+    internal static SwaggerUIOptions GetSwaggerUIOptions(string serviceName) => new()
     {
-        OAuthConfigObject = new OAuthConfigObject
-        {
-            Realm = "client-realm",
-            AppName = "OAuth-app",
-            UseBasicAuthenticationWithAccessCodeGrant = true,
-            ClientId = "aurelia"
-        },
+        OAuthConfigObject =
+            new OAuthConfigObject
+            {
+                Realm = "client-realm",
+                AppName = "OAuth-app",
+                UseBasicAuthenticationWithAccessCodeGrant = true,
+                ClientId = "aurelia"
+            },
         ConfigObject = new ConfigObject
         {
             Urls = new List<UrlDescriptor>
             {
                 new() { Name = "JWTAuthDemo v1", Url = "/swagger/v1/swagger.json" }
             }
-        }
+        },
+        DocumentTitle = serviceName
     };
 
     internal static Action<SwaggerGenOptions> GetSwaggerGenOptions(string auhorityUrl)
@@ -44,19 +46,12 @@ internal static class UnicornSwaggerSettings
                 },
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.OAuth2,
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "oauth2"
-                }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
             };
 
             opt.AddSecurityDefinition("oauth2", securityScheme);
 
-            opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                { securityScheme, Array.Empty<string>() }
-            });
+            opt.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, Array.Empty<string>() } });
         };
     }
 }

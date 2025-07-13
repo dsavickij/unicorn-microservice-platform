@@ -13,7 +13,7 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
 
     private readonly IServiceDiscoveryClient _client;
     private readonly IConfiguration _cfg;
-    private readonly ServiceDiscoverySettings _baseHostSettings;
+    private readonly ServiceDiscoverySettings _baseHostSettings; // TODO: check it
     private readonly ILogger<ServiceHostSelfRegististrationWorker> _logger;
 
     public ServiceHostSelfRegististrationWorker(
