@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace Unicorn.Core.Services.Authentication.OpenIddict.Services;
 
-namespace Unicorn.Core.Services.Authentication.OpenIddict.Services
+public interface ISmsSender
 {
-    public interface ISmsSender
-    {
-        Task SendSmsAsync(string number, string message);
-    }
+    Task SendSmsAsync(string number, string message);
 }
