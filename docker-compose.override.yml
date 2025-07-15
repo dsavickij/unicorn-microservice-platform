@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
     rabbitmq:
@@ -24,10 +24,12 @@ services:
         container_name: servicediscoverydb
         environment:
             - ACCEPT_EULA=Y
-            - SA_PASSWORD=aDmin1234
+            - MSSQL_SA_PASSWORD=aDmin1234
         restart: always
         ports:
             - "1433:1433"
+        volumes:
+            - sql-data:/var/opt/mssql
 
     unicorn.eshop.cart:
         container_name: unicorn.eshop.cart

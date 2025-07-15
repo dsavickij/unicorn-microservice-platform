@@ -1,7 +1,5 @@
-﻿using System.Reflection;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using Microsoft.Extensions.Logging;
-using Refit;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
 using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue.Message;
 
@@ -55,14 +53,16 @@ internal class HttpServiceInvocationInterceptor2 : IInterceptor
 
         ExecuteGenericTaskReturnTypeInvocationAsync(invocation).ContinueWith(_ =>
         {
-            tcsType.GetMethod("SetResult")!.Invoke(tcs, new object[] { invocation.ReturnValue! });
+            tcsType.GetMethod("SetResult")!.Invoke(tcs, [invocation.ReturnValue!]);
         });
     }
 
-    private async Task ExecuteGenericTaskReturnTypeInvocationAsync(IInvocation invocation)
+    private Task ExecuteGenericTaskReturnTypeInvocationAsync(IInvocation invocation)
     {
-        var result = await _httpRequestDispatcher.SendHttpRequestAsync(invocation.Method, invocation.Arguments);
-        invocation.ReturnValue = result;
+        var result = _httpRequestDispatcher.SendHttpRequestAsync(invocation.Method, invocation.Arguments);
+        invocation.ReturnValue = result.Result;
+
+        return Task.CompletedTask;
     }
 
     private async Task ExecuteOneWayMessageDisptachAsync(IInvocation invocation)

@@ -38,7 +38,8 @@ public class InitialDataBackgroundWorker : BackgroundService
         var urls = _cfg["ASPNETCORE_URLS"]?.Split(";") ?? throw new Exception(); // TODO: fix exception throwing;
         var httpUrl = urls.Single(url => url.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
 
-        var current = await ctx.HttpServiceConfigurations.AsNoTracking().FirstOrDefaultAsync(x => x.ServiceHostName == Constants.ServiceHostName);
+        var current = await ctx.HttpServiceConfigurations.AsNoTracking()
+            .FirstOrDefaultAsync(x => x.ServiceHostName == Constants.ServiceHostName);
         var newer = SeedData.HttpServiceConfigurations.ServiceDiscovery with { BaseUrl = httpUrl };
 
         if (current is null)
@@ -55,10 +56,7 @@ public class InitialDataBackgroundWorker : BackgroundService
 
     private async Task AddServiceHostNamesAsync(ServiceDiscoveryDbContext ctx)
     {
-        var serviceHosts = new[]
-       {
-            SeedData.ServiceHosts.ServiceDiscovery,
-        };
+        var serviceHosts = new[] { SeedData.ServiceHosts.ServiceDiscovery, };
 
         foreach (var serviceHost in serviceHosts)
         {

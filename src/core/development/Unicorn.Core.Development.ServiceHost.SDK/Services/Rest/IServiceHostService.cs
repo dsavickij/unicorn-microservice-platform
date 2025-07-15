@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
+using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+
+[assembly:UnicornServiceHostName(Constants.ServiceHostName)]
 
 namespace Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 
@@ -20,7 +23,7 @@ public interface IServiceHostService
     Task<OperationResult<int>> UploadFilmAsync(IFormFile file);
     
     [Post("/api/films/upload-new")]
-    Task<OperationResult<Guid>> UploadFilm([FromForm] FilmDescription filmDescription, IFormFile file);
+    Task<OperationResult<Guid>> UploadFilm([FromForm] FilmDescription filmDescription, [Body] IFormFile file);
 
     [Put("/api/films/description")]
     Task<OperationResult<FilmDescription>> UpdateFilmDescription(FilmDescription description);
