@@ -18,6 +18,7 @@ internal interface IServiceDiscoveryClient
     Task<OperationResult?> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
     Task<OperationResult?> CreateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration);
+
     Task<OperationResult?> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
     Task<OperationResult?> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration);
@@ -36,32 +37,37 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     private readonly ILogger<ServiceDiscoveryClient> _logger;
     private readonly ServiceDiscoverySettings _settings;
 
-    public ServiceDiscoveryClient(IOptions<ServiceDiscoverySettings> baseSettings, ILogger<ServiceDiscoveryClient> logger)
+    public ServiceDiscoveryClient(IOptions<ServiceDiscoverySettings> baseSettings,
+        ILogger<ServiceDiscoveryClient> logger)
     {
         _settings = baseSettings.Value;
         _logger = logger;
     }
 
-    public async Task<OperationResult?> CreateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    public async Task<OperationResult?> CreateGrpcServiceConfigurationAsync(
+        GrpcServiceConfiguration grpcServiceConfiguration)
     {
         var req = new RestRequest("api/configurations/grpc", Method.Post);
         req.AddBody(grpcServiceConfiguration);
 
         var policy = GetRetryPolicy();
 
-        return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PostAsync<OperationResult>(req));
+        return await policy.ExecuteAsync(() =>
+            new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
+                .PostAsync<OperationResult>(req));
     }
 
-    public async Task<OperationResult?> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
+    public async Task<OperationResult?> CreateHttpServiceConfigurationAsync(
+        HttpServiceConfiguration httpServiceConfiguration)
     {
         var req = new RestRequest("api/configurations/http", Method.Post);
         req.AddBody(httpServiceConfiguration);
 
         var policy = GetRetryPolicy();
 
-        return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PostAsync<OperationResult>(req));
+        return await policy.ExecuteAsync(() =>
+            new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
+                .PostAsync<OperationResult>(req));
     }
 
     public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName)
@@ -71,8 +77,9 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/grpc");
         var policy = GetRetryPolicy();
 
-        var response = await policy.ExecuteAsync(
-            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<GrpcServiceConfiguration>>(request));
+        var response = await policy.ExecuteAsync(() =>
+            new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
+                .GetAsync<OperationResult<GrpcServiceConfiguration>>(request));
 
         if (response!.IsSuccess)
         {
@@ -80,9 +87,10 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         }
 
         throw new ArgumentException($"Failed to retrieve Grpc service configuration for service '{serviceHostName}'. " +
-            $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
+                                    $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
     }
 
+    // TODO: need to use optional? Configution may not exist, but we in such case just throw exception
     public async Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceHostName)
     {
         _logger?.LogDebug($"Retrieving HTTP service configuration for: {serviceHostName}");
@@ -90,8 +98,9 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         var request = GetRequest(serviceHostName, "api/configurations/{serviceHostName}/http");
         var policy = GetRetryPolicy();
 
-        var response = await policy.ExecuteAsync(
-            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).GetAsync<OperationResult<HttpServiceConfiguration>>(request));
+        var response = await policy.ExecuteAsync(() =>
+            new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
+                .GetAsync<OperationResult<HttpServiceConfiguration>>(request));
 
         if (response!.IsSuccess)
         {
@@ -99,43 +108,43 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
         }
 
         throw new ArgumentException($"Failed to retrieve Http service configuration for service '{serviceHostName}'. " +
-            $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
+                                    $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
     }
 
-    public async Task<OperationResult?> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    public async Task<OperationResult?> UpdateGrpcServiceConfigurationAsync(
+        GrpcServiceConfiguration grpcServiceConfiguration)
     {
         var req = new RestRequest("api/configurations/grpc", Method.Put);
         req.AddBody(grpcServiceConfiguration);
 
         var policy = GetRetryPolicy();
 
-        return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PutAsync<OperationResult>(req));
+        return await policy.ExecuteAsync(() =>
+            new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
+                .PutAsync<OperationResult>(req));
     }
 
-    public async Task<OperationResult?> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
+    public async Task<OperationResult?> UpdateHttpServiceConfigurationAsync(
+        HttpServiceConfiguration httpServiceConfiguration)
     {
         var req = new RestRequest("api/configurations/http", Method.Put);
         req.AddBody(httpServiceConfiguration);
 
         var policy = GetRetryPolicy();
 
-        return await policy.ExecuteAsync(
-            () => new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url)).PutAsync<OperationResult>(req));
+        return await policy.ExecuteAsync(() =>
+            new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
+                .PutAsync<OperationResult>(req));
     }
 
     private AsyncRetryPolicy GetRetryPolicy()
     {
         return Policy.Handle<HttpRequestException>().WaitAndRetryAsync(
-            new[]
-            {
-                TimeSpan.FromSeconds(15),
-                TimeSpan.FromSeconds(30),
-                TimeSpan.FromSeconds(45)
-            },
+            new[] { TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(45) },
             (exception, timespan, context) =>
             {
-                _logger.LogWarning($"Failed to call ServiceDiscoveryService. Retrying in {timespan.TotalSeconds} seconds");
+                _logger.LogWarning(
+                    $"Failed to call ServiceDiscoveryService. Retrying in {timespan.TotalSeconds} seconds");
             });
     }
 

@@ -46,10 +46,12 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
         return Task.CompletedTask;
     }
 
-    private bool CanSelfRegistrationProceed() => false; //_baseHostSettings.ExecuteSelfRegistration;
+    private bool CanSelfRegistrationProceed() => true; // TODO: _baseHostSettings.ExecuteSelfRegistration;
 
     private async Task UpsertHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
+        var currentCfg = await _client.GetHttpServiceConfigurationAsync(httpServiceConfiguration.ServiceHostName);
+
         var updateResponse = await _client.UpdateHttpServiceConfigurationAsync(httpServiceConfiguration);
 
         if (updateResponse is { IsSuccess: false })

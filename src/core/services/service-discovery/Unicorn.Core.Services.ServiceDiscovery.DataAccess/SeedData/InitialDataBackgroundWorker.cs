@@ -21,8 +21,16 @@ public class InitialDataBackgroundWorker : BackgroundService
     {
         using var scope = _provider.CreateScope();
         var ctx = scope.ServiceProvider.GetRequiredService<ServiceDiscoveryDbContext>();
-
-        await ctx.Database.MigrateAsync();
+        
+        try
+        {
+            await ctx.Database.MigrateAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         await AddServiceHostNamesAsync(ctx);
         await AddHttpServiceConfigurationsAsync(ctx);
@@ -49,7 +57,9 @@ public class InitialDataBackgroundWorker : BackgroundService
         else
         {
             ctx.HttpServiceConfigurations.Update(newer);
-        };
+        }
+
+        ;
 
         await ctx.SaveChangesAsync();
     }
@@ -69,7 +79,9 @@ public class InitialDataBackgroundWorker : BackgroundService
             else if (serviceHosts.All(x => x != sh))
             {
                 ctx.ServiceHosts.Update(serviceHost);
-            };
+            }
+
+            ;
         }
 
         await ctx.SaveChangesAsync();
