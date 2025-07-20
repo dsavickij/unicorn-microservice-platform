@@ -11,9 +11,9 @@ namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.
 
 internal interface IServiceDiscoveryClient
 {
-    Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceHostName);
+    Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(string serviceHostName);
 
-    Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName);
+    Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(string serviceHostName);
 
     Task<OperationResult?> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
@@ -70,7 +70,8 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
                 .PostAsync<OperationResult>(req));
     }
 
-    public async Task<GrpcServiceConfiguration> GetGrpcServiceConfigurationAsync(string serviceHostName)
+    public async Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(
+        string serviceHostName)
     {
         _logger?.LogDebug($"Retrieving GRPC service configuration for: {serviceHostName}");
 
@@ -81,17 +82,14 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
             new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
                 .GetAsync<OperationResult<GrpcServiceConfiguration>>(request));
 
-        if (response!.IsSuccess)
-        {
-            return response.Data!;
-        }
-
-        throw new ArgumentException($"Failed to retrieve Grpc service configuration for service '{serviceHostName}'. " +
-                                    $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
+        return response ?? throw new ArgumentException(
+            $"Failed to retrieve Grpc service configuration for service '{serviceHostName}'. " +
+            $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
     }
 
     // TODO: need to use optional? Configution may not exist, but we in such case just throw exception
-    public async Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(string serviceHostName)
+    public async Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(
+        string serviceHostName)
     {
         _logger?.LogDebug($"Retrieving HTTP service configuration for: {serviceHostName}");
 
@@ -102,13 +100,9 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
             new RestClient(new Uri(InternalBaseHostSettings.ServiceDiscoverySettings.Url))
                 .GetAsync<OperationResult<HttpServiceConfiguration>>(request));
 
-        if (response!.IsSuccess)
-        {
-            return response.Data!;
-        }
-
-        throw new ArgumentException($"Failed to retrieve Http service configuration for service '{serviceHostName}'. " +
-                                    $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
+        return response ?? throw new ArgumentException(
+            $"Failed to retrieve Http service configuration for service '{serviceHostName}'. " +
+            $"Errors: {string.Join("; ", response.Errors.Select(x => x.Message))}");
     }
 
     public async Task<OperationResult?> UpdateGrpcServiceConfigurationAsync(

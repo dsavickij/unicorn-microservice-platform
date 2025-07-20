@@ -13,21 +13,25 @@ internal interface IHttpServiceConfigurationProvider
 
 internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvider
 {
-    private readonly ConcurrentDictionary<string, HttpServiceConfiguration> _cache = new (); // TODO: check MemoryCache
+    private readonly ConcurrentDictionary<string, HttpServiceConfiguration> _cache = new(); // TODO: check MemoryCache
     private readonly IServiceDiscoveryClient _svcDiscoveryClient;
 
-    public HttpServiceConfigurationProvider(IServiceDiscoveryClient serviceDiscoveryClient)
-    {
+    public HttpServiceConfigurationProvider(IServiceDiscoveryClient serviceDiscoveryClient) =>
         _svcDiscoveryClient = serviceDiscoveryClient;
-    }
 
     public async Task<HttpServiceConfiguration> GetHttpServiceConfigurationAsync(Type httpServiceInterface)
     {
         if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
             var name = GetServiceHostName(httpServiceInterface);
-            var cfg = await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name);
-            _cache.TryAdd(httpServiceInterface.FullName!, cfg);
+            var result = await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name);
+
+            if (result.IsSuccess)
+                _cache.TryAdd(httpServiceInterface.FullName!, result.Data);
+
+            throw new ArgumentException(
+                $"Failed to retrieve Http service configuration for service '{name}'. " +
+                $"Errors: {string.Join("; ", result.Errors.Select(x => x.Message))}");
         }
 
         return _cache[httpServiceInterface.FullName!];
@@ -43,6 +47,6 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
         }
 
         throw new ArgumentException($"Assembly '{httpServiceInterface.Assembly.FullName}' " +
-            $"does not include attribute '{typeof(UnicornServiceHostNameAttribute).FullName}'");
+                                    $"does not include attribute '{typeof(UnicornServiceHostNameAttribute).FullName}'");
     }
 }

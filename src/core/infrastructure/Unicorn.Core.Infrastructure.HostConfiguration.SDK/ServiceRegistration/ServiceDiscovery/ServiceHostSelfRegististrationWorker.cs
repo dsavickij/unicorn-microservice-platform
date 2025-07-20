@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Unicorn.Core.Infrastructure.Communication.Common.Operation;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery.DTOs;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
@@ -37,7 +38,8 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
             await UpsertHttpServiceConfigurationAsync(httpCfg);
             await UpsertGrpcServiceConfigurationAsync(grpcCfg);
 
-            _logger.LogInformation($"ServiceDiscoveryService was successfully called for service host self-registration");
+            _logger.LogInformation(
+                $"ServiceDiscoveryService was successfully called for service host self-registration");
         }
     }
 
@@ -50,38 +52,58 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
 
     private async Task UpsertHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
-        var currentCfg = await _client.GetHttpServiceConfigurationAsync(httpServiceConfiguration.ServiceHostName);
-
         var updateResponse = await _client.UpdateHttpServiceConfigurationAsync(httpServiceConfiguration);
 
-        if (updateResponse is { IsSuccess: false })
+        if (updateResponse is { IsSuccess: true })
+        {
+            return;
+        }
+
+        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status404NotFound })
         {
             var createResponse = await _client.CreateHttpServiceConfigurationAsync(httpServiceConfiguration);
 
-            if (createResponse is { IsSuccess: false })
+            if (createResponse is { IsSuccess: true })
             {
-                throw new ArgumentException($"Failed to upsert HTTP service configuration for service " +
-                    $"'{httpServiceConfiguration.ServiceHostName}'. " +
-                    $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
+                return;
             }
+
+            throw new ArgumentException($"Failed to create HTTP service configuration for service " +
+                                        $"'{httpServiceConfiguration.ServiceHostName}'. " +
+                                        $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
         }
+
+        throw new ArgumentException($"Failed to update HTTP service configuration for service " +
+                                    $"'{httpServiceConfiguration.ServiceHostName}'. " +
+                                    $"Errors: {string.Join("; ", updateResponse.Errors.Select(x => x.Message))}");
     }
 
     private async Task UpsertGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
     {
         var updateResponse = await _client.UpdateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
 
-        if (updateResponse is { IsSuccess: false })
+        if (updateResponse is { IsSuccess: true })
+        {
+            return;
+        }
+
+        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status404NotFound })
         {
             var createResponse = await _client.CreateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
 
-            if (createResponse is { IsSuccess: false })
+            if (createResponse is { IsSuccess: true })
             {
-                throw new ArgumentException($"Failed to upsert gRPC service configuration for service " +
-                    $"'{grpcServiceConfiguration.ServiceHostName}'. " +
-                    $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
+                return;
             }
+
+            throw new ArgumentException($"Failed to create gRPC service configuration for service " +
+                                        $"'{grpcServiceConfiguration.ServiceHostName}'. " +
+                                        $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
         }
+
+        throw new ArgumentException($"Failed to create gRPC service configuration for service " +
+                                    $"'{grpcServiceConfiguration.ServiceHostName}'. " +
+                                    $"Errors: {string.Join("; ", updateResponse.Errors.Select(x => x.Message))}");
     }
 
     private (HttpServiceConfiguration http, GrpcServiceConfiguration grpc) GetServiceHostConfigurations()
@@ -90,14 +112,12 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
 
         var httpCfg = new HttpServiceConfiguration
         {
-            ServiceHostName = InternalBaseHostSettings.ServiceHostName,
-            BaseUrl = httpUri.AbsoluteUri
+            ServiceHostName = InternalBaseHostSettings.ServiceHostName, BaseUrl = httpUri.AbsoluteUri
         };
 
         var grpcCfg = new GrpcServiceConfiguration
         {
-            ServiceHostName = InternalBaseHostSettings.ServiceHostName,
-            BaseUrl = httpsUri.AbsoluteUri
+            ServiceHostName = InternalBaseHostSettings.ServiceHostName, BaseUrl = httpsUri.AbsoluteUri
         };
 
         return (httpCfg, grpcCfg);
@@ -112,7 +132,8 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
 
         if (urls.Length is > maxMinUrlCount or < maxMinUrlCount)
         {
-            throw new ArgumentException($"Defined number of URLs for configuration key '{urlConfigurationKey}' is " +
+            throw new ArgumentException(
+                $"Defined number of URLs for configuration key '{urlConfigurationKey}' is " +
                 $"'{urls.Length}' when it must be equal to '{maxMinUrlCount}'");
         }
 
@@ -124,7 +145,8 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
         var httpsUrls = urls.Where(url => url.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
 
         return httpsUrls.Count() is not 1
-            ? throw new ArgumentException($"Only one HTTPS URL can be defined in value for configuration key '{UrlConfigurationKey}'")
+            ? throw new ArgumentException(
+                $"Only one HTTPS URL can be defined in value for configuration key '{UrlConfigurationKey}'")
             : new Uri(httpsUrls.Single());
     }
 
@@ -133,7 +155,8 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
         var httpUrls = urls.Where(url => url.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
 
         return httpUrls.Count() is not 1
-            ? throw new ArgumentException($"Only one HTTP URL can be defined in value for configuration key '{UrlConfigurationKey}'")
+            ? throw new ArgumentException(
+                $"Only one HTTP URL can be defined in value for configuration key '{UrlConfigurationKey}'")
             : new Uri(httpUrls.Single());
     }
 }
