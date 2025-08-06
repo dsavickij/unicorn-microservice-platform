@@ -8,20 +8,20 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.ServiceDiscovery;
 
-internal class ServiceHostSelfRegististrationWorker : IHostedService
+internal class ServiceHostSelfRegistrationWorker : IHostedService
 {
     private const string UrlConfigurationKey = "ASPNETCORE_URLS";
 
     private readonly IServiceDiscoveryClient _client;
     private readonly IConfiguration _cfg;
     private readonly ServiceDiscoverySettings _baseHostSettings; // TODO: check it
-    private readonly ILogger<ServiceHostSelfRegististrationWorker> _logger;
+    private readonly ILogger<ServiceHostSelfRegistrationWorker> _logger;
 
-    public ServiceHostSelfRegististrationWorker(
+    public ServiceHostSelfRegistrationWorker(
         IServiceDiscoveryClient client,
         IConfiguration configuration,
         IOptions<ServiceDiscoverySettings> options,
-        ILogger<ServiceHostSelfRegististrationWorker> logger)
+        ILogger<ServiceHostSelfRegistrationWorker> logger)
     {
         _client = client;
         _cfg = configuration;
