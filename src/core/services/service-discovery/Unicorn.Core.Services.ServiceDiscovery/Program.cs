@@ -2,7 +2,7 @@ using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
 using Unicorn.Core.Services.ServiceDiscovery;
 using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 
-ServiceHostBuilder.Build<ServiceDiscoveryHostSettings>(args, builder =>
+await ServiceHostBuilder.Build<ServiceDiscoveryHostSettings>(args, builder =>
 {
     builder.WithServiceConfiguration((services, cfg, _) =>
     {
@@ -10,4 +10,4 @@ ServiceHostBuilder.Build<ServiceDiscoveryHostSettings>(args, builder =>
         services.AddHostedService<InitialDataBackgroundWorker>();
         services.AddHealthChecks().AddDbContextCheck<ServiceDiscoveryDbContext>();
     });
-}).Run();
+}).RunAsync();

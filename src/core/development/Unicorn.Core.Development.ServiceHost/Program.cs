@@ -3,9 +3,10 @@ using Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 
-ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>
+await ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>
 {
-    builder.WithServiceConfiguration((services, _, _) =>
+    builder
+        .WithServiceConfiguration((services, _, _) =>
         {
             services.AddTransient<IServiceHostService, FilmService>();
         })
@@ -17,4 +18,4 @@ ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>
         {
             // add application configuration
         });
-}).Run();
+}).RunAsync();
