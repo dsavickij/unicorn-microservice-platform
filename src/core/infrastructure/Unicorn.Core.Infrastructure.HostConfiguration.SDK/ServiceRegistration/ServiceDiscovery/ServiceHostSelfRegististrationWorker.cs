@@ -59,7 +59,7 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
             return;
         }
 
-        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status404NotFound })
+        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status400BadRequest })
         {
             var createResponse = await _client.CreateHttpServiceConfigurationAsync(httpServiceConfiguration);
 
@@ -87,7 +87,7 @@ internal class ServiceHostSelfRegististrationWorker : IHostedService
             return;
         }
 
-        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status404NotFound })
+        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status400BadRequest })
         {
             var createResponse = await _client.CreateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
 

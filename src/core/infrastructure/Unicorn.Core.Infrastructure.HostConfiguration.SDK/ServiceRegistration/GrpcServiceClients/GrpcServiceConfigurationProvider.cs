@@ -13,7 +13,7 @@ internal interface IGrpcServiceConfigurationProvider
 
 internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvider
 {
-    private readonly ConcurrentDictionary<string, GrpcServiceConfiguration> _cache = new ();
+    private readonly ConcurrentDictionary<string, GrpcServiceConfiguration> _cache = new();
     private readonly IServiceDiscoveryClient _client;
 
     public GrpcServiceConfigurationProvider(IServiceDiscoveryClient client) => _client = client;
@@ -24,13 +24,18 @@ internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvi
         {
             if (!_cache.ContainsKey(grpcServiceMethod.Name))
             {
-                var attribute = grpcServiceMethod.DeclaringType.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
+                var attribute =
+                    grpcServiceMethod.DeclaringType.Assembly.GetCustomAttribute(
+                        typeof(UnicornServiceHostNameAttribute));
 
                 if (attribute is UnicornServiceHostNameAttribute nameAttribute)
                 {
                     // TODO: if cfg is null throw exception
                     var cfg = await _client.GetGrpcServiceConfigurationAsync(nameAttribute.ServiceHostName);
-                    _cache.TryAdd(grpcServiceMethod.Name, cfg);
+                    _cache.TryAdd(
+                        grpcServiceMethod.Name,
+                        cfg.Data ?? throw new ArgumentNullException(nameof(cfg.Data),
+                            "No gRPC configuration was retrieved"));
                 }
             }
 
@@ -38,7 +43,7 @@ internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvi
         }
 
         throw new ArgumentException($"Method '{grpcServiceMethod.Name}' belongs to type " +
-            $"'{grpcServiceMethod.DeclaringType!.FullName}' is not declared in the type in SDK for GRPC services. " +
-            $"Only GRPC service methods can be used as a delegate");
+                                    $"'{grpcServiceMethod.DeclaringType!.FullName}' is not declared in the type in SDK for GRPC services. " +
+                                    $"Only GRPC service methods can be used as a delegate");
     }
 }
