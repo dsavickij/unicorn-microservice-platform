@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Refit;
 using Unicorn.Core.Development.ServiceHost.SDK;
 using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
 
 [assembly:UnicornServiceHostName(Constants.ServiceHostName)]
 

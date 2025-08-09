@@ -1,8 +1,8 @@
 ﻿using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC.Contracts;
 using Unicorn.eShop.Discount.SDK.DTOs;
 using Unicorn.eShop.Discount.SDK.Protos;
 

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 using Unicorn.eShop.Cart.DataAccess;
 using Unicorn.eShop.Cart.Features.AddItem;
 using Xunit;

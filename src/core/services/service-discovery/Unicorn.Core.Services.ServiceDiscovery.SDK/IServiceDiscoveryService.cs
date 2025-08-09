@@ -1,6 +1,6 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
+﻿using Refit;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
@@ -11,26 +11,26 @@ namespace Unicorn.Core.Services.ServiceDiscovery.SDK;
 [UnicornRestServiceMarker]
 public interface IServiceDiscoveryService
 {
-    [UnicornHttpGet("api/configurations/{serviceHostName}/grpc")]
+    [Get("api/configurations/{serviceHostName}/grpc")]
     Task<OperationResult<GrpcServiceConfiguration>> GetGrpcServiceConfigurationAsync(string serviceHostName);
 
-    [UnicornHttpGet("api/configurations/{serviceHostName}/http")]
+    [Get("api/configurations/{serviceHostName}/http")]
     Task<OperationResult<HttpServiceConfiguration>> GetHttpServiceConfigurationAsync(string serviceHostName);
 
-    [UnicornHttpPut("api/configurations/http")]
+    [Put("api/configurations/http")]
     Task<OperationResult<HttpServiceConfiguration>> UpdateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
-    [UnicornHttpGet("api/configurations/http/all")]
+    [Get("api/configurations/http/all")]
     Task<OperationResult<IEnumerable<HttpServiceConfiguration>>> GetAllHttpServiceConfigurationsAsync();
 
-    [UnicornHttpPut("api/configurations/grpc")]
+    [Put("api/configurations/grpc")]
     Task<OperationResult<GrpcServiceConfiguration>> UpdateGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration);
 
     // TODO: create configuration method should probably be removed from SDK
-    [UnicornHttpPost("api/configurations/{serviceHostName}/http")]
+    [Post("api/configurations/{serviceHostName}/http")]
     Task<OperationResult> CreateHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration);
 
     // TODO: delete configuration method should probably be removed from SDK
-    [UnicornHttpDelete("api/configurations/{serviceHostName}")]
+    [Delete("api/configurations/{serviceHostName}")]
     Task DeleteHttpServiceConfigurationAsync(string serviceHostName);
 }

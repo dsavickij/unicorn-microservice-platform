@@ -1,7 +1,6 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
+﻿using Refit;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
 using Unicorn.eShop.Cart.SDK;
 using Unicorn.eShop.Cart.SDK.DTOs;
 
@@ -12,15 +11,15 @@ namespace Unicorn.eShop.Cart.SDK.Services.Http;
 [UnicornRestServiceMarker]
 public interface ICartService
 {
-    [UnicornHttpPost("api/carts/{cartId}/items")]
-    Task<OperationResult> AddItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromBody] CartItemDTO cartItem);
+    [Post("api/carts/{cartId}/items")]
+    Task<OperationResult> AddItemAsync(Guid cartId, [Body] CartItemDTO cartItem);
 
-    [UnicornHttpDelete("api/carts/{cartId}/items/{itemId}")]
-    Task<OperationResult> RemoveItemAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] Guid itemId);
+    [Delete("api/carts/{cartId}/items/{itemId}")]
+    Task<OperationResult> RemoveItemAsync(Guid cartId, Guid itemId);
 
-    [UnicornHttpGet("api/carts/my")]
+    [Get("api/carts/my")]
     Task<OperationResult<CartDTO>> GetMyCartAsync();
 
-    [UnicornHttpGet("api/carts/{cartId}/discounts/{discountCode}")]
-    Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync([UnicornFromRoute] Guid cartId, [UnicornFromRoute] string discountCode);
+    [Get("api/carts/{cartId}/discounts/{discountCode}")]
+    Task<OperationResult<DiscountedCartDTO>> ApplyDiscountAsync(Guid cartId, string discountCode);
 }

@@ -20,7 +20,6 @@
 		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="7.0.0" />
 		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
-		<PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.72.0">
@@ -41,9 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj" />
-		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj" />
-		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj" />
+		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.SDK\Unicorn.Core.Infrastructure.Communication.SDK.csproj" />
 		<ProjectReference Include="..\Unicorn.Core.Infrastructure.Security.IAM\Unicorn.Core.Infrastructure.Security.IAM.csproj" />
 	</ItemGroup>
 

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.eShop.Cart.Features.AddItem;
 using Unicorn.eShop.Cart.Features.ApplyDiscount;

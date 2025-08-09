@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+﻿using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
 using Unicorn.eShop.Cart.SDK.DTOs;
 using Unicorn.eShop.Discount.SDK.Services.gRPC.Clients;

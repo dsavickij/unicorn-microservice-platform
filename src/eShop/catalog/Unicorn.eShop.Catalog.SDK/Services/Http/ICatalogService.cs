@@ -1,7 +1,6 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
+﻿using Refit;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
 using Unicorn.eShop.Catalog.SDK;
 using Unicorn.eShop.Catalog.SDK.DTOs;
 
@@ -12,9 +11,9 @@ namespace Unicorn.eShop.Catalog.SDK.Services.Http;
 [UnicornRestServiceMarker]
 public interface ICatalogService
 {
-    [UnicornHttpDelete("api/catalog/items/{id}/soft")]
-    Task<OperationResult> SoftDeleteItemAsync([UnicornFromRoute] Guid id);
+    [Delete("api/catalog/items/{id}/soft")]
+    Task<OperationResult> SoftDeleteItemAsync(Guid id);
 
-    [UnicornHttpPost("api/catalog/categories")]
-    Task<OperationResult<CatalogCategory>> CreateCatalogCategoryAsync([UnicornFromBody] CatalogCategory catalogCategory);
+    [Post("api/catalog/categories")]
+    Task<OperationResult<CatalogCategory>> CreateCatalogCategoryAsync([Body] CatalogCategory catalogCategory);
 }

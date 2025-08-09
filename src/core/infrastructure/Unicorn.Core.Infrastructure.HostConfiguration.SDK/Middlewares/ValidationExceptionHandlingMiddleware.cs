@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.Middlewares;
 

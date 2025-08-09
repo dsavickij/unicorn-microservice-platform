@@ -10,8 +10,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.Grpc.SDK" Version="1.0.0" />
-		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.Http.SDK" Version="1.0.0" />
+		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.SDK" Version="1.1.0" />
 
 	</ItemGroup>
 

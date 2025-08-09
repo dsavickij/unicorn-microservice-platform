@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
+
+namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
 
 public static class RestServiceEndpointMapper
 {

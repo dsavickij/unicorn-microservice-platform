@@ -1,6 +1,6 @@
 ﻿using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Protos;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC.Contracts;
 
 namespace Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
 

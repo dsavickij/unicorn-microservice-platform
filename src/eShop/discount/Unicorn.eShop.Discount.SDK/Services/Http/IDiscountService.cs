@@ -1,7 +1,6 @@
-﻿using Unicorn.Core.Infrastructure.Communication.Common.Operation;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.ParameterBindings;
+﻿using Refit;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
 using Unicorn.eShop.Discount.SDK;
 using Unicorn.eShop.Discount.SDK.DTOs;
 
@@ -12,6 +11,6 @@ namespace Unicorn.eShop.Discount.SDK.Services.Http;
 [UnicornRestServiceMarker]
 public interface IDiscountService
 {
-    [UnicornHttpGet("api/discounts/{discountCode}")]
-    public Task<OperationResult<CartDiscount>> GetCartDiscountAsync([UnicornFromRoute] string discountCode);
+    [Get("api/discounts/{discountCode}")]
+    public Task<OperationResult<CartDiscount>> GetCartDiscountAsync(string discountCode);
 }

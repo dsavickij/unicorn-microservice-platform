@@ -1,6 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC.Contracts;
 using Unicorn.Core.Infrastructure.Security.IAM.AuthenticationContext;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.GrpcServiceClients;

@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK;
-using Unicorn.Core.Infrastructure.Communication.Http.SDK.Attributes.HttpMethods;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker;
+using Unicorn.Core.Infrastructure.Communication.SDK.OneWay;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.Rest;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
@@ -61,35 +60,36 @@ internal static class AssemblyScanner
             x.BaseType.GetGenericTypeDefinition() == typeof(UnicornHttpService<>));
     }
 
-    public static IEnumerable<OneWayMethodConfiguration> GetOneWayMethodConfigurations()
-    {
-        var configurations = new List<OneWayMethodConfiguration>();
-
-        foreach (var controller in GetUnicornControllers())
-        {
-            var httpServiceInterfaceType = controller.BaseType!.GetGenericArguments()[0];
-
-            var interfaceMethods = httpServiceInterfaceType
-                .GetMethods()
-                .Where(x => x.CustomAttributes.FirstOrDefault(x => x.AttributeType == typeof(UnicornOneWayAttribute)) is not null);
-
-            foreach (var interfaceMethod in interfaceMethods)
-            {
-                var controllerMethod = controller
-                    .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                    .Where(x => x.CustomAttributes.Any(x => x.AttributeType == typeof(NonActionAttribute)))
-                    .Single(x => x.Name == interfaceMethod.Name && x.GetParameters().Length == interfaceMethod.GetParameters().Length);
-
-                configurations.Add(new OneWayMethodConfiguration
-                {
-                    InterfaceMethod = interfaceMethod,
-                    ControllerMethod = controllerMethod
-                });
-            }
-        }
-
-        return configurations;
-    }
+    // TODO: check is this is needed
+    // public static IEnumerable<OneWayMethodConfiguration> GetOneWayMethodConfigurations()
+    // {
+    //     var configurations = new List<OneWayMethodConfiguration>();
+    //
+    //     foreach (var controller in GetUnicornControllers())
+    //     {
+    //         var httpServiceInterfaceType = controller.BaseType!.GetGenericArguments()[0];
+    //
+    //         var interfaceMethods = httpServiceInterfaceType
+    //             .GetMethods()
+    //             .Where(x => x.CustomAttributes.FirstOrDefault(x => x.AttributeType == typeof(UnicornOneWayAttribute)) is not null);
+    //
+    //         foreach (var interfaceMethod in interfaceMethods)
+    //         {
+    //             var controllerMethod = controller
+    //                 .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+    //                 .Where(x => x.CustomAttributes.Any(x => x.AttributeType == typeof(NonActionAttribute)))
+    //                 .Single(x => x.Name == interfaceMethod.Name && x.GetParameters().Length == interfaceMethod.GetParameters().Length);
+    //
+    //             configurations.Add(new OneWayMethodConfiguration
+    //             {
+    //                 InterfaceMethod = interfaceMethod,
+    //                 ControllerMethod = controllerMethod
+    //             });
+    //         }
+    //     }
+    //
+    //     return configurations;
+    // }
 
     private static bool IsUnicornAssembly(Assembly assembly) => IsUnicornAssemblyName(assembly.GetName());
 

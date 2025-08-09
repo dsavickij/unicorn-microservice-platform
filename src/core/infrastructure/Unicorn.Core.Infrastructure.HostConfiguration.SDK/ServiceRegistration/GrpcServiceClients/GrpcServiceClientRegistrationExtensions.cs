@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.Extensions.DependencyInjection;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK;
-using Unicorn.Core.Infrastructure.Communication.Grpc.SDK.Contracts;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC;
+using Unicorn.Core.Infrastructure.Communication.SDK.TwoWay.gRPC.Contracts;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.GrpcServiceClients;
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
@@ -12,7 +12,7 @@ using Unicorn.Core.Services.ServiceDiscovery.Services.Rest.Features.GetHttpServi
 using Unicorn.Core.Services.ServiceDiscovery.Services.Rest.Features.UpdateGrpcServiceConfiguration;
 using Unicorn.Core.Services.ServiceDiscovery.Services.Rest.Features.UpdateHttpServiceConfiguration;
 
-namespace Unicorn.Core.Services.ServiceDiscovery.Controllers;
+namespace Unicorn.Core.Services.ServiceDiscovery.Services.Rest;
 
 [AllowAnonymous]
 public class ServiceDiscoveryService : UnicornHttpService<IServiceDiscoveryService>, IServiceDiscoveryService

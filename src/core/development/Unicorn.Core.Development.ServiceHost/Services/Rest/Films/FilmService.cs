@@ -6,7 +6,7 @@ using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.GetFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.UpdateFilmDescription;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.UploadFilm;
-using Unicorn.Core.Infrastructure.Communication.Common.Operation;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost.Services.Rest.Films;

@@ -10,7 +10,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
-		<PackageReference Include="Unicorn.Core.Infrastructure.HostConfiguration.SDK" Version="1.0.0" />
+		<PackageReference Include="Unicorn.Core.Infrastructure.HostConfiguration.SDK" Version="1.1.0" />
 		<PackageReference Include="OneOf" Version="3.0.271" />
 		<PackageReference Include="Unicorn.eShop.Catalog.SDK" Version="1.0.0" />
 		<PackageReference Include="Unicorn.eShop.Discount.SDK" Version="1.0.0" />

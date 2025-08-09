@@ -18,12 +18,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Grpc.SDK\Unicorn.Core.Infrastructure.Communication.Grpc.SDK.csproj" />
-		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.Http.SDK\Unicorn.Core.Infrastructure.Communication.Http.SDK.csproj" />
-		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.MessageBroker\Unicorn.Core.Infrastructure.Communication.MessageBroker.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Protobuf Include="Services\gRPC\Protos\Custom\Types.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Services\gRPC\Protos\MultiplicationGrpcService.proto" GrpcServices="Server, Client" />
 		<Protobuf Include="Services\gRPC\Protos\DivisionGrpcService.proto" GrpcServices="Server, Client" />
@@ -32,6 +26,10 @@
 
 	<ItemGroup>
 	  <Folder Include="Events\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Communication.SDK\Unicorn.Core.Infrastructure.Communication.SDK.csproj" />
 	</ItemGroup>
 
 </Project>

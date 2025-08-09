@@ -1,7 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using Microsoft.Extensions.Logging;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue;
-using Unicorn.Core.Infrastructure.Communication.MessageBroker.Queue.Message;
+using Unicorn.Core.Infrastructure.Communication.SDK.OneWay.Queue;
+using Unicorn.Core.Infrastructure.Communication.SDK.OneWay.Queue.Message;
 
 namespace Unicorn.Core.Infrastructure.HostConfiguration.SDK.ServiceRegistration.HttpServices.Proxy;
 

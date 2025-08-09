@@ -8,8 +8,4 @@
 		<PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Unicorn.Core.Infrastructure.Communication.Common\Unicorn.Core.Infrastructure.Communication.Common.csproj" />
-	</ItemGroup>
-
 </Project>
