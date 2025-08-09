@@ -105,7 +105,7 @@ dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicor
 
 dotnet pack 'C:\Src\unicorn-project-microservices\src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
-dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
+dotnet pack 'C:\Src\unicorn-project-microservices\src\core\infrastructure\Unicorn.Core.Infrastructure.Host.SDK\Unicorn.Core.Infrastructure.Host.SDK.csproj' --output 'C:\Users\dsavi\Documents\Local NuGet Store' -p:PackageVersion=1.0.0
 
 ```
 After finishing, Powershell will create project nuget packages in `--output` folder. This folder needs to be added as a local nuget store in Visual Studio. [Here](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources) you can find how to do that.
@@ -157,7 +157,7 @@ Typical Unicorn microservice consists of at least 1 Web API project and 1 class 
 
 #### Web API host configuration
 
-1. Add `Unicorn.Core.Infrastructure.HostConfiguration.SDK` nuget package to created Web API project
+1. Add `Unicorn.Core.Infrastructure.Host.SDK` nuget package to created Web API project
 2. Go to `Program.cs`, remove every line of code and paste the following:
 
 ```c#

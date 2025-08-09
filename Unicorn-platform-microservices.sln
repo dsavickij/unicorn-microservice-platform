@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.HostConfiguration.SDK", "src\core\infrastructure\Unicorn.Core.Infrastructure.HostConfiguration.SDK\Unicorn.Core.Infrastructure.HostConfiguration.SDK.csproj", "{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Infrastructure.Host.SDK", "src\core\infrastructure\Unicorn.Core.Infrastructure.Host.SDK\Unicorn.Core.Infrastructure.Host.SDK.csproj", "{DEB9675E-25BC-4C6F-A2C3-81F8F417A98E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery", "src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery\Unicorn.Core.Services.ServiceDiscovery.csproj", "{2A18985A-D1F9-4137-B28C-9C6E802F55B5}"
 EndProject

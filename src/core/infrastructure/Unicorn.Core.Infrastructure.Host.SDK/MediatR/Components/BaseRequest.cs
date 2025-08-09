@@ -1,0 +1,20 @@
+﻿using MediatR;
+using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+
+namespace Unicorn.Core.Infrastructure.Host.SDK.MediatR.Components;
+
+public static class BaseRequest
+{
+    public abstract record RequiringResult<TResponse> : IRequest<OperationResult<TResponse>>
+        where TResponse : notnull
+    {
+    }
+
+    public abstract record RequiringResult : IRequest<OperationResult>
+    {
+    }
+
+    public abstract record RequiringNoResult : IRequest
+    {
+    }
+}

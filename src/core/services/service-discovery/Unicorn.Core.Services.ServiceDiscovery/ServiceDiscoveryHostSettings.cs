@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
+﻿using Unicorn.Core.Infrastructure.Host.SDK.Settings;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 
 namespace Unicorn.Core.Services.ServiceDiscovery;

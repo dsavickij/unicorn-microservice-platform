@@ -4,7 +4,7 @@ using Unicorn.Core.Development.ClientHost.Features.GetHttpServiceConfiguration;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.Host.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 

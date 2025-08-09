@@ -1,4 +1,4 @@
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
+using Unicorn.Core.Infrastructure.Host.SDK.HostBuilder;
 using Unicorn.Core.Services.ServiceDiscovery;
 using Unicorn.Core.Services.ServiceDiscovery.DataAccess;
 

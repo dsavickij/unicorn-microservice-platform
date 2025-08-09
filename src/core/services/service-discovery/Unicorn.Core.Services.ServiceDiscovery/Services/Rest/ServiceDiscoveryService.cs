@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.Host.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 using Unicorn.Core.Services.ServiceDiscovery.Services.Rest.Features.CreateGrpcServiceConfiguration;

@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
+﻿using Unicorn.Core.Infrastructure.Host.SDK.Settings;
 using Unicorn.Core.Development.ServiceHost.SDK;
 
 namespace Unicorn.Core.Development.ServiceHost;

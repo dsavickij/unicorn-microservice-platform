@@ -2,7 +2,7 @@
 using OneOf;
 using OneOf.Types;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
+using Unicorn.Core.Infrastructure.Host.SDK.MediatR.Components;
 using Unicorn.eShop.Cart.DataAccess;
 using Unicorn.eShop.Cart.DataAccess.Entities;
 

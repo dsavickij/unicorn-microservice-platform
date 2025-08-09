@@ -1,6 +1,6 @@
 ﻿using Unicorn.Core.Infrastructure.Communication.SDK.OneWay;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
+using Unicorn.Core.Infrastructure.Host.SDK.MediatR.Components;
 using Unicorn.eShop.Catalog.SDK.Events;
 
 namespace Unicorn.eShop.Catalog.Features.SoftDeleteItem;

@@ -1,6 +1,6 @@
 using Unicorn.Core.Development.ServiceHost;
 using Unicorn.Core.Development.ServiceHost.Services.Rest.Films;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.HostBuilder;
+using Unicorn.Core.Infrastructure.Host.SDK.HostBuilder;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 
 await ServiceHostBuilder.Build<ServiceHostSettings>(args, builder =>

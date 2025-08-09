@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK;
+using Unicorn.Core.Infrastructure.Host.SDK;
 using Unicorn.eShop.Catalog.Features.SoftDeleteItem;
 using Unicorn.eShop.Catalog.SDK.DTOs;
 using Unicorn.eShop.Catalog.SDK.Services.Http;

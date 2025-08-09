@@ -1,6 +1,6 @@
 ﻿using Unicorn.Core.Development.ServiceHost.SDK.DTOs;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
-using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
+using Unicorn.Core.Infrastructure.Host.SDK.MediatR.Components;
 
 namespace Unicorn.Core.Development.ServiceHost.Services.Rest.Films.Features.UpdateFilmDescription;
 

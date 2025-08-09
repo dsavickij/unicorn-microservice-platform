@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.MediatR.Components;
+﻿using Unicorn.Core.Infrastructure.Host.SDK.MediatR.Components;
 
 namespace Unicorn.eShop.Cart.Features.RemoveItem;
 

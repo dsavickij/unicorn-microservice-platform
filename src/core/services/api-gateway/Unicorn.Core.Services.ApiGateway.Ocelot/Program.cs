@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// TOOD: think about how to use the same settings without using HostConfiguration.SDK
+// TOOD: think about how to use the same settings without using Host.SDK
 app.MapHealthChecks("/hc", new HealthCheckOptions()
 {
     Predicate = _ => true,

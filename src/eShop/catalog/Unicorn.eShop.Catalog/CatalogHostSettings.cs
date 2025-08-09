@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Infrastructure.HostConfiguration.SDK.Settings;
+﻿using Unicorn.Core.Infrastructure.Host.SDK.Settings;
 using Unicorn.eShop.Catalog.SDK;
 
 namespace Unicorn.eShop.Catalog;
