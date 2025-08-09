@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess;
+namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess.Initialization;
 
 internal static class SeedDataHelper
 {
@@ -29,7 +29,7 @@ internal static class SeedDataHelper
 
         foreach (var grpcCfg in grpcCfgs)
         {
-            if (ctx.GrpcServiceConfigurations.AsNoTracking().FirstOrDefault(x => x.Id == grpcCfg.Id) is null)
+            if (Queryable.FirstOrDefault(ctx.GrpcServiceConfigurations.AsNoTracking(), x => x.Id == grpcCfg.Id) is null)
             {
                 ctx.GrpcServiceConfigurations.Add(grpcCfg);
             }
@@ -50,7 +50,7 @@ internal static class SeedDataHelper
 
         foreach (var httpCfg in httpsCfgs)
         {
-            if (ctx.HttpServiceConfigurations.AsNoTracking().FirstOrDefault(x => x.Id == httpCfg.Id) is null)
+            if (Queryable.FirstOrDefault(ctx.HttpServiceConfigurations.AsNoTracking(), x => x.Id == httpCfg.Id) is null)
             {
                 ctx.HttpServiceConfigurations.Add(httpCfg);
             }
@@ -73,7 +73,7 @@ internal static class SeedDataHelper
 
         foreach (var serviceHost in serviceHosts)
         {
-            if (ctx.ServiceHosts.AsNoTracking().FirstOrDefault(x => x.Name == serviceHost.Name) is null)
+            if (Queryable.FirstOrDefault(ctx.ServiceHosts.AsNoTracking(), x => x.Name == serviceHost.Name) is null)
             {
                 ctx.ServiceHosts.Add(serviceHost);
             }

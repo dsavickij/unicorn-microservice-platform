@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess;
+﻿namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess.Initialization;
 
 internal static class SeedData
 {

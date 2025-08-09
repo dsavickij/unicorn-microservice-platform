@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 
-namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess;
+namespace Unicorn.Core.Services.ServiceDiscovery.DataAccess.Initialization;
 
 public class InitialDataBackgroundWorker : BackgroundService
 {

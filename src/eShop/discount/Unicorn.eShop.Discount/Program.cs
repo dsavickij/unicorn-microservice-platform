@@ -2,7 +2,7 @@ using Unicorn.Core.Infrastructure.Host.SDK.HostBuilder;
 using Unicorn.eShop.Discount;
 using Unicorn.eShop.Discount.Services.gRPC;
 
-ServiceHostBuilder.Build<DiscountHostSettings>(args, builder =>
+await ServiceHostBuilder.Build<DiscountHostSettings>(args, builder =>
 {
     builder.WithServiceConfiguration((services, _, _) =>
     {
@@ -12,4 +12,4 @@ ServiceHostBuilder.Build<DiscountHostSettings>(args, builder =>
     {
         endpointBuilder.MapGrpcService<DiscountGrpcService>();
     });
-}).Run();
+}).RunAsync();

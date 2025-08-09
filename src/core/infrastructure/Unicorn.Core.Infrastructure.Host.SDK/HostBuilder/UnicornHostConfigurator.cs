@@ -46,8 +46,7 @@ public class UnicornHostConfigurator : IUnicornHostConfigurator
         Action<IServiceCollection, ConfigurationManager, IWebHostEnvironment> serviceCollectionConfiguration)
     {
         ServiceCollectionConfiguration = serviceCollectionConfiguration ??
-                                         throw new ArgumentNullException(
-                                             "Service host configuration delegate cannot be null");
+                                         throw new ArgumentNullException("Service host configuration delegate cannot be null");
 
         return this;
     }

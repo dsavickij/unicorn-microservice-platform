@@ -29,9 +29,12 @@ internal class ServiceHostSelfRegistrationWorker : IHostedService
         _logger = logger;
     }
 
+    private static bool CanSelfRegistrationProceed =>
+        InternalBaseHostSettings.ServiceDiscoverySettings.ExecuteSelfRegistration;
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        if (CanSelfRegistrationProceed())
+        if (CanSelfRegistrationProceed)
         {
             var (httpCfg, grpcCfg) = GetServiceHosts();
 
@@ -48,7 +51,6 @@ internal class ServiceHostSelfRegistrationWorker : IHostedService
         return Task.CompletedTask;
     }
 
-    private bool CanSelfRegistrationProceed() => true; // TODO: _baseHostSettings.ExecuteSelfRegistration;
 
     private async Task UpsertHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {

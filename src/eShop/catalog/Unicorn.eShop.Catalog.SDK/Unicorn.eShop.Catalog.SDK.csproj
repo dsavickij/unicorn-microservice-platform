@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.SDK" Version="1.3.0" />
+		<PackageReference Include="Unicorn.Core.Infrastructure.Communication.SDK" Version="1.3.1" />
 	</ItemGroup>
 
 	<ItemGroup>

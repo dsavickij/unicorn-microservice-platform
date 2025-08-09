@@ -1,6 +1,5 @@
 using Unicorn.Core.Development.Service;
 using Unicorn.Core.Development.Service.Services.Rest.Films;
-using Unicorn.Core.Development.ServiceHost;
 using Unicorn.Core.Infrastructure.Host.SDK.HostBuilder;
 using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
 

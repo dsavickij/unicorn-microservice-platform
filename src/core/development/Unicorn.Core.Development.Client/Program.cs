@@ -2,22 +2,20 @@ using Unicorn.Core.Development.Client;
 using Unicorn.Core.Infrastructure.Host.SDK.HostBuilder;
 using Unicorn.Core.Infrastructure.Host.SDK.Settings.Defaults;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// register services on builder.Services if needed
-
-builder.Services.AddHealthChecks();
-
-builder.Host.ApplyUnicornConfiguration<ClientSettings>();
-
-var app = builder.Build();
-
-app.UseUnicorn(app.Environment);
-
-// add middlewares if needed
-
-app.MapHealthChecks(UnicornSettings.HealthCheck.Pattern, UnicornSettings.HealthCheck.Options);
-
-app.MapControllers();
-
-app.Run();
+await ServiceHostBuilder.Build<ClientSettings>(args, builder =>
+{
+    builder
+        .WithServiceConfiguration((services, _, _) =>
+        {
+            services.AddHealthChecks();
+        })
+        .WithEndpointConfiguration(endpointBuilder =>
+        {
+            endpointBuilder.MapHealthChecks(UnicornSettings.HealthCheck.Pattern, UnicornSettings.HealthCheck.Options);
+            endpointBuilder.MapControllers();
+        })
+        .WithApplicationConfiguration(applicationBuilder =>
+        {
+            // add application configuration
+        });
+}).RunAsync();
