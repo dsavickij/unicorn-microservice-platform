@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Services.ServiceDiscovery.SDK", "src\core\services\service-discovery\Unicorn.Core.Services.ServiceDiscovery.SDK\Unicorn.Core.Services.ServiceDiscovery.SDK.csproj", "{2822A8C4-F233-4480-9D6D-F36750878584}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ClientHost", "src\core\development\Unicorn.Core.Development.ClientHost\Unicorn.Core.Development.ClientHost.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.Client", "src\core\development\Unicorn.Core.Development.Client\Unicorn.Core.Development.Client.csproj", "{0B2DF2F9-4189-4AF8-B756-12BE2E1295AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{A82D8891-2318-496F-8864-3B58CCCCF2EE}"
 EndProject
@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost.SDK", "src\core\development\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj", "{F55EF461-4A94-4EC1-85F7-02B926DD1736}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost", "src\core\development\Unicorn.Core.Development.ServiceHost\Unicorn.Core.Development.ServiceHost.csproj", "{A332A17E-63D6-4D20-9D17-FCCC94096E52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.Service", "src\core\development\Unicorn.Core.Development.Service\Unicorn.Core.Development.Service.csproj", "{A332A17E-63D6-4D20-9D17-FCCC94096E52}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "authentication", "authentication", "{4C3CCC0F-6946-4E7D-8033-A42F246A5E0D}"
 EndProject

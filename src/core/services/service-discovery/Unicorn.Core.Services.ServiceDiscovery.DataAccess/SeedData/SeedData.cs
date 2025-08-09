@@ -5,7 +5,7 @@ internal static class SeedData
     public static class ServiceHosts
     {
         public static ServiceHostEntity ServiceDiscovery => new() { Name = "Unicorn.Core.Services.ServiceDiscovery" };
-        public static ServiceHostEntity ServiceHost => new() { Name = "Unicorn.Core.Development.ServiceHost" };
+        public static ServiceHostEntity ServiceHost => new() { Name = "Unicorn.Core.Development.Service" };
         public static ServiceHostEntity Discount => new() { Name = "Unicorn.eShop.Discount" };
         public static ServiceHostEntity Cart => new() { Name = "Unicorn.eShop.Cart" };
     }

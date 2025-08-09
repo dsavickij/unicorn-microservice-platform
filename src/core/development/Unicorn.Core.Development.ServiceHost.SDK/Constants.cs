@@ -8,5 +8,5 @@ namespace Unicorn.Core.Development.ServiceHost.SDK;
 
 public record Constants
 {
-    public const string ServiceHostName = "Unicorn.Core.Development.ServiceHost";
+    public const string ServiceHostName = "Unicorn.Core.Development.Service";
 }
