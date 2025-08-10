@@ -21,7 +21,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\infrastructure\Unicorn.Core.Infrastructure.Host.SDK\Unicorn.Core.Infrastructure.Host.SDK.csproj" />
-		<ProjectReference Include="..\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj" />
+		<ProjectReference Include="..\Unicorn.Core.Development.Service.SDK\Unicorn.Core.Development.Service.SDK.csproj" />
 	</ItemGroup>
 
 </Project>

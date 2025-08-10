@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Development.Client;
 
-public record ClientSettings : BaseHostSettings
+public sealed record ClientSettings : BaseHostSettings
 {
     public string ClientId { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;

@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.ServiceHost.SDK", "src\core\development\Unicorn.Core.Development.ServiceHost.SDK\Unicorn.Core.Development.ServiceHost.SDK.csproj", "{F55EF461-4A94-4EC1-85F7-02B926DD1736}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.Service.SDK", "src\core\development\Unicorn.Core.Development.Service.SDK\Unicorn.Core.Development.Service.SDK.csproj", "{F55EF461-4A94-4EC1-85F7-02B926DD1736}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Core.Development.Service", "src\core\development\Unicorn.Core.Development.Service\Unicorn.Core.Development.Service.csproj", "{A332A17E-63D6-4D20-9D17-FCCC94096E52}"
 EndProject

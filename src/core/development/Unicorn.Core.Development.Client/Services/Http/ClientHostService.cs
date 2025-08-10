@@ -8,7 +8,7 @@ using Unicorn.Core.Infrastructure.Host.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK.Configurations;
 
-namespace Unicorn.Core.Development.ClientHost.Services.Http;
+namespace Unicorn.Core.Development.Client.Services.Http;
 
 public interface IClientHostService
 {

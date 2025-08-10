@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+	  <RootNamespace>Unicorn.Core.Development.ServiceHost.SDK</RootNamespace>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Services\gRPC\Protos\Custom\Types.proto" />
 		<None Remove="Services\gRPC\Protos\MultiplicationGrpcService.proto" />
