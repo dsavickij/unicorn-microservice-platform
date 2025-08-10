@@ -1,8 +1,9 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Unicorn.Core.Development.Client.Features.GetHttpServiceConfiguration;
-using Unicorn.Core.Development.ServiceHost.SDK.Services.gRPC.Clients;
-using Unicorn.Core.Development.ServiceHost.SDK.Services.Rest;
+using Unicorn.Core.Development.Server.SDK.Services.gRPC.Clients;
+using Unicorn.Core.Development.Server.SDK.Services.Rest;
+using Unicorn.Core.Development.Service.SDK.DTOs;
 using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
 using Unicorn.Core.Infrastructure.Host.SDK;
 using Unicorn.Core.Services.ServiceDiscovery.SDK;
@@ -61,7 +62,7 @@ public class ClientHostService : UnicornHttpService<IClientHostService>, IClient
         var result3 = await _serviceHostService.UploadFilmAsync(new FormFile(new MemoryStream(), 0, 0, "file", "file.txt")); ;
 
         var result4 = await _serviceHostService.UpdateFilmDescription(
-            new ServiceHost.SDK.DTOs.FilmDescription
+            new FilmDescription
             {
                 FilmId = Guid.NewGuid(),
                 Description = "Description",

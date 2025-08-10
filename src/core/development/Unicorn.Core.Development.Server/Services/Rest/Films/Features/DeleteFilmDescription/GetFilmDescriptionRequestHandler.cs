@@ -1,0 +1,12 @@
+﻿using Unicorn.Core.Infrastructure.Communication.SDK.OperationResults;
+using Unicorn.Core.Infrastructure.Host.SDK.MediatR.Components;
+
+namespace Unicorn.Core.Development.Server.Services.Rest.Films.Features.DeleteFilmDescription;
+
+public class DeleteFilmDescriptionRequestHandler : BaseHandler.WithResult.ForRequest<DeleteFilmDescriptionRequest>
+{
+    protected override async Task<OperationResult> HandleAsync(DeleteFilmDescriptionRequest request, CancellationToken cancellationToken)
+    {
+        return Ok();
+    }
+}

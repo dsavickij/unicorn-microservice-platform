@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "Unicorn.Core.Development.Server.SDK.Services.gRPC.Protos";
+
+package Multiplication;
+
+service MultiplicationGrpcService{
+	rpc Multiply(MultiplicationRequest) returns (MultiplicationResponse);
+	rpc SequencePowerOfTwo(SequencePowerOfTwoRequest) returns (stream MultiplicationResponse);
+	rpc GetMultiplicationSequenceSum(stream MultiplicationSequenceSumRequest) returns (MultiplicationSequenceSumResponse);
+}
+
+ message MultiplicationRequest{
+	int32 FirstOperand = 1;
+	int32 SecondOperand = 2;
+};
+
+message MultiplicationResponse{
+	int32 Result = 1;
+};
+
+message SequencePowerOfTwoRequest{
+	repeated int32 Sequence = 1;
+};
+
+ message MultiplicationSequenceSumRequest{
+	int32 FirstOperand = 1;
+	int32 SecondOperand = 2;
+};
+
+message MultiplicationSequenceSumResponse{
+	int32 Result = 1;
+};
