@@ -24,4 +24,8 @@
 		<ProjectReference Include="..\Unicorn.Core.Development.Server.SDK\Unicorn.Core.Development.Server.SDK.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="uploads\orkela.png" />
+	</ItemGroup>
+
 </Project>

@@ -1,0 +1,25 @@
+﻿using System.Reflection;
+using Unicorn.Core.Infrastructure.Communication.SDK.OneWay.Abstractions;
+
+namespace Unicorn.Core.Infrastructure.Communication.SDK.OneWay;
+
+internal static class AssemblyScanner
+{
+    private static readonly IEnumerable<Type> _eventHandlers = FindEventHandlers();
+
+    public static IEnumerable<Type> GetEventHandlers() => _eventHandlers;
+
+    private static IEnumerable<Type> FindEventHandlers()
+    {
+        var assemblyNames = Assembly.GetEntryAssembly()!
+            .GetReferencedAssemblies()
+            .Append(Assembly.GetEntryAssembly()!.GetName());
+
+        var exportedTypes = assemblyNames
+            .Select(x => Assembly.Load(x))
+            .SelectMany(x => x.GetExportedTypes());
+
+        return exportedTypes.Where(x => x.GetInterfaces().Any(
+            y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IUnicornEventHandler<>)));
+    }
+}
