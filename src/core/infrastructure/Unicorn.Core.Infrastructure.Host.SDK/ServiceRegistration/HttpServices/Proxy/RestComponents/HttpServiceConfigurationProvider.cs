@@ -24,20 +24,26 @@ internal class HttpServiceConfigurationProvider : IHttpServiceConfigurationProvi
         if (!_cache.ContainsKey(httpServiceInterface.FullName!))
         {
             var name = GetServiceHostName(httpServiceInterface);
-            var result = await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name);
 
-            if (result.IsSuccess)
-                _cache.TryAdd(httpServiceInterface.FullName!, result.Data);
+            (await _svcDiscoveryClient.GetHttpServiceConfigurationAsync(name)).Match(
+                result =>
+                {
+                    if (result.IsSuccess)
+                    {
+                        return _cache.TryAdd(httpServiceInterface.FullName!, result.Data);
+                    }
 
-            throw new ArgumentException(
-                $"Failed to retrieve Http service configuration for service '{name}'. " +
-                $"Errors: {string.Join("; ", result.Errors.Select(x => x.Message))}");
+                    throw new ArgumentException(
+                        $"Failed to retrieve Http service configuration for service '{name}'. " +
+                        $"Errors: {string.Join("; ", result.Errors.Select(x => x.Message))}");
+                },
+                _ => throw new InvalidOperationException("No Http configuration was retrieved"));
         }
 
         return _cache[httpServiceInterface.FullName!];
     }
 
-    private string GetServiceHostName(Type httpServiceInterface)
+    private static string GetServiceHostName(Type httpServiceInterface)
     {
         var attribute = httpServiceInterface.Assembly.GetCustomAttribute(typeof(UnicornServiceHostNameAttribute));
 

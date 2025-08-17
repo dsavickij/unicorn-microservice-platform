@@ -54,58 +54,76 @@ internal class ServiceHostSelfRegistrationWorker : IHostedService
 
     private async Task UpsertHttpServiceConfigurationAsync(HttpServiceConfiguration httpServiceConfiguration)
     {
-        var updateResponse = await _client.UpdateHttpServiceConfigurationAsync(httpServiceConfiguration);
-
-        if (updateResponse is { IsSuccess: true })
-        {
-            return;
-        }
-
-        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status400BadRequest })
-        {
-            var createResponse = await _client.CreateHttpServiceConfigurationAsync(httpServiceConfiguration);
-
-            if (createResponse is { IsSuccess: true })
+        await (await _client.UpdateHttpServiceConfigurationAsync(httpServiceConfiguration)).Match(
+            async result =>
             {
-                return;
-            }
+                switch (result)
+                {
+                    case { IsSuccess: true }:
+                        return;
+                    case { IsSuccess: false, Code: OperationStatusCode.Status400BadRequest }:
+                        {
+                            var createResponse =
+                                await _client.CreateHttpServiceConfigurationAsync(httpServiceConfiguration);
 
-            throw new ArgumentException($"Failed to create HTTP service configuration for service " +
+                            await createResponse.Match(
+                                createResult =>
+                                {
+                                    if (createResult is { IsSuccess: true })
+                                    {
+                                        return Task.CompletedTask;
+                                    }
+
+                                    throw new ArgumentException(
+                                        $"Failed to create HTTP service configuration for service " +
                                         $"'{httpServiceConfiguration.ServiceHostName}'. " +
-                                        $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
-        }
-
-        throw new ArgumentException($"Failed to update HTTP service configuration for service " +
-                                    $"'{httpServiceConfiguration.ServiceHostName}'. " +
-                                    $"Errors: {string.Join("; ", updateResponse.Errors.Select(x => x.Message))}");
+                                        $"Errors: {string.Join("; ", createResult.Errors.Select(x => x.Message))}");
+                                },
+                                _ => Task.CompletedTask);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException($"Failed to update HTTP service configuration for service " +
+                                                    $"'{httpServiceConfiguration.ServiceHostName}'. " +
+                                                    $"Errors: {string.Join("; ", result.Errors.Select(x => x.Message))}");
+                }
+            },
+            _ => Task.CompletedTask);
     }
 
-    private async Task UpsertGrpcServiceConfigurationAsync(GrpcServiceConfiguration grpcServiceConfiguration)
+    private async Task UpsertGrpcServiceConfigurationAsync(
+        GrpcServiceConfiguration grpcServiceConfiguration)
     {
-        var updateResponse = await _client.UpdateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
-
-        if (updateResponse is { IsSuccess: true })
-        {
-            return;
-        }
-
-        if (updateResponse is { IsSuccess: false, Code: OperationStatusCode.Status400BadRequest })
-        {
-            var createResponse = await _client.CreateGrpcServiceConfigurationAsync(grpcServiceConfiguration);
-
-            if (createResponse is { IsSuccess: true })
+        await (await _client.UpdateGrpcServiceConfigurationAsync(grpcServiceConfiguration)).Match(
+            async updateResult =>
             {
-                return;
-            }
+                switch (updateResult)
+                {
+                    case { IsSuccess: true }:
+                        return;
+                    case { IsSuccess: false, Code: OperationStatusCode.Status400BadRequest }:
+                        (await _client.CreateGrpcServiceConfigurationAsync(grpcServiceConfiguration)).Match(
+                            createResult =>
+                            {
+                                if (createResult is { IsSuccess: true })
+                                {
+                                    return Task.CompletedTask;
+                                }
 
-            throw new ArgumentException($"Failed to create gRPC service configuration for service " +
-                                        $"'{grpcServiceConfiguration.ServiceHostName}'. " +
-                                        $"Errors: {string.Join("; ", createResponse.Errors.Select(x => x.Message))}");
-        }
-
-        throw new ArgumentException($"Failed to create gRPC service configuration for service " +
+                                throw new ArgumentException(
+                                    $"Failed to create gRPC service configuration for service " +
                                     $"'{grpcServiceConfiguration.ServiceHostName}'. " +
-                                    $"Errors: {string.Join("; ", updateResponse.Errors.Select(x => x.Message))}");
+                                    $"Errors: {string.Join("; ", createResult.Errors.Select(x => x.Message))}");
+                            },
+                            _ => Task.CompletedTask);
+                        break;
+                    default:
+                        throw new ArgumentException($"Failed to create gRPC service configuration for service " +
+                                                    $"'{grpcServiceConfiguration.ServiceHostName}'. " +
+                                                    $"Errors: {string.Join("; ", updateResult.Errors.Select(x => x.Message))}");
+                }
+            },
+            _ => Task.CompletedTask);
     }
 
     private (HttpServiceConfiguration http, GrpcServiceConfiguration grpc) GetServiceHosts()
@@ -130,7 +148,8 @@ internal class ServiceHostSelfRegistrationWorker : IHostedService
         const string urlConfigurationKey = "ASPNETCORE_URLS";
         const int maxMinUrlCount = 2;
 
-        var urls = _cfg[urlConfigurationKey]?.Split(";") ?? throw new Exception(); // TODO: fix exception throwing
+        var urls = _cfg[urlConfigurationKey]?.Split(";") ??
+                   throw new Exception(); // TODO: fix exception throwing
 
         if (urls.Length is > maxMinUrlCount or < maxMinUrlCount)
         {
@@ -144,7 +163,8 @@ internal class ServiceHostSelfRegistrationWorker : IHostedService
 
     private Uri GetHttpsUri(string[] urls)
     {
-        var httpsUrls = urls.Where(url => url.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
+        var httpsUrls =
+            urls.Where(url => url.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
 
         return httpsUrls.Count() is not 1
             ? throw new ArgumentException(

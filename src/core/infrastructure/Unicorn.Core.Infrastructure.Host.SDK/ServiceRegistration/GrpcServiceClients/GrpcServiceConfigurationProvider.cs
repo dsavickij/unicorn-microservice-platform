@@ -30,12 +30,19 @@ internal class GrpcServiceConfigurationProvider : IGrpcServiceConfigurationProvi
 
                 if (attribute is UnicornServiceHostNameAttribute nameAttribute)
                 {
-                    // TODO: if cfg is null throw exception
-                    var cfg = await _client.GetGrpcServiceConfigurationAsync(nameAttribute.ServiceHostName);
-                    _cache.TryAdd(
-                        grpcServiceMethod.Name,
-                        cfg.Data ?? throw new ArgumentNullException(nameof(cfg.Data),
-                            "No gRPC configuration was retrieved"));
+                    (await _client.GetGrpcServiceConfigurationAsync(nameAttribute.ServiceHostName)).Match(
+                        result =>
+                        {
+                            if (result.IsSuccess)
+                            {
+                                return _cache.TryAdd(grpcServiceMethod.Name, result.Data);
+                            }
+
+                            throw new ArgumentException(
+                                $"Failed to retrieve Http service configuration for service '{nameAttribute.ServiceHostName}'. " +
+                                $"Errors: {string.Join("; ", result.Errors.Select(x => x.Message))}");
+                        },
+                        _ => throw new InvalidOperationException("No gRPC configuration was retrieved"));
                 }
             }
 
