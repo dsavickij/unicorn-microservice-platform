@@ -37,7 +37,7 @@ internal interface IServiceDiscoveryClient
 /// This is done to remove cyclic dependency: if ServiceDiscovery would be called using service's SDK,
 /// it would result in attempt to get configuration from ServiceDiscovery, but to do that it would need to
 /// get ServiceDiscovery configuration from ServiceDiscovery. The end result is infinite loop. That's why
-/// this ServiceDisocveryClient was created. Also, to have strongly-typed configurations, but avoid reference to
+/// this ServiceDiscoveryClient was created. Also, to have strongly-typed configurations, but avoid reference to
 /// ServiceDiscovery SDK, copies of classes were made
 /// </summary>
 internal class ServiceDiscoveryClient : IServiceDiscoveryClient
@@ -45,7 +45,8 @@ internal class ServiceDiscoveryClient : IServiceDiscoveryClient
     private readonly ILogger<ServiceDiscoveryClient> _logger;
     private readonly ServiceDiscoverySettings _settings;
 
-    public ServiceDiscoveryClient(IOptions<ServiceDiscoverySettings> baseSettings,
+    public ServiceDiscoveryClient(
+        IOptions<ServiceDiscoverySettings> baseSettings,
         ILogger<ServiceDiscoveryClient> logger)
     {
         _settings = baseSettings.Value;
